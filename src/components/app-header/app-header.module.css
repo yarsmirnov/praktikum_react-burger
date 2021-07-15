@@ -1,0 +1,34 @@
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+
+  list-style: none;
+}
+
+.appNavigation {
+  composes: list;
+
+  margin-right: 112px;
+}
+
+.userMenu {
+  composes: list;
+
+  margin-left: auto;
+}
+
+.link {
+  display: flex;
+  align-items: flex-start;
+  color: inherit;
+  text-decoration: none;
+}
