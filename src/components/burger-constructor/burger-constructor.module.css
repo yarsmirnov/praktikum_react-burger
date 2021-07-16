@@ -1,0 +1,15 @@
+.ingredients {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-sizing: border-box;
+  max-height: 440px;
+}
+
+.bunTop {
+  margin-bottom: 10px;
+}
+
+.bunBotton {
+  margin-top: 10px;
+}
