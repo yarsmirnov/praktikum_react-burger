@@ -1,0 +1,80 @@
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import BurgerIngredientCard from '../burger-ingredient-card/burger-ingredient-card';
+import BurgerIngredientsStyles from './burger-ingredients.module.css';
+
+
+const filterByType = (items, type) => {
+  return items.filter(item => item.type === type);
+};
+
+const generateCatalogSection = (title, items) => {
+  if (items.length === 0) {
+    return null;
+  }
+
+  return (
+    <section className='pt-10'>
+      <h2
+        className={`${BurgerIngredientsStyles.catalogTitle} text_type_main-medium mb-6`}
+      >
+        {title}
+      </h2>
+      <div
+        className={`${BurgerIngredientsStyles.catalogContent} pl-4`}
+      >
+        {items.map(item => <BurgerIngredientCard
+          name={item.name}
+          price={item.price}
+          img={item.image}
+          count={0}
+        />)}
+      </div>
+    </section>
+  );
+};
+
+const generateCatalog = (ingredients) => {
+  const buns = filterByType(ingredients, 'bun');
+  const sauces = filterByType(ingredients, 'sauce');
+  const fillings = filterByType(ingredients, 'main');
+
+  return (
+    <>
+      {generateCatalogSection('Булки', buns)}
+      {generateCatalogSection('Соусы', sauces)}
+      {generateCatalogSection('Начинка', fillings)}
+    </>
+  );
+}
+
+
+const BurgerIngredients = ({ ingredients }) => {
+  return (
+    <section className='column mr-10'>
+      <h1 className={`${BurgerIngredientsStyles.sectionTitle} text_type_main-large pt-10 mb-5`}>
+        Соберите бургер
+      </h1>
+
+      <div style={{ display: 'flex' }}>
+        <Tab value="bun" active={true} onClick={() => null}>
+          Булки
+        </Tab>
+        <Tab value="sauce" active={false} onClick={() => null}>
+          Соусы
+        </Tab>
+        <Tab value="main" active={false} onClick={() => null}>
+          Начинки
+        </Tab>
+      </div>
+
+      <div
+        className={`${BurgerIngredientsStyles.catalog} scroller`}
+      >
+        {generateCatalog(ingredients)}
+      </div>
+    </section>
+  );
+}
+
+
+export default BurgerIngredients;
