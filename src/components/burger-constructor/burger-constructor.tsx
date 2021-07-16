@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { ConstructorElement, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerConstructorStyles from './burger-constructor.module.css';
 
@@ -98,6 +99,16 @@ const BurgerConstructor = ({ ingredients }) => {
       </div>
     </section>
   );
+};
+
+
+BurgerConstructor.propTypes = {
+  ingredients: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    image: PropTypes.string.isRequired,
+  })).isRequired,
 };
 
 
