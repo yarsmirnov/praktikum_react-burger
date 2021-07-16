@@ -13,3 +13,24 @@
 .bunBotton {
   margin-top: 10px;
 }
+
+.order {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.orderTotal {
+  display: flex;
+}
+
+.orderCurrencyIcon {
+  display: flex;
+  align-items: center;
+}
+
+.orderCurrencyIcon svg {
+  width: 33px;
+  height: 33px;
+}
