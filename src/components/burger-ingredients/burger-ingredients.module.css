@@ -2,6 +2,10 @@
   margin-top: 0;
 }
 
+.navigation {
+  display: flex;
+}
+
 .catalog {
   max-height: 756px;
 }
