@@ -8,22 +8,12 @@ import {
 import styles from './burger-constructor.module.css';
 
 
-const getTotal = (bun, fillings) => {
-  let result = 0;
-
-  result += bun.price * 2;
-  result += fillings.reduce((acc, item) => {
-    return acc += item.price;
-  }, result);
-
-  return result;
-};
-
-
 const BurgerConstructor = ({ ingredients }) => {
   const bun = ingredients.find(item => item.type === 'bun');
   const fillings = ingredients.filter(item => item.type !== 'bun');
-  const total = getTotal(bun, fillings);
+  const totalPrice = ingredients.reduce((acc, item) => {
+    return acc + item.price;
+  }, 0);
 
   return (
     <section className={`${styles.section} column pt-25 pr-4`}>
@@ -84,7 +74,7 @@ const BurgerConstructor = ({ ingredients }) => {
         <span
           className={`${styles.orderTotal} text_type_digits-medium mr-10`}
         >
-          {total}
+          {totalPrice}
           <i className={`${styles.orderCurrencyIcon} ml-2`}>
             <CurrencyIcon type="primary" />
           </i>
