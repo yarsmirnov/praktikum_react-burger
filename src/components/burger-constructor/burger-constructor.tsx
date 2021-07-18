@@ -33,13 +33,7 @@ const generateCornerBun = (bun, type = 'top') => {
 const generateFillings = (items) => {
   return items.map(item => {
     if (item.type === 'bun') {
-      return (
-        <ConstructorElement
-        text={`${item.name} (верх)`}
-        price={item.price}
-        thumbnail={item.image}
-      />
-      );
+      return null;
     }
 
     return (
@@ -48,14 +42,14 @@ const generateFillings = (items) => {
         price={item.price}
         thumbnail={item.image}
       />
-    );
+    )
   });
-}
+};
 
 
 const BurgerConstructor = ({ ingredients }) => {
-  const cornerBun = ingredients[0];
-  const fillings = ingredients.slice(1);
+  const cornerBun = ingredients.find(item => item.type === 'bun');
+  const fillings = ingredients.filter(item => item.type !== 'bun');
   const total = getTotal(cornerBun, fillings);
 
   return (
