@@ -1,17 +1,22 @@
-.ingredients {
+.ingredientsList {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 16px;
   box-sizing: border-box;
-  max-height: 440px;
+  max-height: 464px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.bunTop {
-  margin-bottom: 10px;
+.listItem {
+  display: flex;
+  align-items: center;
 }
 
-.bunBotton {
-  margin-top: 10px;
+.itemIcon {
+  width: 22px;
+  height: 22px;
 }
 
 .order {

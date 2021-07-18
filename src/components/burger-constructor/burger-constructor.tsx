@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ConstructorElement, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+  ConstructorElement,
+  Button,
+  CurrencyIcon,
+  DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
 
 
@@ -15,69 +19,67 @@ const getTotal = (bun, fillings) => {
   return result;
 };
 
-const generateCornerBun = (bun, type = 'top') => {
-  const bunType = type === 'bottom' ? type : 'top';
-  const postfix = type === 'bottom' ? '(низ)' : '(верх)';
-
-  return (
-    <ConstructorElement
-      type={bunType}
-      isLocked={true}
-      text={`${bun.name} ${postfix}`}
-      price={bun.price}
-      thumbnail={bun.image}
-    />
-  );
-};
-
-const generateFillings = (items) => {
-  return items.map(item => {
-    if (item.type === 'bun') {
-      return null;
-    }
-
-    return (
-      <ConstructorElement
-        text={item.name}
-        price={item.price}
-        thumbnail={item.image}
-      />
-    )
-  });
-};
-
 
 const BurgerConstructor = ({ ingredients }) => {
-  const cornerBun = ingredients.find(item => item.type === 'bun');
+  const bun = ingredients.find(item => item.type === 'bun');
   const fillings = ingredients.filter(item => item.type !== 'bun');
-  const total = getTotal(cornerBun, fillings);
+  const total = getTotal(bun, fillings);
 
   return (
-    <section className={`${styles.section} column pt-25`}>
+    <section className={`${styles.section} column pt-25 pr-4`}>
       <h2 className='visualliHidden'>
         Ваша сборка
       </h2>
 
-      <div
-        className={styles.bunTop}
+      <div className='mb-4 pl-8 pr-4'>
+        <ConstructorElement
+          type={'top'}
+          isLocked={true}
+          text={`${bun.name} (верх)`}
+          price={bun.price}
+          thumbnail={bun.image}
+        />
+      </div>
+
+      <ul
+        className={`${styles.ingredientsList} scroller`}
       >
-        {generateCornerBun(cornerBun, 'top')}
+        {fillings.map(item => {
+          if (item.type === 'bun') {
+            return null;
+          }
+          return (
+            <li
+              key={item.id}
+              className={styles.listItem}
+            >
+              <i
+                className={`${styles.itemIcon} mr-2`}
+              >
+                <DragIcon type="primary" />
+              </i>
+              <ConstructorElement
+                text={item.name}
+                price={item.price}
+                thumbnail={item.image}
+              />
+            </li>
+          );
+        })}
+      </ul>
+
+      <div className='mt-4 mb-10 pl-8 pr-4'>
+        <ConstructorElement
+          type={'bottom'}
+          isLocked={true}
+          text={`${bun.name} (низ)`}
+          price={bun.price}
+          thumbnail={bun.image}
+        />
       </div>
 
       <div
-        className={`${styles.ingredients} scroller`}
-      >
-        {generateFillings(fillings)}
-      </div>
-
-      <div
-        className={`${styles.bunBotton} mb-10`}
-      >
-        {generateCornerBun(cornerBun, 'bottom')}
-      </div>
-
-      <div
-        className={styles.order}
+        className={`${styles.order} pr-4`}
       >
         <span
           className={`${styles.orderTotal} text_type_digits-medium mr-10`}
