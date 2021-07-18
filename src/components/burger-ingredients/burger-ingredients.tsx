@@ -24,12 +24,15 @@ const generateCatalogSection = (title, items) => {
       <div
         className={`${styles.catalogContent} pl-4`}
       >
-        {items.map(item => <BurgerIngredientCard
-          name={item.name}
-          price={item.price}
-          img={item.image}
-          count={0}
-        />)}
+        {items.map(item => (
+          <BurgerIngredientCard
+            id={item._id}
+            name={item.name}
+            price={item.price}
+            img={item.image}
+            count={0}
+          />
+        ))}
       </div>
     </section>
   );

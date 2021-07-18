@@ -4,9 +4,9 @@ import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-c
 import styles from './burger-ingredient-card.module.css';
 
 
-const BurgerIngredientCard = ({ name, price, img, count = 0}) => {
+const BurgerIngredientCard = ({ id, name, price, img, count = 0}) => {
   return (
-    <div className={styles.card}>
+    <div className={styles.card} key={id}>
       <img
         className={`${styles.image} pb-1`}
         src={img}
@@ -34,6 +34,7 @@ const BurgerIngredientCard = ({ name, price, img, count = 0}) => {
 
 
 BurgerIngredientCard.propTypes = {
+  id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   img: PropTypes.string.isRequired,
