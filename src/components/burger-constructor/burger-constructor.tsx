@@ -50,7 +50,7 @@ const BurgerConstructor = ({ ingredients }) => {
           }
           return (
             <li
-              key={item.id}
+              key={item._id}
               className={styles.listItem}
             >
               <i
