@@ -9,14 +9,3 @@
 .catalog {
   max-height: 756px;
 }
-
-.catalogTitle {
-  margin-top: 0;
-}
-
-.catalogContent {
-  display: flex;
-  row-gap: 32px;
-  column-gap: 24px;
-  flex-wrap: wrap;
-}

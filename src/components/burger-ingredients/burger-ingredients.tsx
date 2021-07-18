@@ -1,62 +1,19 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import BurgerIngredientCard from '../burger-ingredient-card/burger-ingredient-card';
+import IngredientSection from '../ingredient-section/ingredient-section';
 import styles from './burger-ingredients.module.css';
 
 
 const navTabs = [
-  {id: 'bun', title: 'Булки'},
-  {id: 'sauce', title: 'Соусы'},
-  {id: 'main', title: 'Начинки'},
+  {id: 'bun', navTitle: 'Булки', sectionTitle: 'Булки'},
+  {id: 'sauce', navTitle: 'Соусы', sectionTitle: 'Соусы'},
+  {id: 'main', navTitle: 'Начинки', sectionTitle: 'Начинка'},
 ];
 
 const filterByType = (items, type) => {
   return items.filter(item => item.type === type);
 };
-
-const generateCatalogSection = (title, items) => {
-  if (items.length === 0) {
-    return null;
-  }
-
-  return (
-    <section className='pt-10'>
-      <h2
-        className={`${styles.catalogTitle} text_type_main-medium mb-6`}
-      >
-        {title}
-      </h2>
-      <div
-        className={`${styles.catalogContent} pl-4`}
-      >
-        {items.map(item => (
-          <BurgerIngredientCard
-            id={item._id}
-            name={item.name}
-            price={item.price}
-            img={item.image}
-            count={0}
-          />
-        ))}
-      </div>
-    </section>
-  );
-};
-
-const generateCatalog = (ingredients) => {
-  const buns = filterByType(ingredients, 'bun');
-  const sauces = filterByType(ingredients, 'sauce');
-  const fillings = filterByType(ingredients, 'main');
-
-  return (
-    <>
-      {generateCatalogSection('Булки', buns)}
-      {generateCatalogSection('Соусы', sauces)}
-      {generateCatalogSection('Начинка', fillings)}
-    </>
-  );
-}
 
 
 const BurgerIngredients = ({ ingredients }) => {
@@ -77,7 +34,7 @@ const BurgerIngredients = ({ ingredients }) => {
               active={current === tab.id}
               onClick={() => setCurrent(tab.id)}
             >
-              {tab.title}
+              {tab.navTitle}
             </Tab>
           );
         })}
@@ -86,7 +43,12 @@ const BurgerIngredients = ({ ingredients }) => {
       <div
         className={`${styles.catalog} scroller`}
       >
-        {generateCatalog(ingredients)}
+        {navTabs.map(tab => (
+          <IngredientSection
+            title={tab.sectionTitle}
+            ingredients={filterByType(ingredients, tab.id)}
+          />)
+        )}
       </div>
     </section>
   );
