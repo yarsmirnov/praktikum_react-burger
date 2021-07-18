@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredientCard from '../burger-ingredient-card/burger-ingredient-card';
-import BurgerIngredientsStyles from './burger-ingredients.module.css';
+import styles from './burger-ingredients.module.css';
 
 
 const filterByType = (items, type) => {
@@ -16,12 +16,12 @@ const generateCatalogSection = (title, items) => {
   return (
     <section className='pt-10'>
       <h2
-        className={`${BurgerIngredientsStyles.catalogTitle} text_type_main-medium mb-6`}
+        className={`${styles.catalogTitle} text_type_main-medium mb-6`}
       >
         {title}
       </h2>
       <div
-        className={`${BurgerIngredientsStyles.catalogContent} pl-4`}
+        className={`${styles.catalogContent} pl-4`}
       >
         {items.map(item => <BurgerIngredientCard
           name={item.name}
@@ -52,7 +52,7 @@ const generateCatalog = (ingredients) => {
 const BurgerIngredients = ({ ingredients }) => {
   return (
     <section className='column mr-10'>
-      <h1 className={`${BurgerIngredientsStyles.sectionTitle} text_type_main-large pt-10 mb-5`}>
+      <h1 className={`${styles.sectionTitle} text_type_main-large pt-10 mb-5`}>
         Соберите бургер
       </h1>
 
@@ -69,7 +69,7 @@ const BurgerIngredients = ({ ingredients }) => {
       </div>
 
       <div
-        className={`${BurgerIngredientsStyles.catalog} scroller`}
+        className={`${styles.catalog} scroller`}
       >
         {generateCatalog(ingredients)}
       </div>

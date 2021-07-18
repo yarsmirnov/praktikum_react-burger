@@ -1,12 +1,12 @@
-import AppHeaderStyles from './app-header.module.css';
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import styles from './app-header.module.css';
 
 const AppHeader = () => {
   return (
-    <header className={`${AppHeaderStyles.header} pt-4 pb-4`}>
-      <nav className={`${AppHeaderStyles.appNavigation} text_type_main-default`}>
+    <header className={`${styles.header} pt-4 pb-4`}>
+      <nav className={`${styles.appNavigation} text_type_main-default`}>
         <li className='mr-2 pt-4 pb-4 pl-5 pr-5'>
-          <a className={AppHeaderStyles.link} href="#nowhere">
+          <a className={styles.link} href="#nowhere">
             <i className='mr-2'>
               <BurgerIcon type="primary" />
             </i>
@@ -14,7 +14,7 @@ const AppHeader = () => {
           </a>
         </li>
         <li className='pt-4 pb-4 pl-5 pr-5 text_color_inactive'>
-          <a className={AppHeaderStyles.link} href="#nowhere">
+          <a className={styles.link} href="#nowhere">
             <i className='mr-2'>
             <ListIcon type="secondary" />
             </i>
@@ -27,9 +27,9 @@ const AppHeader = () => {
         <Logo />
       </a>
 
-      <ul className={`${AppHeaderStyles.userMenu} text_type_main-default`}>
+      <ul className={`${styles.userMenu} text_type_main-default`}>
         <li className='pt-4 pb-4 pl-5 pr-5 text_color_inactive'>
-          <a className={AppHeaderStyles.link} href="#nowhere">
+          <a className={styles.link} href="#nowhere">
             <i className='mr-2'>
               <ProfileIcon type="secondary" />
             </i>

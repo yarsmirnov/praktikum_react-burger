@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { ConstructorElement, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import BurgerConstructorStyles from './burger-constructor.module.css';
+import styles from './burger-constructor.module.css';
 
 
 const getTotal = (bun, fillings) => {
@@ -58,37 +58,37 @@ const BurgerConstructor = ({ ingredients }) => {
   const total = getTotal(cornerBun, fillings);
 
   return (
-    <section className={`${BurgerConstructorStyles.section} column pt-25`}>
+    <section className={`${styles.section} column pt-25`}>
       <h2 className='visualliHidden'>
         Ваша сборка
       </h2>
 
       <div
-        className={BurgerConstructorStyles.bunTop}
+        className={styles.bunTop}
       >
         {generateCornerBun(cornerBun, 'top')}
       </div>
 
       <div
-        className={`${BurgerConstructorStyles.ingredients} scroller`}
+        className={`${styles.ingredients} scroller`}
       >
         {generateFillings(fillings)}
       </div>
 
       <div
-        className={`${BurgerConstructorStyles.bunBotton} mb-10`}
+        className={`${styles.bunBotton} mb-10`}
       >
         {generateCornerBun(cornerBun, 'bottom')}
       </div>
 
       <div
-        className={BurgerConstructorStyles.order}
+        className={styles.order}
       >
         <span
-          className={`${BurgerConstructorStyles.orderTotal} text_type_digits-medium mr-10`}
+          className={`${styles.orderTotal} text_type_digits-medium mr-10`}
         >
           {total}
-          <i className={`${BurgerConstructorStyles.orderCurrencyIcon} ml-2`}>
+          <i className={`${styles.orderCurrencyIcon} ml-2`}>
             <CurrencyIcon type="primary" />
           </i>
         </span>

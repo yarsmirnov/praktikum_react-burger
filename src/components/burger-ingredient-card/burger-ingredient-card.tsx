@@ -1,27 +1,27 @@
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
-import BurgerIngredientCardStyles from './burger-ingredient-card.module.css';
+import styles from './burger-ingredient-card.module.css';
 
 const BurgerIngredientCard = ({ name, price, img, count = 0}) => {
   return (
-    <div className={BurgerIngredientCardStyles.card}>
+    <div className={styles.card}>
       <img
-        className={`${BurgerIngredientCardStyles.image} pb-1`}
+        className={`${styles.image} pb-1`}
         src={img}
         alt={name}
       />
-      <span className={`${BurgerIngredientCardStyles.price} text_type_digits-default mb-1`}>
+      <span className={`${styles.price} text_type_digits-default mb-1`}>
         {price}
         <i className='ml-2'>
           <CurrencyIcon type="primary" />
         </i>
       </span>
 
-      <h3 className={`${BurgerIngredientCardStyles.title} text_type_main-default`}>
+      <h3 className={`${styles.title} text_type_main-default`}>
         {name}
       </h3>
 
       {count ?
-        (<i className={BurgerIngredientCardStyles.counter}>
+        (<i className={styles.counter}>
           <Counter count={count} size="default" />
         </i>):
         null}
