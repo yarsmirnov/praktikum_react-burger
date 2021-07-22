@@ -45,6 +45,7 @@ const BurgerIngredients = ({ ingredients }) => {
       >
         {navTabs.map(tab => (
           <IngredientSection
+            key={tab.id}
             title={tab.sectionTitle}
             ingredients={filterByType(ingredients, tab.id)}
           />)
