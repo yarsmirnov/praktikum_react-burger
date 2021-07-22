@@ -3,8 +3,6 @@ import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 
-import  './app.css';
-
 import dataIngredients from '../../utils/data.js';
 
 const App = () => {
