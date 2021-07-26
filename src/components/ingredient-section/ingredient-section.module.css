@@ -1,0 +1,13 @@
+.title {
+  margin-top: 0;
+}
+
+.items {
+  display: flex;
+  row-gap: 32px;
+  column-gap: 24px;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

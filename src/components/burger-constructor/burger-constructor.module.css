@@ -1,0 +1,41 @@
+.ingredientsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-sizing: border-box;
+  max-height: 464px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+}
+
+.itemIcon {
+  width: 22px;
+  height: 22px;
+}
+
+.order {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.orderTotal {
+  display: flex;
+}
+
+.orderCurrencyIcon {
+  display: flex;
+  align-items: center;
+}
+
+.orderCurrencyIcon svg {
+  width: 33px;
+  height: 33px;
+}
