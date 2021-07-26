@@ -26,6 +26,11 @@ const IngredientSection = ({ title, ingredients }) => {
               name={item.name}
               price={item.price}
               img={item.image}
+              imgLarge={item.image_large}
+              proteins={item.proteins}
+              fat={item.fat}
+              carbohydrates={item.carbohydrates}
+              calories={item.calories}
               count={0}
             />
           </li>
