@@ -9,6 +9,16 @@ import styles from './burger-constructor.module.css';
 
 
 const BurgerConstructor = ({ ingredients }) => {
+  if (ingredients.length === 0) {
+    return (
+      <section className={`${styles.section} column pt-25 pr-4`}>
+        <h2 className='visualliHidden'>
+          Ваша сборка
+        </h2>
+      </section>
+    );
+  }
+
   const bun = ingredients.find(item => item.type === 'bun');
   const fillings = ingredients.filter(item => item.type !== 'bun');
   const totalPrice = ingredients.reduce((acc, item) => {
