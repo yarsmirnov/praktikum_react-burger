@@ -1,14 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
+
+import styles from './burger-constructor.module.css';
+
 import {
   ConstructorElement,
   Button,
   CurrencyIcon,
   DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import styles from './burger-constructor.module.css';
+import OrderDetails from '../order-details/order-details';
+import Modal from '../modal/modal';
 
+
+
+const modalRoot = document.getElementById('react-modals');
 
 const BurgerConstructor = ({ ingredients }) => {
+  const [showModal, setShowModal] = useState(false);
+
   if (ingredients.length === 0) {
     return (
       <section className={`${styles.section} column pt-25 pr-4`}>
@@ -24,6 +34,11 @@ const BurgerConstructor = ({ ingredients }) => {
   const totalPrice = ingredients.reduce((acc, item) => {
     return acc + item.price;
   }, 0);
+
+  const handleButtonClick = () => {
+    console.log('Oh, no. I was clicked!');
+    setShowModal(prev => !prev);
+  }
 
   return (
     <section className={`${styles.section} column pt-25 pr-4`}>
@@ -90,10 +105,23 @@ const BurgerConstructor = ({ ingredients }) => {
           </i>
         </span>
 
-        <Button type="primary" size="large">
+        <Button
+          type="primary"
+          size="large"
+          onClick={handleButtonClick}
+        >
           Оформить заказ
         </Button>
       </div>
+
+      {showModal && (
+        modalRoot ?
+          createPortal((
+            <Modal toggleModal={setShowModal}>
+              <OrderDetails />
+            </Modal>
+          ), modalRoot) : null
+      )}
     </section>
   );
 };
