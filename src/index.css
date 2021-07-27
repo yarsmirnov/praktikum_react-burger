@@ -6,7 +6,6 @@
   z-index: 100;
 }
 
-
 .main {
   display: flex;
   flex-wrap: wrap;
@@ -51,4 +50,15 @@
 .scroller::-webkit-scrollbar {
   width: 8px;
   background-color: #2f2f37;
+}
+
+/* Fix .constructor-element doesn't stratch on 100%
+   parent's width with short element__text's content */
+
+.constructor-element {
+  width: 100%;
+}
+
+.constructor-element__text {
+  flex-grow: 1;
 }
