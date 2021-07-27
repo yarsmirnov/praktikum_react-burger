@@ -10,7 +10,7 @@ import {
   CurrencyIcon,
   DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import OrderDetails from '../order-details/order-details';
-import Modal from '../modal/modal';
+import ModalOverlay from '../modal-overlay/modal-overlay';
 
 
 
@@ -117,9 +117,9 @@ const BurgerConstructor = ({ ingredients }) => {
       {showModal && (
         modalRoot ?
           createPortal((
-            <Modal toggleModal={setShowModal}>
+            <ModalOverlay toggleModal={setShowModal}>
               <OrderDetails />
-            </Modal>
+            </ModalOverlay>
           ), modalRoot) : null
       )}
     </section>

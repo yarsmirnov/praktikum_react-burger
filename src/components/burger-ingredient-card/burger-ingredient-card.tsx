@@ -5,7 +5,7 @@ import styles from './burger-ingredient-card.module.css';
 
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientDetails from '../ingredient-details/ingredient-details';
-import Modal from '../modal/modal';
+import ModalOverlay from '../modal-overlay/modal-overlay';
 
 
 const BurgerIngredientCard = ({
@@ -61,7 +61,7 @@ const BurgerIngredientCard = ({
       </a>
 
       {showModal && (
-        <Modal
+        <ModalOverlay
           toggleModal={setShowModal}
           title='Детали ингредиента'
         >
@@ -73,7 +73,7 @@ const BurgerIngredientCard = ({
             carbohydrates={carbohydrates}
             calories={calories}
           />
-        </Modal>
+        </ModalOverlay>
       )}
     </>
   );
