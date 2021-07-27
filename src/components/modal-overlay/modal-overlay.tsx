@@ -9,7 +9,7 @@ import Modal from '../modal/modal';
 
 const modalRoot = document.getElementById('react-modals');
 
-const ModalOverlay = ({ toggleModal, children, title='' }) => {
+const ModalOverlay = ({ toggleModal, children }) => {
   const overlayElement = useRef(null);
 
   const handleClick = useCallback((evt) => {
@@ -41,7 +41,7 @@ const ModalOverlay = ({ toggleModal, children, title='' }) => {
       ref={overlayElement}
       onClick={handleClick}
     >
-      <Modal toggleModal={toggleModal} title={title}>
+      <Modal toggleModal={toggleModal}>
         {children}
       </Modal>
     </div>
@@ -52,7 +52,6 @@ const ModalOverlay = ({ toggleModal, children, title='' }) => {
 Modal.propTypes = {
   toggleModal: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,
-  title: PropTypes.string,
 };
 
 

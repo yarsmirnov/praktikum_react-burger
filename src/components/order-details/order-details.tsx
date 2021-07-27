@@ -9,7 +9,7 @@ const OrderDetails = () => {
     <>
       <h2 className='visually-hidden'>Заказ передан в обработку</h2>
 
-      <dl className={`${styles.order} mb-15`}>
+      <dl className={`${styles.order} mt-30`}>
         <dt className={`${styles.orderText} text_type_main-medium`}>идентификатор заказа</dt>
         <dd className={`${styles.orderId} text_type_digits-large mb-8`}>034536</dd>
       </dl>
@@ -25,7 +25,7 @@ const OrderDetails = () => {
       <p className={`${styles.text} text_type_main-default mb-2`}>
         Ваш заказ начали готовить
       </p>
-      <p className={`${styles.text} text_type_main-default text_color_inactive`}>
+      <p className={`${styles.text} text_type_main-default text_color_inactive mb-30`}>
         Дождитесь готовности на орбитальной станции
       </p>
     </>

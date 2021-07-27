@@ -61,10 +61,7 @@ const BurgerIngredientCard = ({
       </a>
 
       {showModal && (
-        <ModalOverlay
-          toggleModal={setShowModal}
-          title='Детали ингредиента'
-        >
+        <ModalOverlay toggleModal={setShowModal}>
           <IngredientDetails
             name={name}
             imgLarge={imgLarge}

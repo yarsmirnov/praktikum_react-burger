@@ -1,4 +1,9 @@
 .title {
+  align-self: flex-start;
+  margin-bottom: 0;
+}
+
+.ingredientName {
   margin-top: 0;
 }
 
@@ -6,7 +11,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  margin: 0;
+  margin-top: 0;
   padding: 0;
 }
 
