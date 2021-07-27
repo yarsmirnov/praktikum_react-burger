@@ -1,12 +1,10 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import styles from './modal.module.css';
 
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-
-const modalRoot = document.getElementById('react-modals');
 
 const Modal = ({ toggleModal, children }) => {
   const handleCloseClick = useCallback(evt => {
