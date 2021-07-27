@@ -47,6 +47,7 @@ const BurgerIngredients = ({ ingredients }) => {
           <IngredientSection
             key={tab.id}
             title={tab.sectionTitle}
+            isActive={current === tab.id}
             ingredients={filterByType(ingredients, tab.id)}
           />)
         )}
