@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useCallback } from "react";
-import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 
 import styles from './modal-overlay.module.css';
@@ -7,13 +6,11 @@ import styles from './modal-overlay.module.css';
 import Modal from '../modal/modal';
 
 
-const modalRoot = document.getElementById('react-modals');
-
 const ModalOverlay = ({ toggleModal, children }) => {
-  const overlayElement = useRef(null);
+  const overlayRef = useRef(null);
 
   const handleClick = useCallback((evt) => {
-    if (evt.target === overlayElement.current) {
+    if (evt.target === overlayRef.current) {
       toggleModal(prev => !prev);
     }
   }, [toggleModal]);
@@ -35,17 +32,15 @@ const ModalOverlay = ({ toggleModal, children }) => {
     }
   }, [handleEscPress]);
 
-  return modalRoot ? createPortal((
+  return (
     <div
       className={styles.overlay}
-      ref={overlayElement}
+      ref={overlayRef}
       onClick={handleClick}
     >
-      <Modal toggleModal={toggleModal}>
-        {children}
-      </Modal>
+      {children}
     </div>
-  ), modalRoot) : null;
+  );
 };
 
 
