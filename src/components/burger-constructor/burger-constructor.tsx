@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 
 import styles from './burger-constructor.module.css';
@@ -14,8 +13,6 @@ import Modal from '../modal/modal';
 
 import { ingredientType } from '../../utils/types';
 
-
-const modalRoot = document.getElementById('react-modals');
 
 const BurgerConstructor = ({ ingredients }) => {
   const [showModal, setShowModal] = useState(false);
@@ -115,12 +112,9 @@ const BurgerConstructor = ({ ingredients }) => {
       </div>
 
       {showModal && (
-        modalRoot ?
-          createPortal((
-            <Modal toggleModal={setShowModal}>
-              <OrderDetails />
-            </Modal>
-          ), modalRoot) : null
+        <Modal toggleModal={setShowModal}>
+          <OrderDetails />
+        </Modal>
       )}
     </section>
   );
