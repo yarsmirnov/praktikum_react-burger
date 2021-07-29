@@ -40,7 +40,7 @@ const IngredientSection = ({ title, ingredients, isActive }) => {
         className={`${styles.items} pl-4`}
       >
         {ingredients.map(item => (
-          <li key={item._id}>
+          <li key={item.id}>
             <BurgerIngredientCard
               { ...item }
               count={0}

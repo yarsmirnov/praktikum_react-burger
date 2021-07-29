@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 
 import styles from './modal-overlay.module.css';
 
-import Modal from '../modal/modal';
-
 
 const ModalOverlay = ({ toggleModal, children }) => {
   const overlayRef = useRef(null);
@@ -44,7 +42,7 @@ const ModalOverlay = ({ toggleModal, children }) => {
 };
 
 
-Modal.propTypes = {
+ModalOverlay.propTypes = {
   toggleModal: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,
 };
