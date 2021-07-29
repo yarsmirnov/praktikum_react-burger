@@ -7,13 +7,15 @@ import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-c
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 
+import { ingredientType } from '../../utils/types';
+
 
 const BurgerIngredientCard = ({
   id,
   name,
   price,
-  img,
-  imgLarge,
+  image,
+  imageLarge,
   proteins,
   fat,
   carbohydrates,
@@ -39,7 +41,7 @@ const BurgerIngredientCard = ({
       >
         <img
           className={`${styles.image} pb-1`}
-          src={img}
+          src={image}
           alt={name}
         />
         <span className={`${styles.price} text_type_digits-default mb-1`}>
@@ -64,7 +66,7 @@ const BurgerIngredientCard = ({
         <ModalOverlay toggleModal={setShowModal}>
           <IngredientDetails
             name={name}
-            imgLarge={imgLarge}
+            imageLarge={imageLarge}
             proteins={proteins}
             fat={fat}
             carbohydrates={carbohydrates}
@@ -78,15 +80,7 @@ const BurgerIngredientCard = ({
 
 
 BurgerIngredientCard.propTypes = {
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  img: PropTypes.string.isRequired,
-  imgLarge: PropTypes.string.isRequired,
-  proteins: PropTypes.number.isRequired,
-  fat: PropTypes.number.isRequired,
-  carbohydrates: PropTypes.number.isRequired,
-  calories: PropTypes.number.isRequired,
+  ...ingredientType,
   count: PropTypes.number,
 };
 

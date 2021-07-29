@@ -6,7 +6,7 @@ import styles from './ingredient-details.module.css';
 
 const IngredientDetails = ({
   name,
-  imgLarge,
+  imageLarge,
   calories,
   proteins,
   fat,
@@ -18,7 +18,7 @@ const IngredientDetails = ({
       <h2 className={`${styles.title} text text_type_main-large mt-10`}>Детали ингредиента</h2>
       <img
         className='mb-4'
-        src={imgLarge}
+        src={imageLarge}
         alt={name}
         width='480'
         height='240'
@@ -69,7 +69,7 @@ const IngredientDetails = ({
 
 IngredientDetails.propTypes = {
   name: PropTypes.string.isRequired,
-  imgLarge: PropTypes.string.isRequired,
+  imageLarge: PropTypes.string.isRequired,
   calories: PropTypes.number.isRequired,
   proteins: PropTypes.number.isRequired,
   fat: PropTypes.number.isRequired,

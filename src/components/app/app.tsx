@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
+
+import { adaptIngredients } from '../../utils/adapter';
 
 
 const ingredientsApi = 'https://norma.nomoreparties.space/api/ingredients';
@@ -21,7 +24,11 @@ const App = () => {
         })
         .then(dataContainer => {
           if (dataContainer.success) {
-            setIngredients(dataContainer.data);
+            // Replace snake_case to camelCase and
+            // set apropriate names
+            const ingredients = adaptIngredients(dataContainer.data);
+            setIngredients(ingredients);
+            console.log(ingredients);
           } else {
             console.log(dataContainer);
             throw new Error(`Get data finished with no success`);

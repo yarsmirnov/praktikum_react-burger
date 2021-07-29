@@ -12,6 +12,7 @@ import {
 import OrderDetails from '../order-details/order-details';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 
+import { ingredientType } from '../../utils/types';
 
 
 const modalRoot = document.getElementById('react-modals');
@@ -65,7 +66,7 @@ const BurgerConstructor = ({ ingredients }) => {
           }
           return (
             <li
-              key={item._id}
+              key={item.id}
               className={styles.listItem}
             >
               <i
@@ -128,12 +129,7 @@ const BurgerConstructor = ({ ingredients }) => {
 
 
 BurgerConstructor.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-  })).isRequired,
+  ingredients: PropTypes.arrayOf(PropTypes.shape(ingredientType)).isRequired,
 };
 
 

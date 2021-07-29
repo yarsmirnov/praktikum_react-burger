@@ -1,7 +1,11 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import BurgerIngredientCard from '../burger-ingredient-card/burger-ingredient-card';
+
 import styles from './ingredient-section.module.css';
+
+import BurgerIngredientCard from '../burger-ingredient-card/burger-ingredient-card';
+
+import { ingredientType } from '../../utils/types';
 
 
 const IngredientSection = ({ title, ingredients, isActive }) => {
@@ -38,15 +42,7 @@ const IngredientSection = ({ title, ingredients, isActive }) => {
         {ingredients.map(item => (
           <li key={item._id}>
             <BurgerIngredientCard
-              id={item._id}
-              name={item.name}
-              price={item.price}
-              img={item.image}
-              imgLarge={item.image_large}
-              proteins={item.proteins}
-              fat={item.fat}
-              carbohydrates={item.carbohydrates}
-              calories={item.calories}
+              { ...item }
               count={0}
             />
           </li>
@@ -60,12 +56,7 @@ const IngredientSection = ({ title, ingredients, isActive }) => {
 IngredientSection.propType = {
   title: PropTypes.string.isRequired,
   isActive: PropTypes.bool.isRequired,
-  ingredients: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-  })),
+  ingredients: PropTypes.arrayOf(PropTypes.shape(ingredientType)),
 };
 
 
