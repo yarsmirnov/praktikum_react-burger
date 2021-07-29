@@ -37,7 +37,6 @@ const BurgerConstructor = ({ ingredients }) => {
   }, 0);
 
   const handleButtonClick = () => {
-    console.log('Oh, no. I was clicked!');
     setShowModal(prev => !prev);
   }
 

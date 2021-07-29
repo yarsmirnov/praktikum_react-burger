@@ -35,8 +35,7 @@ const BurgerIngredientCard = ({
         onClick={(evt) => {
           evt.preventDefault();
             setShowModal(prev => !prev);
-          console.log('showModal: ', showModal);
-        }
+          }
         }
       >
         <img

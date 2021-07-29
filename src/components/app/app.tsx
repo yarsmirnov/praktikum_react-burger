@@ -28,14 +28,12 @@ const App = () => {
             // set apropriate names
             const ingredients = adaptIngredients(dataContainer.data);
             setIngredients(ingredients);
-            console.log(ingredients);
           } else {
-            console.log(dataContainer);
             throw new Error(`Get data finished with no success`);
           }
         })
         .catch(err => {
-          console.log(err);
+          console.log('Error:', err);
         })
     };
 
