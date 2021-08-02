@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+
+import styles from './burger-ingredients.module.css';
+
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientSection from '../ingredient-section/ingredient-section';
-import styles from './burger-ingredients.module.css';
+
+import { ingredientType } from '../../utils/types';
 
 
 const navTabs = [
@@ -47,6 +51,7 @@ const BurgerIngredients = ({ ingredients }) => {
           <IngredientSection
             key={tab.id}
             title={tab.sectionTitle}
+            isActive={current === tab.id}
             ingredients={filterByType(ingredients, tab.id)}
           />)
         )}
@@ -57,12 +62,7 @@ const BurgerIngredients = ({ ingredients }) => {
 
 
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-  })).isRequired,
+  ingredients: PropTypes.arrayOf(PropTypes.shape(ingredientType)).isRequired,
 };
 
 

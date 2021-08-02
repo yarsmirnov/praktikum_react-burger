@@ -1,0 +1,27 @@
+.order {
+  margin-bottom: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+}
+
+.orderId {
+  margin-right: 0;
+  margin-left: 0;
+  padding: 0;
+
+  text-shadow: 0px 0px 16px rgba(51, 51, 255, 0.25), 0px 0px 8px rgba(51, 51, 255, 0.25), 0px 4px 32px rgba(51, 51, 255, 0.5);
+}
+
+.orderText {
+  margin-right: 0;
+  margin-left: 0;
+  padding: 0;
+}
+
+.text {
+  margin-top: 0;
+  padding: 0;
+}
+

@@ -1,19 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+
+import styles from './burger-constructor.module.css';
+
 import {
   ConstructorElement,
   Button,
   CurrencyIcon,
   DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import styles from './burger-constructor.module.css';
+import OrderDetails from '../order-details/order-details';
+import Modal from '../modal/modal';
+
+import { ingredientType } from '../../utils/types';
 
 
 const BurgerConstructor = ({ ingredients }) => {
+  const [showModal, setShowModal] = useState(false);
+
+  if (ingredients.length === 0) {
+    return (
+      <section className={`${styles.section} column pt-25 pr-4`}>
+        <h2 className='visualliHidden'>
+          Ваша сборка
+        </h2>
+      </section>
+    );
+  }
+
   const bun = ingredients.find(item => item.type === 'bun');
   const fillings = ingredients.filter(item => item.type !== 'bun');
   const totalPrice = ingredients.reduce((acc, item) => {
     return acc + item.price;
   }, 0);
+
+  const handleButtonClick = () => {
+    setShowModal(prev => !prev);
+  }
 
   return (
     <section className={`${styles.section} column pt-25 pr-4`}>
@@ -40,7 +62,7 @@ const BurgerConstructor = ({ ingredients }) => {
           }
           return (
             <li
-              key={item._id}
+              key={item.id}
               className={styles.listItem}
             >
               <i
@@ -80,22 +102,27 @@ const BurgerConstructor = ({ ingredients }) => {
           </i>
         </span>
 
-        <Button type="primary" size="large">
+        <Button
+          type="primary"
+          size="large"
+          onClick={handleButtonClick}
+        >
           Оформить заказ
         </Button>
       </div>
+
+      {showModal && (
+        <Modal toggleModal={setShowModal}>
+          <OrderDetails />
+        </Modal>
+      )}
     </section>
   );
 };
 
 
 BurgerConstructor.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-  })).isRequired,
+  ingredients: PropTypes.arrayOf(PropTypes.shape(ingredientType)).isRequired,
 };
 
 
