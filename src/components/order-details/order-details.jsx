@@ -1,17 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import styles from './order-details.module.css';
 import successGif from '../../images/done.gif';
 
+import { OrderContext } from "../../contexts/order-context";
+
 
 const OrderDetails = () => {
+  const { orderSate } = useContext(OrderContext);
+  const orderNumber = orderSate.number ? orderSate.number : 0;
+
   return (
     <>
       <h2 className='visually-hidden'>Заказ передан в обработку</h2>
 
       <dl className={`${styles.order} mt-30`}>
         <dt className={`${styles.orderText} text_type_main-medium`}>идентификатор заказа</dt>
-        <dd className={`${styles.orderId} text_type_digits-large mb-8`}>034536</dd>
+        <dd className={`${styles.orderId} text_type_digits-large mb-8`}>{orderNumber}</dd>
       </dl>
 
       <img

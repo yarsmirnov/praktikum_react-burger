@@ -11,11 +11,16 @@ import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
 
 import { ConstructorContext } from '../../contexts/constructor-context';
+import { OrderContext  } from '../../contexts/order-context';
+
+
+const orderPostApi = 'https://norma.nomoreparties.space/api/orders';
 
 
 const BurgerConstructor = () => {
   const [showModal, setShowModal] = useState(false);
   const { constructorIngredients } = useContext(ConstructorContext);
+  const { orderSate, setOrderState } = useContext(OrderContext);
 
   const { bun, ingredients } = constructorIngredients;
 
@@ -26,6 +31,36 @@ const BurgerConstructor = () => {
   }, [orderList]);
 
 
+  const handleButtonClick = async () => {
+    setOrderState({...orderSate, sending: true});
+
+    const requestData = {
+      ingredients: orderList.map(item => item.id),
+    }
+    const requestBody = JSON.stringify(requestData);
+
+    fetch(orderPostApi, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: requestBody,
+    })
+    .then((response) => response.json())
+    .then(data => {
+      if (data.success) {
+        setOrderState({name: data.name, number: data.order.number,sending: false});
+        setShowModal(prev => !prev);
+      } else {
+        throw new Error('BurgerConstructor got unsuccessful respond');
+      }
+    })
+    .catch(err => {
+      setOrderState({...orderSate, sending: false});
+      throw new Error('BurgerConstructor request error:', err);
+    });
+  };
+
   if (ingredients.length === 0) {
     return (
       <section className={`${styles.section} column pt-25 pr-4`}>
@@ -34,10 +69,6 @@ const BurgerConstructor = () => {
         </h2>
       </section>
     );
-  }
-
-  const handleButtonClick = () => {
-    setShowModal(prev => !prev);
   }
 
 
@@ -116,11 +147,15 @@ const BurgerConstructor = () => {
           size="large"
           onClick={handleButtonClick}
         >
-          Оформить заказ
+          {
+            orderSate.sending ?
+              'Отправляем заказ' :
+              'Оформить заказ'
+          }
         </Button>
       </div>
 
-      {showModal && (
+      {showModal && orderSate.number && (
         <Modal toggleModal={setShowModal}>
           <OrderDetails />
         </Modal>

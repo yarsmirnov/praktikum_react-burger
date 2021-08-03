@@ -7,6 +7,7 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 import { adaptIngredients } from '../../utils/adapter';
 
 import { ConstructorContext } from '../../contexts/constructor-context';
+import { OrderContext } from '../../contexts/order-context';
 
 
 const constructorInitialState = {
@@ -14,12 +15,19 @@ const constructorInitialState = {
   ingredients: [],
 };
 
+const orderInitialState = {
+  name: '',
+  number: 0,
+  sending: false,
+  };
+
 const ingredientsApi = 'https://norma.nomoreparties.space/api/ingredients';
 
 
 const App = () => {
   const [ingredients, setIngredients] = useState([]);
   const [constructorIngredients, setConstructorIngredients] = useState(constructorInitialState);
+  const [orderSate, setOrderState] = useState(orderInitialState);
 
   useEffect(() => {
     const getIngredients = async () => {
@@ -66,7 +74,9 @@ const App = () => {
             setConstructorIngredients,
         }
         }>
-          <BurgerConstructor />
+          <OrderContext.Provider value={{orderSate, setOrderState}}>
+            <BurgerConstructor />
+          </OrderContext.Provider>
         </ConstructorContext.Provider>
       </main>
     </React.Fragment>
