@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useMemo, useContext } from 'react';
 
 import styles from './burger-constructor.module.css';
 
@@ -19,6 +19,13 @@ const BurgerConstructor = () => {
 
   const { bun, ingredients } = constructorIngredients;
 
+  const orderList = useMemo(() => [bun, ...ingredients, bun], [bun, ingredients]);
+
+  const totalPrice = useMemo(() => {
+    return orderList.reduce((acc, item) => acc + item?.price, 0);
+  }, [orderList]);
+
+
   if (ingredients.length === 0) {
     return (
       <section className={`${styles.section} column pt-25 pr-4`}>
@@ -29,13 +36,10 @@ const BurgerConstructor = () => {
     );
   }
 
-  const totalPrice = ingredients.reduce((acc, item) => {
-    return acc + item.price;
-  }, 0);
-
   const handleButtonClick = () => {
     setShowModal(prev => !prev);
   }
+
 
   return (
     <section className={`${styles.section} column pt-25 pr-4`}>
