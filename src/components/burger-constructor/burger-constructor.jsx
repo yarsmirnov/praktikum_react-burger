@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useContext } from 'react';
 
 import styles from './burger-constructor.module.css';
 
@@ -11,11 +10,14 @@ import {
 import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
 
-import { ingredientType } from '../../utils/types';
+import { ConstructorContext } from '../../contexts/constructor-context';
 
 
-const BurgerConstructor = ({ ingredients }) => {
+const BurgerConstructor = () => {
   const [showModal, setShowModal] = useState(false);
+  const { constructorIngredients } = useContext(ConstructorContext);
+
+  const { bun, ingredients } = constructorIngredients;
 
   if (ingredients.length === 0) {
     return (
@@ -27,8 +29,6 @@ const BurgerConstructor = ({ ingredients }) => {
     );
   }
 
-  const bun = ingredients.find(item => item.type === 'bun');
-  const fillings = ingredients.filter(item => item.type !== 'bun');
   const totalPrice = ingredients.reduce((acc, item) => {
     return acc + item.price;
   }, 0);
@@ -43,6 +43,7 @@ const BurgerConstructor = ({ ingredients }) => {
         Ваша сборка
       </h2>
 
+    {bun && (
       <div className='mb-4 pl-8 pr-4'>
         <ConstructorElement
           type={'top'}
@@ -52,11 +53,13 @@ const BurgerConstructor = ({ ingredients }) => {
           thumbnail={bun.image}
         />
       </div>
+    )
+    }
 
       <ul
         className={`${styles.ingredientsList} scroller`}
       >
-        {fillings.map(item => {
+        {ingredients.map(item => {
           if (item.type === 'bun') {
             return null;
           }
@@ -80,15 +83,17 @@ const BurgerConstructor = ({ ingredients }) => {
         })}
       </ul>
 
-      <div className='mt-4 mb-10 pl-8 pr-4'>
-        <ConstructorElement
-          type={'bottom'}
-          isLocked={true}
-          text={`${bun.name} (низ)`}
-          price={bun.price}
-          thumbnail={bun.image}
-        />
-      </div>
+      {bun && (
+        <div className='mt-4 mb-10 pl-8 pr-4'>
+          <ConstructorElement
+            type={'bottom'}
+            isLocked={true}
+            text={`${bun.name} (низ)`}
+            price={bun.price}
+            thumbnail={bun.image}
+          />
+        </div>
+      )}
 
       <div
         className={`${styles.order} pr-4`}
@@ -118,11 +123,6 @@ const BurgerConstructor = ({ ingredients }) => {
       )}
     </section>
   );
-};
-
-
-BurgerConstructor.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.shape(ingredientType)).isRequired,
 };
 
 
