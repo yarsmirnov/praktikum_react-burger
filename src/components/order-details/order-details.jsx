@@ -1,14 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
+import PropTypes from 'prop-types';
 
 import styles from './order-details.module.css';
 import successGif from '../../images/done.gif';
 
-import { OrderContext } from "../../contexts/order-context";
 
-
-const OrderDetails = () => {
-  const { orderSate } = useContext(OrderContext);
-  const orderNumber = orderSate.number ? orderSate.number : 0;
+const OrderDetails = ({ orderId }) => {
 
   return (
     <>
@@ -16,7 +13,7 @@ const OrderDetails = () => {
 
       <dl className={`${styles.order} mt-30`}>
         <dt className={`${styles.orderText} text_type_main-medium`}>идентификатор заказа</dt>
-        <dd className={`${styles.orderId} text_type_digits-large mb-8`}>{orderNumber}</dd>
+        <dd className={`${styles.orderId} text_type_digits-large mb-8`}>{orderId}</dd>
       </dl>
 
       <img
@@ -35,6 +32,11 @@ const OrderDetails = () => {
       </p>
     </>
   );
+}
+
+
+OrderDetails.propTypes = {
+  orderId: PropTypes.number.isRequired,
 }
 
 

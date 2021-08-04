@@ -10,53 +10,76 @@ import {
 import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
 
-import { ConstructorContext } from '../../contexts/constructor-context';
-import { OrderContext  } from '../../contexts/order-context';
+import { IngredientsContext } from '../../contexts/ingredients-context';
 
 
 const orderPostApi = 'https://norma.nomoreparties.space/api/orders';
+const orderInitialState = {
+  name: '',
+  id: 0,
+};
+const orderRequestStatus = {
+  PENDING: 'PENDING',
+  REQUEST: 'REQUEST',
+  SUCCESS: 'SUCCESS',
+  FAILURE: 'FAILURE',
+};
 
 
 const BurgerConstructor = () => {
   const [showModal, setShowModal] = useState(false);
-  const { constructorIngredients } = useContext(ConstructorContext);
-  const { orderSate, setOrderState } = useContext(OrderContext);
+  const [requestStatus, setRequestStatus] = useState(orderRequestStatus.PENDING);
+  const [orderState, setOrderState] = useState(orderInitialState);
+  const { ingredients } = useContext(IngredientsContext);
 
-  const { bun, ingredients } = constructorIngredients;
+  const bun = useMemo(
+    () => ingredients.find((item) => item.type === 'bun'),
+    [ingredients]
+  );
 
-  const orderList = useMemo(() => [bun, ...ingredients, bun], [bun, ingredients]);
+  const fillings = useMemo(
+    () => ingredients.filter((item) => item.type !== 'bun'), [ingredients]
+  );
 
-  const totalPrice = useMemo(() => {
-    return orderList.reduce((acc, item) => acc + item?.price, 0);
-  }, [orderList]);
+  const orderList = useMemo(
+    () => [bun, ...fillings, bun],
+    [bun, fillings]
+  );
 
+  const totalPrice = useMemo(
+    () => orderList.reduce((acc, item) => acc + item?.price, 0), [orderList]
+  );
 
   const handleButtonClick = async () => {
-    setOrderState({...orderSate, sending: true});
+    setRequestStatus(orderRequestStatus.REQUEST);
+    setOrderState(orderInitialState);
 
     const requestData = {
       ingredients: orderList.map(item => item.id),
     }
-    const requestBody = JSON.stringify(requestData);
 
     fetch(orderPostApi, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: requestBody,
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(requestData),
     })
-    .then((response) => response.json())
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error('Bad BurgerConstructor request');
+    })
     .then(data => {
       if (data.success) {
-        setOrderState({name: data.name, number: data.order.number,sending: false});
-        setShowModal(prev => !prev);
+        setRequestStatus(orderRequestStatus.SUCCESS);
+        setOrderState({name: data.name, id: data.order.number,sending: false});
+        setShowModal(true);
       } else {
-        throw new Error('BurgerConstructor got unsuccessful respond');
+        throw new Error('BurgerConstructor got unsuccessful response');
       }
     })
     .catch(err => {
-      setOrderState({...orderSate, sending: false});
+      setRequestStatus(orderRequestStatus.FAILURE);
       console.log('BurgerConstructor request error:', err);
     });
   };
@@ -142,23 +165,35 @@ const BurgerConstructor = () => {
           </i>
         </span>
 
-        <Button
-          type="primary"
-          size="large"
-          onClick={handleButtonClick}
-        >
-          {
-            orderSate.sending ?
-              'Отправляем заказ' :
-              'Оформить заказ'
-          }
-        </Button>
+        { requestStatus !== orderRequestStatus.REQUEST ?
+          (
+            <Button
+              type="primary"
+              size="large"
+              onClick={handleButtonClick}
+            >
+              Оформить заказ
+            </Button>
+          ) :
+          (
+            <Button
+              type="primary"
+              size="large"
+              onClick={() => {}}
+            >
+              Обрабатываем заказ
+            </Button>
+          )
+        }
       </div>
 
-      {showModal && orderSate.number && (
-        <Modal toggleModal={setShowModal}>
-          <OrderDetails />
-        </Modal>
+
+      { showModal &&
+        orderState.id &&
+        (
+          <Modal toggleModal={setShowModal}>
+            <OrderDetails orderId={orderState.id} />
+          </Modal>
       )}
     </section>
   );

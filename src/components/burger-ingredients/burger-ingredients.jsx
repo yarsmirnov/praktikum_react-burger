@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useContext } from 'react';
 
 import styles from './burger-ingredients.module.css';
 
@@ -8,7 +7,7 @@ import IngredientSection from '../ingredient-section/ingredient-section';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
 
-import { ingredientType } from '../../utils/types';
+import { IngredientsContext } from '../../contexts/ingredients-context';
 
 
 const navTabs = [
@@ -22,7 +21,7 @@ const filterByType = (items, type) => {
 };
 
 
-const BurgerIngredients = ({ ingredients }) => {
+const BurgerIngredients = () => {
   const [current, setCurrent] = useState(navTabs[0].id);
   const [ showModal, setShowModal ] = useState(false);
   const [ cardData, setCardData ] = useState({
@@ -33,6 +32,8 @@ const BurgerIngredients = ({ ingredients }) => {
     carbohydrates: 0,
     calories: 0,
   });
+  const {ingredients} = useContext(IngredientsContext);
+
 
   const onCardClick = (showModal) => (data) => {
     showModal(true);
@@ -90,11 +91,6 @@ const BurgerIngredients = ({ ingredients }) => {
     </section>
   );
 }
-
-
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.shape(ingredientType)).isRequired,
-};
 
 
 export default BurgerIngredients;
