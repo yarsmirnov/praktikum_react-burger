@@ -57,7 +57,7 @@ const BurgerConstructor = () => {
     })
     .catch(err => {
       setOrderState({...orderSate, sending: false});
-      throw new Error('BurgerConstructor request error:', err);
+      console.log('BurgerConstructor request error:', err);
     });
   };
 
