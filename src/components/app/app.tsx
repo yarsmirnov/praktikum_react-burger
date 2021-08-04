@@ -6,28 +6,14 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 
 import { adaptIngredients } from '../../utils/adapter';
 
-import { ConstructorContext } from '../../contexts/constructor-context';
-import { OrderContext } from '../../contexts/order-context';
+import { IngredientsContext } from '../../contexts/ingredients-context';
 
-
-const constructorInitialState = {
-  bun: null,
-  ingredients: [],
-};
-
-const orderInitialState = {
-  name: '',
-  number: 0,
-  sending: false,
-  };
 
 const ingredientsApi = 'https://norma.nomoreparties.space/api/ingredients';
 
 
 const App = () => {
   const [ingredients, setIngredients] = useState([]);
-  const [constructorIngredients, setConstructorIngredients] = useState(constructorInitialState);
-  const [orderSate, setOrderState] = useState(orderInitialState);
 
   useEffect(() => {
     const getIngredients = async () => {
@@ -40,17 +26,8 @@ const App = () => {
         })
         .then(dataContainer => {
           if (dataContainer.success) {
-            // Replace snake_case to camelCase and
-            // set apropriate names
             const ingredients = adaptIngredients(dataContainer.data);
             setIngredients(ingredients);
-
-            const bun = ingredients.find(item => item.type === 'bun');
-            const fillings = ingredients.filter(item => item.type !== 'bun');
-            setConstructorIngredients({
-              bun,
-              ingredients: fillings,
-            });
           } else {
             throw new Error(`Get data finished with no success`);
           }
@@ -67,17 +44,12 @@ const App = () => {
     <React.Fragment>
       <AppHeader />
       <main className={'main text_type_main-default'}>
-        <BurgerIngredients ingredients={ingredients} />
-        <ConstructorContext.Provider value={
-          {
-            constructorIngredients,
-            setConstructorIngredients,
-        }
-        }>
-          <OrderContext.Provider value={{orderSate, setOrderState}}>
-            <BurgerConstructor />
-          </OrderContext.Provider>
-        </ConstructorContext.Provider>
+        <IngredientsContext.Provider
+          value={{ingredients, setIngredients}}
+        >
+          <BurgerIngredients />
+          <BurgerConstructor />
+        </IngredientsContext.Provider>
       </main>
     </React.Fragment>
   );
