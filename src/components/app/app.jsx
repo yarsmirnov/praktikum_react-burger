@@ -19,10 +19,10 @@ const App = () => {
     const getIngredients = async () => {
       fetch(ingredientsApi)
         .then(response => {
-          if (!response.ok) {
-            throw new Error(`Responsed with status ${response.status}`);
+          if (response.ok) {
+            return response.json();
           }
-          return response.json();
+          throw new Error(`Responsed with status ${response.status}`);
         })
         .then(dataContainer => {
           if (dataContainer.success) {
