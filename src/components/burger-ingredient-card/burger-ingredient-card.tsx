@@ -1,11 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import styles from './burger-ingredient-card.module.css';
 
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import Modal from '../modal/modal';
 
 import { ingredientType } from '../../utils/types';
 
@@ -20,9 +18,9 @@ const BurgerIngredientCard = ({
   fat,
   carbohydrates,
   calories,
-  count = 0
+  onCardClick,
+  count = 0,
 }) => {
-  const [ showModal, setShowModal ] = useState(false);
   const cardRef = useRef(null);
 
   return (
@@ -34,9 +32,15 @@ const BurgerIngredientCard = ({
         ref={cardRef}
         onClick={(evt) => {
           evt.preventDefault();
-            setShowModal(prev => !prev);
-          }
-        }
+          onCardClick({
+            name,
+            imageLarge,
+            proteins,
+            fat,
+            carbohydrates,
+            calories,
+          })
+        }}
       >
         <img
           className={`${styles.image} pb-1`}
@@ -60,19 +64,6 @@ const BurgerIngredientCard = ({
           </i>):
           null}
       </a>
-
-      {showModal && (
-        <Modal toggleModal={setShowModal}>
-          <IngredientDetails
-            name={name}
-            imageLarge={imageLarge}
-            proteins={proteins}
-            fat={fat}
-            carbohydrates={carbohydrates}
-            calories={calories}
-          />
-        </Modal>
-      )}
     </>
   );
 }
@@ -81,6 +72,7 @@ const BurgerIngredientCard = ({
 BurgerIngredientCard.propTypes = {
   ...ingredientType,
   count: PropTypes.number,
+  onCardClick: PropTypes.func.isRequired,
 };
 
 

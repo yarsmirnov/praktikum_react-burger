@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useContext } from 'react';
 
 import styles from './burger-ingredients.module.css';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientSection from '../ingredient-section/ingredient-section';
+import IngredientDetails from '../ingredient-details/ingredient-details';
+import Modal from '../modal/modal';
 
-import { ingredientType } from '../../utils/types';
+import { IngredientsContext } from '../../contexts/ingredients-context';
 
 
 const navTabs = [
@@ -20,8 +21,25 @@ const filterByType = (items, type) => {
 };
 
 
-const BurgerIngredients = ({ ingredients }) => {
+const BurgerIngredients = () => {
   const [current, setCurrent] = useState(navTabs[0].id);
+  const [ showModal, setShowModal ] = useState(false);
+  const [ cardData, setCardData ] = useState({
+    name: '',
+    imageLarge: '',
+    proteins: 0,
+    fat: 0,
+    carbohydrates: 0,
+    calories: 0,
+  });
+  const {ingredients} = useContext(IngredientsContext);
+
+
+  const onCardClick = (showModal) => (data) => {
+    showModal(true);
+    setCardData(data);
+  }
+
 
   return (
     <section className='column mr-10'>
@@ -53,17 +71,26 @@ const BurgerIngredients = ({ ingredients }) => {
             title={tab.sectionTitle}
             isActive={current === tab.id}
             ingredients={filterByType(ingredients, tab.id)}
+            onCardClick={onCardClick(setShowModal)}
           />)
         )}
       </div>
+
+      {showModal && (
+        <Modal toggleModal={setShowModal}>
+          <IngredientDetails
+            name={cardData.name}
+            imageLarge={cardData.imageLarge}
+            proteins={cardData.proteins}
+            fat={cardData.fat}
+            carbohydrates={cardData.carbohydrates}
+            calories={cardData.calories}
+          />
+        </Modal>
+      )}
     </section>
   );
 }
-
-
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.shape(ingredientType)).isRequired,
-};
 
 
 export default BurgerIngredients;

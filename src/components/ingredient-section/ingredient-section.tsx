@@ -8,7 +8,12 @@ import BurgerIngredientCard from '../burger-ingredient-card/burger-ingredient-ca
 import { ingredientType } from '../../utils/types';
 
 
-const IngredientSection = ({ title, ingredients, isActive }) => {
+const IngredientSection = ({
+  title,
+  ingredients,
+  isActive,
+  onCardClick
+}) => {
   const headingRef = useRef<any>(null);
 
   const scrollIntoHeading = useCallback(() => {
@@ -44,6 +49,7 @@ const IngredientSection = ({ title, ingredients, isActive }) => {
             <BurgerIngredientCard
               { ...item }
               count={0}
+              onCardClick={onCardClick}
             />
           </li>
         ))}
@@ -57,6 +63,7 @@ IngredientSection.propType = {
   title: PropTypes.string.isRequired,
   isActive: PropTypes.bool.isRequired,
   ingredients: PropTypes.arrayOf(PropTypes.shape(ingredientType)),
+  onCardClick: PropTypes.func.isRequired,
 };
 
 

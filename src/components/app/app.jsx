@@ -6,6 +6,8 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 
 import { adaptIngredients } from '../../utils/adapter';
 
+import { IngredientsContext } from '../../contexts/ingredients-context';
+
 
 const ingredientsApi = 'https://norma.nomoreparties.space/api/ingredients';
 
@@ -17,15 +19,13 @@ const App = () => {
     const getIngredients = async () => {
       fetch(ingredientsApi)
         .then(response => {
-          if (!response.ok) {
-            throw new Error(`Responsed with status ${response.status}`);
+          if (response.ok) {
+            return response.json();
           }
-          return response.json();
+          throw new Error(`Responsed with status ${response.status}`);
         })
         .then(dataContainer => {
           if (dataContainer.success) {
-            // Replace snake_case to camelCase and
-            // set apropriate names
             const ingredients = adaptIngredients(dataContainer.data);
             setIngredients(ingredients);
           } else {
@@ -44,8 +44,12 @@ const App = () => {
     <React.Fragment>
       <AppHeader />
       <main className={'main text_type_main-default'}>
-        <BurgerIngredients ingredients={ingredients} />
-        <BurgerConstructor ingredients={ingredients} />
+        <IngredientsContext.Provider
+          value={{ingredients, setIngredients}}
+        >
+          <BurgerIngredients />
+          <BurgerConstructor />
+        </IngredientsContext.Provider>
       </main>
     </React.Fragment>
   );
