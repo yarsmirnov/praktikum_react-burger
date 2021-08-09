@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { addItem } from '../../services/slices/burger-constructor';
+import { addItem, setBun } from '../../services/slices/burger-constructor';
 import { increaseIngredientCount } from '../../services/slices/ingredients';
 import { useDrop } from 'react-dnd';
 
@@ -30,12 +30,15 @@ const BurgerConstructor = () => {
   const [, dropTarget] = useDrop({
     accept: 'ingredient',
     drop(item) {
-      dispatch(addItem(item));
+      item.type === 'bun' ?
+        dispatch(setBun(item)) :
+        dispatch(addItem(item));
+
       dispatch(increaseIngredientCount({
         id: item.id,
         type: item.type,
       }));
-    }
+    },
   });
 
   const [showModal, setShowModal] = useState(false);
@@ -112,7 +115,7 @@ const BurgerConstructor = () => {
           }
           return (
             <li
-              key={item.id}
+              key={item.uuid}
               className={styles.listItem}
             >
               <i

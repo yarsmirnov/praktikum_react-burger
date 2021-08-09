@@ -17,10 +17,35 @@ export const burgerConstructorSlide = createSlice({
         {...action.payload, uuid: uuidv4()}
       ],
     }),
+
+    setBun: (store, action) => {
+      const bunIndex = [...store.value].findIndex(
+        item => item.type === 'bun');
+
+      if (bunIndex >= 0) {
+        const updatedIngredients = [...store.value];
+
+        updatedIngredients.splice(bunIndex, 1, {
+          ...action.payload,
+          uuid: uuidv4()
+        });
+
+        return ({
+          ...store,
+          value: updatedIngredients
+        });
+      }
+      return ({
+        ...store,
+        value: [...store.value,
+          {...action.payload, uuid: uuidv4()}
+        ],
+      });
+    },
   },
 });
 
-export const { addItem } = burgerConstructorSlide.actions;
+export const { addItem, setBun } = burgerConstructorSlide.actions;
 
 
 export default burgerConstructorSlide.reducer;
