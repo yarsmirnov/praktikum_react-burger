@@ -1,4 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
+
+import { useSelector } from 'react-redux';
 
 import styles from './burger-ingredients.module.css';
 
@@ -6,8 +8,6 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientSection from '../ingredient-section/ingredient-section';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
-
-import { IngredientsContext } from '../../contexts/ingredients-context';
 
 
 const navTabs = [
@@ -32,7 +32,8 @@ const BurgerIngredients = () => {
     carbohydrates: 0,
     calories: 0,
   });
-  const {ingredients} = useContext(IngredientsContext);
+
+  const { value: ingredients } = useSelector(store => store.ingredients);
 
 
   const onCardClick = (showModal) => (data) => {

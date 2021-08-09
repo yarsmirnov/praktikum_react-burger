@@ -1,15 +1,15 @@
 import {combineReducers} from "redux";
 
-import ingredietns from "../slices/ingredients";
+import ingredients from "../slices/ingredients";
 import ingredientInfo from "../slices/ingredient-info";
-import constructor from "../slices/constructor";
+import burgerConstructor from "../slices/burger-constructor";
 import order from "../slices/order";
 
 
 const rootReducer = combineReducers({
-  ingredietns,
+  ingredients,
   ingredientInfo,
-  constructor,
+  burgerConstructor,
   order,
 })
 

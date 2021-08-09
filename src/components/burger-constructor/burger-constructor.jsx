@@ -1,4 +1,6 @@
-import React, { useState, useMemo, useContext } from 'react';
+import React, { useState, useMemo } from 'react';
+
+import { useSelector } from 'react-redux';
 
 import styles from './burger-constructor.module.css';
 
@@ -9,8 +11,6 @@ import {
   DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
-
-import { IngredientsContext } from '../../contexts/ingredients-context';
 
 
 const orderPostApi = 'https://norma.nomoreparties.space/api/orders';
@@ -27,10 +27,11 @@ const orderRequestStatus = {
 
 
 const BurgerConstructor = () => {
+  const {value: ingredients} = useSelector(state => state.burgerConstructor);
+
   const [showModal, setShowModal] = useState(false);
   const [requestStatus, setRequestStatus] = useState(orderRequestStatus.PENDING);
   const [orderState, setOrderState] = useState(orderInitialState);
-  const { ingredients } = useContext(IngredientsContext);
 
   const bun = useMemo(
     () => ingredients.find((item) => item.type === 'bun'),
