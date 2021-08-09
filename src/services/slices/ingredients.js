@@ -15,11 +15,60 @@ export const ingredientsSlide = createSlice({
       ...state,
       value: action.payload,
     }),
+
+    increaseIngredientCount: (state, action) => {
+      const {id, type} = action.payload;
+      const updatedIngredients = [...state.value].map(
+        item => {
+          if (type === 'bun' && item.type === 'bun') {
+            return ({
+              ...item,
+              count: item.id === id ? 1 : 0,
+            });
+          }
+
+          if (item.id === id) {
+            return {
+              ...item,
+              count: item.count + 1,
+            }
+          }
+          return item;
+        }
+      );
+      return ({
+        ...state,
+        value: updatedIngredients,
+      });
+    },
+
+    decreaseIngredientCount: (state, action) => {
+      const id = action.payload;
+      const updatedIngredients = [...state.value].map(
+        item => {
+          if (item.id === id) {
+            return {
+              ...item,
+              count: item.count - 1,
+            }
+          }
+          return item;
+        }
+      );
+      return ({
+        ...state,
+        value: updatedIngredients,
+      });
+    },
   },
 });
 
 
-export const { setIngredients } = ingredientsSlide.actions;
+export const {
+  setIngredients,
+  increaseIngredientCount,
+  decreaseIngredientCount
+} = ingredientsSlide.actions;
 
 export const getIngredients = () => async (dispatch) => {
   fetch(ingredientsApi)
