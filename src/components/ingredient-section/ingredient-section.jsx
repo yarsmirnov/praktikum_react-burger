@@ -14,7 +14,7 @@ const IngredientSection = ({
   isActive,
   onCardClick
 }) => {
-  const headingRef = useRef<any>(null);
+  const headingRef = useRef(null);
 
   const scrollIntoHeading = useCallback(() => {
     if (isActive && headingRef.current) {
