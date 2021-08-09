@@ -1,6 +1,8 @@
 import React, { useState, useMemo } from 'react';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { sendOrderRequest } from '../../services/slices/order';
 
 import styles from './burger-constructor.module.css';
 
@@ -13,25 +15,16 @@ import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
 
 
-const orderPostApi = 'https://norma.nomoreparties.space/api/orders';
-const orderInitialState = {
-  name: '',
-  id: 0,
-};
-const orderRequestStatus = {
-  PENDING: 'PENDING',
-  REQUEST: 'REQUEST',
-  SUCCESS: 'SUCCESS',
-  FAILURE: 'FAILURE',
-};
-
-
 const BurgerConstructor = () => {
+  const dispatch = useDispatch();
   const {value: ingredients} = useSelector(state => state.burgerConstructor);
+  const {
+    ORDER_REQUEST,
+    ORDER_SUCCESS,
+    orderData
+  } = useSelector(store => store.order);
 
   const [showModal, setShowModal] = useState(false);
-  const [requestStatus, setRequestStatus] = useState(orderRequestStatus.PENDING);
-  const [orderState, setOrderState] = useState(orderInitialState);
 
   const bun = useMemo(
     () => ingredients.find((item) => item.type === 'bun'),
@@ -52,37 +45,11 @@ const BurgerConstructor = () => {
   );
 
   const handleButtonClick = async () => {
-    setRequestStatus(orderRequestStatus.REQUEST);
-    setOrderState(orderInitialState);
-
     const requestData = {
       ingredients: orderList.map(item => item.id),
     }
 
-    fetch(orderPostApi, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(requestData),
-    })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error('Bad BurgerConstructor request');
-    })
-    .then(data => {
-      if (data.success) {
-        setRequestStatus(orderRequestStatus.SUCCESS);
-        setOrderState({name: data.name, id: data.order.number,sending: false});
-        setShowModal(true);
-      } else {
-        throw new Error('BurgerConstructor got unsuccessful response');
-      }
-    })
-    .catch(err => {
-      setRequestStatus(orderRequestStatus.FAILURE);
-      console.log('BurgerConstructor request error:', err);
-    });
+    dispatch(sendOrderRequest(requestData));
   };
 
   if (ingredients.length === 0) {
@@ -166,16 +133,7 @@ const BurgerConstructor = () => {
           </i>
         </span>
 
-        { requestStatus !== orderRequestStatus.REQUEST ?
-          (
-            <Button
-              type="primary"
-              size="large"
-              onClick={handleButtonClick}
-            >
-              Оформить заказ
-            </Button>
-          ) :
+        { ORDER_REQUEST ?
           (
             <Button
               type="primary"
@@ -184,16 +142,25 @@ const BurgerConstructor = () => {
             >
               Обрабатываем заказ
             </Button>
+          ) :
+          (
+            <Button
+              type="primary"
+              size="large"
+              onClick={handleButtonClick}
+            >
+              Оформить заказ
+            </Button>
           )
         }
       </div>
 
 
       { showModal &&
-        orderState.id &&
+        ORDER_SUCCESS &&
         (
           <Modal toggleModal={setShowModal}>
-            <OrderDetails orderId={orderState.id} />
+            <OrderDetails orderId={orderData.number} />
           </Modal>
       )}
     </section>
