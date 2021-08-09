@@ -24,21 +24,12 @@ const filterByType = (items, type) => {
 const BurgerIngredients = () => {
   const [current, setCurrent] = useState(navTabs[0].id);
   const [ showModal, setShowModal ] = useState(false);
-  const [ cardData, setCardData ] = useState({
-    name: '',
-    imageLarge: '',
-    proteins: 0,
-    fat: 0,
-    carbohydrates: 0,
-    calories: 0,
-  });
 
   const { value: ingredients } = useSelector(store => store.ingredients);
 
 
   const onCardClick = (showModal) => (data) => {
     showModal(true);
-    setCardData(data);
   }
 
 
@@ -79,14 +70,7 @@ const BurgerIngredients = () => {
 
       {showModal && (
         <Modal toggleModal={setShowModal}>
-          <IngredientDetails
-            name={cardData.name}
-            imageLarge={cardData.imageLarge}
-            proteins={cardData.proteins}
-            fat={cardData.fat}
-            carbohydrates={cardData.carbohydrates}
-            calories={cardData.calories}
-          />
+          <IngredientDetails />
         </Modal>
       )}
     </section>

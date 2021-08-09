@@ -48,7 +48,6 @@ const IngredientSection = ({
           <li key={item.id}>
             <BurgerIngredientCard
               { ...item }
-              count={0}
               onCardClick={onCardClick}
             />
           </li>

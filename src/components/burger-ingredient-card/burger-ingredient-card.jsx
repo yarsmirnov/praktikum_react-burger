@@ -1,6 +1,9 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
+import { useDispatch } from 'react-redux';
+import { setData } from '../../services/slices/ingredient-info';
+
 import styles from './burger-ingredient-card.module.css';
 
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -21,7 +24,19 @@ const BurgerIngredientCard = ({
   onCardClick,
   count = 0,
 }) => {
+  const dispatch = useDispatch();
   const cardRef = useRef(null);
+
+  const handleCardClick = () => {
+    dispatch(setData({
+      name,
+      imageLarge,
+      calories,
+      proteins,
+      fat,
+      carbohydrates,
+    }));
+  };
 
   return (
     <>
@@ -32,14 +47,8 @@ const BurgerIngredientCard = ({
         ref={cardRef}
         onClick={(evt) => {
           evt.preventDefault();
-          onCardClick({
-            name,
-            imageLarge,
-            proteins,
-            fat,
-            carbohydrates,
-            calories,
-          })
+          handleCardClick();
+          onCardClick();
         }}
       >
         <img
