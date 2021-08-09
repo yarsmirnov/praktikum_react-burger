@@ -1,6 +1,8 @@
 import React, { useState, useMemo } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
+import { addItem } from '../../services/slices/burger-constructor';
+import { useDrop } from 'react-dnd';
 
 import { sendOrderRequest } from '../../services/slices/order';
 
@@ -23,6 +25,12 @@ const BurgerConstructor = () => {
     ORDER_SUCCESS,
     orderData
   } = useSelector(store => store.order);
+  const [, dropTarget] = useDrop({
+    accept: 'ingredient',
+    drop(item) {
+      dispatch(addItem(item));
+    }
+  });
 
   const [showModal, setShowModal] = useState(false);
 
@@ -35,8 +43,9 @@ const BurgerConstructor = () => {
     () => ingredients.filter((item) => item.type !== 'bun'), [ingredients]
   );
 
+
   const orderList = useMemo(
-    () => [bun, ...fillings, bun],
+    () => bun ? [bun, ...fillings, bun] : [...fillings],
     [bun, fillings]
   );
 
@@ -54,7 +63,10 @@ const BurgerConstructor = () => {
 
   if (ingredients.length === 0) {
     return (
-      <section className={`${styles.section} column pt-25 pr-4`}>
+      <section
+        className={`${styles.section} column pt-25 pr-4`}
+        ref={dropTarget}
+      >
         <h2 className='visualliHidden'>
           Ваша сборка
         </h2>
@@ -64,7 +76,10 @@ const BurgerConstructor = () => {
 
 
   return (
-    <section className={`${styles.section} column pt-25 pr-4`}>
+    <section
+      className={`${styles.section} column pt-25 pr-4`}
+      ref={dropTarget}
+    >
       <h2 className='visualliHidden'>
         Ваша сборка
       </h2>

@@ -1,8 +1,10 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { useDispatch } from 'react-redux';
 import { setData } from '../../services/slices/ingredient-info';
+
+import { useDrag } from 'react-dnd';
 
 import styles from './burger-ingredient-card.module.css';
 
@@ -13,6 +15,7 @@ import { ingredientType } from '../../utils/types';
 
 const BurgerIngredientCard = ({
   id,
+  type,
   name,
   price,
   image,
@@ -22,10 +25,23 @@ const BurgerIngredientCard = ({
   carbohydrates,
   calories,
   onCardClick,
-  count = 0,
+  count,
 }) => {
   const dispatch = useDispatch();
-  const cardRef = useRef(null);
+  const [,dragRef] = useDrag({
+    type: 'ingredient',
+    item: {
+      id,
+      type,
+      name,
+      price,
+      image,
+      proteins,
+      fat,
+      carbohydrates,
+      calories,
+    }
+  });
 
   const handleCardClick = () => {
     dispatch(setData({
@@ -44,7 +60,7 @@ const BurgerIngredientCard = ({
         href='#nowhere'
         className={styles.card}
         key={id}
-        ref={cardRef}
+        ref={dragRef}
         onClick={(evt) => {
           evt.preventDefault();
           handleCardClick();
@@ -80,7 +96,6 @@ const BurgerIngredientCard = ({
 
 BurgerIngredientCard.propTypes = {
   ...ingredientType,
-  count: PropTypes.number,
   onCardClick: PropTypes.func.isRequired,
 };
 
