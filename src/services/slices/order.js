@@ -18,6 +18,8 @@ export const orderSlice = createSlice({
     request: (state) => ({
       ...state,
       ORDER_REQUEST: true,
+      ORDER_SUCCESS: false,
+      ORDER_FAILURE: false,
     }),
 
     success: (state, action) => ({
@@ -38,7 +40,7 @@ export const orderSlice = createSlice({
 const { request, success, failure } = orderSlice.actions;
 
 
-export const sendOrderRequest = (data) => (dispatch) => {
+export const sendOrderRequest = (data) => async (dispatch) => {
   dispatch(request());
 
   fetch(orderPostApi, {
@@ -55,7 +57,7 @@ export const sendOrderRequest = (data) => (dispatch) => {
   })
   .then(data => {
     if (data.success) {
-      dispatch(success(...data));
+      dispatch(success({name: data.name, order: data.order}));
     } else {
       dispatch(failure());
       throw new Error('BurgerConstructor got unsuccessful response');

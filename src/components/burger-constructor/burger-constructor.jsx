@@ -68,6 +68,7 @@ const BurgerConstructor = () => {
     }
 
     dispatch(sendOrderRequest(requestData));
+    setShowModal(true);
   };
 
   if (ingredients.length === 0) {
@@ -184,7 +185,7 @@ const BurgerConstructor = () => {
         ORDER_SUCCESS &&
         (
           <Modal toggleModal={setShowModal}>
-            <OrderDetails orderId={orderData.number} />
+            <OrderDetails orderId={orderData.order.number} />
           </Modal>
       )}
     </section>
