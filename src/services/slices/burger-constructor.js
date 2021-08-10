@@ -23,6 +23,25 @@ export const burgerConstructorSlide = createSlice({
       value: [...store.value].filter(item => item.uuid !== action.payload),
     }),
 
+    insertItemBefore: (store, action) => {
+      const updatedIngredients = [...store.value];
+      const oldIndex = updatedIngredients
+        .findIndex(item => item.uuid === action.payload.dragged);
+
+      const draggedItem = updatedIngredients.splice(oldIndex, 1);
+
+      const newIndex = updatedIngredients.findIndex(item => item.uuid === action.payload.before);
+
+      updatedIngredients.splice(newIndex, 0, ...draggedItem);
+      console.log(draggedItem);
+
+      console.log(updatedIngredients);
+      return ({
+        ...store,
+        value: updatedIngredients
+      });
+    },
+
     setBun: (store, action) => {
       const bunIndex = [...store.value].findIndex(
         item => item.type === 'bun');
@@ -50,7 +69,12 @@ export const burgerConstructorSlide = createSlice({
   },
 });
 
-export const { addItem, removeItem, setBun } = burgerConstructorSlide.actions;
+export const {
+  addItem,
+  removeItem,
+  insertItemBefore,
+  setBun
+} = burgerConstructorSlide.actions;
 
 
 export default burgerConstructorSlide.reducer;

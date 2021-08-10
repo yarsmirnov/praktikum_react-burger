@@ -12,8 +12,9 @@ import styles from './burger-constructor.module.css';
 import {
   ConstructorElement,
   Button,
-  CurrencyIcon,
-  DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+  CurrencyIcon
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import DraggableItem from './draggable-item';
 import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
 
@@ -120,24 +121,17 @@ const BurgerConstructor = () => {
             return null;
           }
           return (
-            <li
+            <DraggableItem
               key={item.uuid}
-              className={styles.listItem}
-            >
-              <i
-                className={`${styles.itemIcon} mr-2`}
-              >
-                <DragIcon type="primary" />
-              </i>
-              <ConstructorElement
-                text={item.name}
-                price={item.price}
-                thumbnail={item.image}
-                handleClose={handleRemoveClick(
-                  {uuid: item.uuid, id: item.id}
-                )}
-              />
-            </li>
+              id={item.id}
+              uuid={item.uuid}
+              name={item.name}
+              price={item.price}
+              image={item.image}
+              handleClose={handleRemoveClick(
+                {uuid: item.uuid, id: item.id}
+              )}
+            />
           );
         })}
       </ul>
