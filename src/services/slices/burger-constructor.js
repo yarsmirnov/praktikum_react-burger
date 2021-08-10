@@ -33,9 +33,7 @@ export const burgerConstructorSlide = createSlice({
       const newIndex = updatedIngredients.findIndex(item => item.uuid === action.payload.before);
 
       updatedIngredients.splice(newIndex, 0, ...draggedItem);
-      console.log(draggedItem);
 
-      console.log(updatedIngredients);
       return ({
         ...store,
         value: updatedIngredients

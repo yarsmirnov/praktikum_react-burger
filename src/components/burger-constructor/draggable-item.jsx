@@ -33,7 +33,6 @@ const DraggableItem = ({
         dragged: item.uuid,
         before: uuid,
       }));
-      console.log(item);
     },
   });
 
