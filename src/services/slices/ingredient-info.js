@@ -13,11 +13,13 @@ export const ingredientInfoSlice = createSlice({
     setData: (state, action) => ({
       ...state,
       data: {...action.payload},
-    })
+    }),
+
+    clearData: (state) => initialState,
   },
 });
 
-export const { setData } = ingredientInfoSlice.actions;
+export const { setData, clearData } = ingredientInfoSlice.actions;
 
 
 export default ingredientInfoSlice.reducer;

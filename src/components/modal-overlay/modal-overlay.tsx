@@ -9,7 +9,7 @@ const ModalOverlay = ({ toggleModal, children }) => {
 
   const handleClick = useCallback((evt) => {
     if (evt.target === overlayRef.current) {
-      toggleModal(prev => !prev);
+      toggleModal();
     }
   }, [toggleModal]);
 
@@ -17,7 +17,7 @@ const ModalOverlay = ({ toggleModal, children }) => {
     (evt) => {
       if (evt.key === 'Escape') {
         evt.preventDefault();
-        toggleModal(prev => !prev);
+        toggleModal();
       }
     },
     [toggleModal]
