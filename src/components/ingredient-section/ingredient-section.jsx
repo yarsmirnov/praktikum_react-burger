@@ -12,18 +12,19 @@ const IngredientSection = ({
   title,
   ingredients,
   isActive,
+  sectionRef,
   titleRef,
   onCardClick
 }) => {
 
   const scrollIntoHeading = useCallback(() => {
-    if (isActive && titleRef.current) {
-      titleRef.current?.scrollIntoView({
+    if (isActive && sectionRef.current) {
+      sectionRef.current?.scrollIntoView({
         behavior: 'smooth',
         block: 'start',
       })
     }
-  }, [isActive, titleRef]);
+  }, [isActive, sectionRef]);
 
   useEffect(() => {
     scrollIntoHeading();
@@ -34,7 +35,7 @@ const IngredientSection = ({
   }
 
   return (
-    <section className='pt-10' key={title}>
+    <section className='pt-10' key={title} ref={sectionRef}>
       <h2
         className={`${styles.title} text_type_main-medium mb-6`}
         ref={titleRef}
@@ -62,6 +63,10 @@ IngredientSection.propType = {
   title: PropTypes.string.isRequired,
   isActive: PropTypes.bool.isRequired,
   ingredients: PropTypes.arrayOf(PropTypes.shape(ingredientType)),
+  sectionRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+  ]),
   titleRef: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.instanceOf(Element) })

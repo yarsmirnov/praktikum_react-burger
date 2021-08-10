@@ -1,6 +1,7 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 
 import { useSelector } from 'react-redux';
+import { useInView } from 'react-intersection-observer';
 
 import styles from './burger-ingredients.module.css';
 
@@ -21,64 +22,79 @@ const filterByType = (items, type) => {
 };
 
 const BurgerIngredients = () => {
-  const [current, setCurrent] = useState('bun');
-  const [ showModal, setShowModal ] = useState(false);
-  const containerRef = useRef(null);
-  const titleRefs = {
-    bunTitleRef: useRef(null),
-    sauceTitleRef: useRef(null),
-    mainTitleRef: useRef(null),
-  };
-
-  const handleScroll = useCallback(() => {
-    const containerEl = containerRef.current;
-    const bunTitleEl = titleRefs.bunTitleRef.current;
-    const sauceTitleEl = titleRefs.sauceTitleRef.current;
-    const mainTitleEl = titleRefs.mainTitleRef.current;
-
-    const containerOffset = containerEl.getBoundingClientRect().top;
-
-    const bunTitle = {
-      id: 'bun',
-      bottomCoords: bunTitleEl.getBoundingClientRect().bottom
-    };
-    const sauceTitle = {
-      id: 'sauce',
-      bottomCoords: sauceTitleEl.getBoundingClientRect().bottom
-    }
-    const mainTitle = {
-      id: 'sauce',
-      bottomCoords: mainTitleEl.getBoundingClientRect().bottom
-    }
-
-    const closestTitle = [bunTitle, sauceTitle, mainTitle]
-      .reduce((prev, current) => {
-        const prevValue = Math.abs(prev.bottomCoords - containerOffset);
-        const currentValue = Math.abs(current.bottomCoords - containerOffset);
-        return prevValue < currentValue ?
-          prev :
-          current;
-      });
-
-      setCurrent(closestTitle.id);
-  }, [titleRefs.bunTitleRef,
-      titleRefs.sauceTitleRef,
-      titleRefs.mainTitleRef]);
-
-  useEffect(() => {
-    const containerEl = containerRef.current;
-
-
-    containerEl.addEventListener('scroll', handleScroll);
-
-    return () => {
-      containerEl.removeEventListener('scroll', handleScroll);
-    };
-  }, [handleScroll]);
-
   const { value: ingredients } = useSelector(store => store.ingredients);
 
+  const [current, setCurrent] = useState('bun');
+  const [ showModal, setShowModal ] = useState(false);
 
+  const { ref: bunSectionRef, inView: bunInView } = useInView({
+    threshold: 0,
+  });
+  const { ref: sauceSectionRef, inView: sauceInView } = useInView({
+    threshold: 0,
+  });
+  const { ref: mainSectionRef, inView: mainInView } = useInView({
+    threshold: 0,
+  });
+
+  const sectionRefs = {
+    bunSectionRef,
+    sauceSectionRef,
+    mainSectionRef,
+  };
+
+  const bunTitleRef = useRef(null);
+  const sauceTitleRef = useRef(null);
+  const mainTitleRef = useRef(null);
+
+  const titleRefs = useMemo(() => ({
+    bunTitleRef,
+    sauceTitleRef,
+    mainTitleRef,
+  }), [bunTitleRef, sauceTitleRef, mainTitleRef]);
+
+
+  useEffect(() => {
+    if (bunInView) {
+      setCurrent('bun');
+      return;
+    }
+    if (!bunInView && sauceInView) {
+      setCurrent('sauce');
+      return;
+    }
+    if (!sauceInView && mainInView) {
+      setCurrent('main');
+      return;
+    }
+  }, [bunInView, sauceInView, mainInView]);
+
+  const scrollToSection = useCallback((id) => {
+    const scrollSettings = {
+      behavior: 'smooth',
+      block: 'start',
+    };
+
+    const {bunTitleRef, sauceTitleRef} = titleRefs;
+
+    switch (id) {
+      case 'bun': {
+        bunTitleRef.current?.scrollIntoView(scrollSettings);
+        break;
+      }
+      case 'sauce': {
+        sauceTitleRef.current?.scrollIntoView(scrollSettings);
+        break;
+      }
+      case 'main': {
+        mainTitleRef.current?.scrollIntoView(scrollSettings);
+        break;
+      }
+      default: {
+        return;
+      }
+    }
+  }, [titleRefs]);
 
   const onCardClick = (showModal) => (data) => {
     showModal(true);
@@ -98,7 +114,10 @@ const BurgerIngredients = () => {
               key={tab.id}
               value={tab.id}
               active={current === tab.id}
-              onClick={() => setCurrent(tab.id)}
+              onClick={() => {
+                setCurrent(tab.id);
+                scrollToSection(tab.id);
+              }}
             >
               {tab.navTitle}
             </Tab>
@@ -106,10 +125,7 @@ const BurgerIngredients = () => {
         })}
       </div>
 
-      <div
-        className={`${styles.catalog} scroller`}
-        ref={containerRef}
-      >
+      <div className={`${styles.catalog} scroller`}>
         {navTabs.map(tab => (
           <IngredientSection
             key={tab.id}
@@ -117,6 +133,7 @@ const BurgerIngredients = () => {
             isActive={current === tab.id}
             ingredients={filterByType(ingredients, tab.id)}
             onCardClick={onCardClick(setShowModal)}
+            sectionRef={sectionRefs[`${tab.id}SectionRef`]}
             titleRef={titleRefs[`${tab.id}TitleRef`]}
           />)
         )}
