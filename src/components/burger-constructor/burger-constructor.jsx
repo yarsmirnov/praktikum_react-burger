@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { addItem, setBun } from '../../services/slices/burger-constructor';
-import { increaseIngredientCount } from '../../services/slices/ingredients';
+import { addItem, removeItem, setBun } from '../../services/slices/burger-constructor';
+import { increaseIngredientCount, decreaseIngredientCount } from '../../services/slices/ingredients';
 import { useDrop } from 'react-dnd';
 
 import { sendOrderRequest } from '../../services/slices/order';
@@ -71,6 +71,11 @@ const BurgerConstructor = () => {
     setShowModal(true);
   };
 
+  const handleRemoveClick = ({id, uuid}) => () => {
+    dispatch(removeItem(uuid));
+    dispatch(decreaseIngredientCount(id));
+  };
+
   if (ingredients.length === 0) {
     return (
       <section
@@ -128,6 +133,9 @@ const BurgerConstructor = () => {
                 text={item.name}
                 price={item.price}
                 thumbnail={item.image}
+                handleClose={handleRemoveClick(
+                  {uuid: item.uuid, id: item.id}
+                )}
               />
             </li>
           );
