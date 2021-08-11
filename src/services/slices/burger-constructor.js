@@ -3,7 +3,7 @@ import {v4 as uuidv4} from 'uuid';
 
 
 const initialState = {
-  value: [],
+  items: [],
 };
 
 
@@ -13,18 +13,18 @@ export const burgerConstructorSlide = createSlice({
   reducers: {
     addItem: (store, action) => ({
       ...store,
-      value: [...store.value,
+      items: [...store.items,
         {...action.payload, uuid: uuidv4()}
       ],
     }),
 
     removeItem: (store, action) => ({
       ...store,
-      value: [...store.value].filter(item => item.uuid !== action.payload),
+      items: [...store.items].filter(item => item.uuid !== action.payload),
     }),
 
     insertItemBefore: (store, action) => {
-      const updatedIngredients = [...store.value];
+      const updatedIngredients = [...store.items];
       const oldIndex = updatedIngredients
         .findIndex(item => item.uuid === action.payload.dragged);
 
@@ -36,16 +36,16 @@ export const burgerConstructorSlide = createSlice({
 
       return ({
         ...store,
-        value: updatedIngredients
+        items: updatedIngredients
       });
     },
 
     setBun: (store, action) => {
-      const bunIndex = [...store.value].findIndex(
+      const bunIndex = [...store.items].findIndex(
         item => item.type === 'bun');
 
       if (bunIndex >= 0) {
-        const updatedIngredients = [...store.value];
+        const updatedIngredients = [...store.items];
 
         updatedIngredients.splice(bunIndex, 1, {
           ...action.payload,
@@ -54,12 +54,12 @@ export const burgerConstructorSlide = createSlice({
 
         return ({
           ...store,
-          value: updatedIngredients
+          items: updatedIngredients
         });
       }
       return ({
         ...store,
-        value: [...store.value,
+        items: [...store.items,
           {...action.payload, uuid: uuidv4()}
         ],
       });

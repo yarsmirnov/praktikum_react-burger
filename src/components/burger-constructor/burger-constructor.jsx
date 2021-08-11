@@ -21,7 +21,7 @@ import Modal from '../modal/modal';
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
-  const {value: ingredients} = useSelector(store => store.burgerConstructor);
+  const {items: ingredients} = useSelector(store => store.burgerConstructor);
   const {
     ORDER_REQUEST,
     ORDER_SUCCESS,

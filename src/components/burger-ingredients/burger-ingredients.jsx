@@ -22,7 +22,7 @@ const filterByType = (items, type) => {
 };
 
 const BurgerIngredients = () => {
-  const { value: ingredients } = useSelector(store => store.ingredients);
+  const { items: ingredients } = useSelector(store => store.ingredients);
 
   const [current, setCurrent] = useState('bun');
   const [ showModal, setShowModal ] = useState(false);

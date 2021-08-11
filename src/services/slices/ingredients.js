@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { adaptIngredients } from '../../utils/adapter';
 
 const initialState = {
-  value: [],
+  items: [],
 };
 const ingredientsApi = 'https://norma.nomoreparties.space/api/ingredients';
 
@@ -13,12 +13,12 @@ export const ingredientsSlide = createSlice({
   reducers: {
     setIngredients: (state, action) => ({
       ...state,
-      value: action.payload,
+      items: action.payload,
     }),
 
     increaseIngredientCount: (state, action) => {
       const {id, type} = action.payload;
-      const updatedIngredients = [...state.value].map(
+      const updatedIngredients = [...state.items].map(
         item => {
           if (type === 'bun' && item.type === 'bun') {
             return ({
@@ -38,13 +38,13 @@ export const ingredientsSlide = createSlice({
       );
       return ({
         ...state,
-        value: updatedIngredients,
+        items: updatedIngredients,
       });
     },
 
     decreaseIngredientCount: (state, action) => {
       const id = action.payload;
-      const updatedIngredients = [...state.value].map(
+      const updatedIngredients = [...state.items].map(
         item => {
           if (item.id === id) {
             return {
@@ -57,7 +57,7 @@ export const ingredientsSlide = createSlice({
       );
       return ({
         ...state,
-        value: updatedIngredients,
+        items: updatedIngredients,
       });
     },
   },
