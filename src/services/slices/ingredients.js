@@ -22,12 +22,9 @@ export const ingredientsSlide = createSlice({
       items: [...state.items],
     }),
 
-    failure: (state) => ({
-      ...state,
-      INGREDIENTS_REQUEST: false,
-      INGREDIENTS_SUCCESS: false,
+    failure: () => ({
+      ...initialState,
       INGREDIENTS_FAILURE: true,
-      items: [...state.items],
     }),
 
     success: (state, action) => ({
