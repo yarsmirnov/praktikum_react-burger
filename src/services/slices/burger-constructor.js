@@ -24,6 +24,10 @@ export const burgerConstructorSlide = createSlice({
     }),
 
     insertItemBefore: (store, action) => {
+      if (action.payload.dragged === action.payload.before) {
+        return store;
+      }
+
       const updatedIngredients = [...store.items];
       const oldIndex = updatedIngredients
         .findIndex(item => item.uuid === action.payload.dragged);
