@@ -137,7 +137,7 @@ const BurgerConstructor = () => {
       </ul>
 
       {bun && (
-        <div className='mt-4 mb-10 pl-8 pr-4'>
+        <div className='mt-4 pl-8 pr-4'>
           <ConstructorElement
             type={'bottom'}
             isLocked={true}
@@ -149,7 +149,7 @@ const BurgerConstructor = () => {
       )}
 
       <div
-        className={`${styles.order} pr-4`}
+        className={`${styles.order} mt-10 pr-4`}
       >
         <span
           className={`${styles.orderTotal} text_type_digits-medium mr-10`}
