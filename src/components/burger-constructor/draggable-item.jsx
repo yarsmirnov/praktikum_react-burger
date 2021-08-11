@@ -21,12 +21,15 @@ const DraggableItem = ({
 }) => {
   const dispatch = useDispatch();
 
-  const [, dragItem] = useDrag({
+  const [{isDrag}, dragItem] = useDrag({
     type: 'constructorItem',
     item: {id, uuid},
+    collect: (monitor) => ({
+      isDrag: monitor.isDragging(),
+    }),
   });
 
-  const [, dropTarget] = useDrop({
+  const [{isHover}, dropTarget] = useDrop({
     accept: 'constructorItem',
     drop: (item) => {
       dispatch(insertItemBefore({
@@ -34,6 +37,9 @@ const DraggableItem = ({
         before: uuid,
       }));
     },
+    collect: (monitor) => ({
+      isHover: monitor.isOver(),
+    }),
   });
 
   const setDndRefs = (node) => {
@@ -44,7 +50,7 @@ const DraggableItem = ({
   return (
     <li
       key={uuid}
-      className={styles.listItem}
+      className={`${styles.listItem} ${isDrag ? styles.draggingItem : ''} ${isHover ? styles.draggingItem_hover : ''}`}
       ref={setDndRefs}
     >
       <i
