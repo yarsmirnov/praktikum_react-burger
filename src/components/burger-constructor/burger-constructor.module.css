@@ -1,3 +1,8 @@
+.canAccept {
+  outline: rgba(181, 255, 61, 0.75) inset 4px;
+  outline-offset: -4px;
+}
+
 .ingredientsList {
   display: flex;
   flex-direction: column;

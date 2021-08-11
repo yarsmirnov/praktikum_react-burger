@@ -28,7 +28,7 @@ const BurgerConstructor = () => {
     orderData
   } = useSelector(store => store.order);
 
-  const [, dropTarget] = useDrop({
+  const [{canAccept}, dropTarget] = useDrop({
     accept: 'ingredient',
     drop(item) {
       item.type === 'bun' ?
@@ -40,6 +40,9 @@ const BurgerConstructor = () => {
         type: item.type,
       }));
     },
+    collect: (monitor) => ({
+      canAccept: monitor.canDrop(),
+    }),
   });
 
   const [showModal, setShowModal] = useState(false);
@@ -93,7 +96,7 @@ const BurgerConstructor = () => {
 
   return (
     <section
-      className={`${styles.section} column pt-25 pr-4`}
+      className={`${styles.section} ${canAccept ? styles.canAccept: ''} column pt-25 pr-4`}
       ref={dropTarget}
     >
       <h2 className='visualliHidden'>
