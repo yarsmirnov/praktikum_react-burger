@@ -2,6 +2,9 @@ import { createSlice } from '@reduxjs/toolkit';
 import { adaptIngredients } from '../../utils/adapter';
 
 const initialState = {
+  INGREDIENTS_REQUEST: false,
+  INGREDIENTS_SUCCESS: false,
+  INGREDIENTS_FAILURE: false,
   items: [],
 };
 const ingredientsApi = 'https://norma.nomoreparties.space/api/ingredients';
@@ -11,8 +14,27 @@ export const ingredientsSlide = createSlice({
   name: 'ingredients',
   initialState,
   reducers: {
-    setIngredients: (state, action) => ({
+    request: (state) => ({
       ...state,
+      INGREDIENTS_REQUEST: true,
+      INGREDIENTS_SUCCESS: false,
+      INGREDIENTS_FAILURE: false,
+      items: [...state.items],
+    }),
+
+    failure: (state) => ({
+      ...state,
+      INGREDIENTS_REQUEST: false,
+      INGREDIENTS_SUCCESS: false,
+      INGREDIENTS_FAILURE: true,
+      items: [...state.items],
+    }),
+
+    success: (state, action) => ({
+      ...state,
+      INGREDIENTS_REQUEST: false,
+      INGREDIENTS_SUCCESS: true,
+      INGREDIENTS_FAILURE: false,
       items: action.payload,
     }),
 
@@ -65,7 +87,7 @@ export const ingredientsSlide = createSlice({
 
 
 export const {
-  setIngredients,
+  success,
   increaseIngredientCount,
   decreaseIngredientCount
 } = ingredientsSlide.actions;
@@ -81,7 +103,7 @@ export const getIngredients = () => async (dispatch) => {
     .then(dataContainer => {
       if (dataContainer.success) {
         const ingredients = adaptIngredients(dataContainer.data);
-        dispatch(setIngredients(ingredients));
+        dispatch(success(ingredients));
       } else {
         throw new Error(`Get data finished with no success`);
       }
