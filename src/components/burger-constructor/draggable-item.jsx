@@ -75,7 +75,7 @@ DraggableItem.propTypes = {
   name: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   image: PropTypes.string.isRequired,
-  handleRemoveClick: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
 };
 
 

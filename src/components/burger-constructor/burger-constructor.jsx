@@ -61,7 +61,8 @@ const BurgerConstructor = () => {
   );
 
   const fillings = useMemo(
-    () => ingredients.filter((item) => item.type !== 'bun'), [ingredients]
+    () => ingredients.filter((item) => item.type !== 'bun'),
+    [ingredients]
   );
 
   const orderList = useMemo(
@@ -82,10 +83,10 @@ const BurgerConstructor = () => {
     setShowModal(true);
   }, [dispatch, setShowModal, orderList]);
 
-  const handleRemoveClick = ({id, uuid}) => () => {
+  const handleRemoveClick = useMemo(() => ({id, uuid}) => () => {
     dispatch(removeItem(uuid));
     dispatch(decreaseIngredientCount(id));
-  };
+  }, [dispatch]);
 
   const orderButton = useMemo(() => {
     if (!hasBun) {
@@ -124,6 +125,7 @@ const BurgerConstructor = () => {
     );
   }, [hasBun, ORDER_REQUEST, handleButtonClick]);
 
+
   if (ingredients.length === 0) {
     return (
       <section
@@ -160,28 +162,30 @@ const BurgerConstructor = () => {
     )
     }
 
-      <ul
-        className={`${styles.ingredientsList} scroller`}
-      >
-        {ingredients.map(item => {
-          if (item.type === 'bun') {
-            return null;
-          }
-          return (
-            <DraggableItem
-              key={item.uuid}
-              id={item.id}
-              uuid={item.uuid}
-              name={item.name}
-              price={item.price}
-              image={item.image}
-              handleClose={handleRemoveClick(
-                {uuid: item.uuid, id: item.id}
-              )}
-            />
-          );
-        })}
-      </ul>
+      {fillings.length > 0 &&
+      ( <ul
+          className={`${styles.ingredientsList} scroller`}
+        >
+          {ingredients.map(item => {
+            if (item.type === 'bun') {
+              return null;
+            }
+            return (
+              <DraggableItem
+                key={item.uuid}
+                id={item.id}
+                uuid={item.uuid}
+                name={item.name}
+                price={item.price}
+                image={item.image}
+                handleClose={handleRemoveClick(
+                  {uuid: item.uuid, id: item.id}
+                )}
+              />
+            );
+          })}
+        </ul>
+      )}
 
       {bun && (
         <div className='mt-4 pl-8 pr-4'>
