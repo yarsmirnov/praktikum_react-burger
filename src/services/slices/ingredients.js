@@ -42,7 +42,7 @@ export const ingredientsSlide = createSlice({
           if (type === 'bun' && item.type === 'bun') {
             return ({
               ...item,
-              count: item.id === id ? 1 : 0,
+              count: item.id === id ? 2 : 0,
             });
           }
 
