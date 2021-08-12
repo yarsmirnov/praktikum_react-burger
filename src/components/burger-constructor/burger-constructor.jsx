@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { addItem, removeItem, setBun } from '../../services/slices/burger-constructor';
@@ -46,16 +46,23 @@ const BurgerConstructor = () => {
   });
 
   const [showModal, setShowModal] = useState(false);
+  const [hasBun, setHasBun] = useState(false);
 
   const bun = useMemo(
-    () => ingredients.find((item) => item.type === 'bun'),
-    [ingredients]
+    () => {
+      const target = ingredients.find((item) => item.type === 'bun');
+
+      target ?
+        setHasBun(true) :
+        setHasBun(false);
+
+      return target;
+    }, [ingredients, setHasBun]
   );
 
   const fillings = useMemo(
     () => ingredients.filter((item) => item.type !== 'bun'), [ingredients]
   );
-
 
   const orderList = useMemo(
     () => bun ? [bun, ...fillings, bun] : [...fillings],
@@ -66,19 +73,56 @@ const BurgerConstructor = () => {
     () => orderList.reduce((acc, item) => acc + item?.price, 0), [orderList]
   );
 
-  const handleButtonClick = async () => {
+  const handleButtonClick = useCallback(async () => {
     const requestData = {
       ingredients: orderList.map(item => item.id),
     }
 
     dispatch(sendOrderRequest(requestData));
     setShowModal(true);
-  };
+  }, [dispatch, setShowModal, orderList]);
 
   const handleRemoveClick = ({id, uuid}) => () => {
     dispatch(removeItem(uuid));
     dispatch(decreaseIngredientCount(id));
   };
+
+  const orderButton = useMemo(() => {
+    if (!hasBun) {
+      return (
+        <Button
+          type="primary"
+          size="large"
+          onClick={() => {}}
+        >
+          Добавьте булочку
+        </Button>
+      )
+    }
+    if (ORDER_REQUEST) {
+      return (
+        (
+          <Button
+            type="primary"
+            size="large"
+            onClick={() => {}}
+          >
+            Обрабатываем заказ
+          </Button>
+        )
+      )
+    }
+
+    return (
+      <Button
+        type="primary"
+        size="large"
+        onClick={handleButtonClick}
+      >
+        Оформить заказ
+      </Button>
+    );
+  }, [hasBun, ORDER_REQUEST, handleButtonClick]);
 
   if (ingredients.length === 0) {
     return (
@@ -163,26 +207,7 @@ const BurgerConstructor = () => {
           </i>
         </span>
 
-        { ORDER_REQUEST ?
-          (
-            <Button
-              type="primary"
-              size="large"
-              onClick={() => {}}
-            >
-              Обрабатываем заказ
-            </Button>
-          ) :
-          (
-            <Button
-              type="primary"
-              size="large"
-              onClick={handleButtonClick}
-            >
-              Оформить заказ
-            </Button>
-          )
-        }
+        { orderButton }
       </div>
 
 
