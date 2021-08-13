@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { useDispatch } from 'react-redux';
-import { insertItemBefore } from '../../services/slices/burger-constructor';
+import { moveItem } from '../../services/slices/burger-constructor';
 
 import { useDrag, useDrop } from 'react-dnd';
 
@@ -14,35 +14,56 @@ import styles from './burger-constructor.module.css';
 const DraggableItem = ({
   id,
   uuid,
+  index,
   name,
   price,
   image,
   handleClose
 }) => {
   const dispatch = useDispatch();
+  const dragabbleRef = useRef(null);
 
   const [{isDrag}, dragItem] = useDrag({
     type: 'constructorItem',
-    item: {id, uuid},
+    item: {id, uuid, index},
     collect: (monitor) => ({
       isDrag: monitor.isDragging(),
     }),
   });
 
-  const [{isHover}, dropTarget] = useDrop({
+  const [, dropTarget] = useDrop({
     accept: 'constructorItem',
-    drop: (item) => {
-      dispatch(insertItemBefore({
-        dragged: item.uuid,
-        before: uuid,
-      }));
+    hover: (item, monitor) => {
+      if (!dragabbleRef.current) {
+        return;
+      }
+
+      const dragged = item.index;
+      const hovered = index;
+
+      if (dragged === hovered) {
+        return;
+      }
+
+      const hoverBoundingRect = dragabbleRef.current?.getBoundingClientRect();
+      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      const clientOffset = monitor.getClientOffset();
+      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+
+      if (dragged < hovered && hoverClientY < hoverMiddleY) {
+        return;
+      }
+      if (dragged > hovered && hoverClientY > hoverMiddleY) {
+        return;
+      }
+
+      dispatch(moveItem({dragged, hovered}));
+      item.index = hovered;
     },
-    collect: (monitor) => ({
-      isHover: monitor.isOver(),
-    }),
   });
 
   const setDndRefs = (node) => {
+    dragabbleRef.current = node;
     dragItem(node);
     dropTarget(node);
   }
@@ -50,7 +71,7 @@ const DraggableItem = ({
   return (
     <li
       key={uuid}
-      className={`${styles.listItem} ${isDrag ? styles.draggingItem : ''} ${isHover ? styles.draggingItem_hover : ''}`}
+      className={`${styles.listItem} ${isDrag ? styles.draggingItem : ''}`}
       ref={setDndRefs}
     >
       <i

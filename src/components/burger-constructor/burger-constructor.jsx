@@ -166,7 +166,7 @@ const BurgerConstructor = () => {
       ( <ul
           className={`${styles.ingredientsList} scroller`}
         >
-          {ingredients.map(item => {
+          {ingredients.map((item, index) => {
             if (item.type === 'bun') {
               return null;
             }
@@ -175,6 +175,7 @@ const BurgerConstructor = () => {
                 key={item.uuid}
                 id={item.id}
                 uuid={item.uuid}
+                index={index}
                 name={item.name}
                 price={item.price}
                 image={item.image}

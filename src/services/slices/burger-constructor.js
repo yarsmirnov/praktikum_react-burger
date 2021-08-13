@@ -23,25 +23,21 @@ export const burgerConstructorSlide = createSlice({
       items: [...store.items].filter(item => item.uuid !== action.payload),
     }),
 
-    insertItemBefore: (store, action) => {
-      if (action.payload.dragged === action.payload.before) {
+    moveItem: (store, action) => {
+      const dragIndex = action.payload.dragged;
+      const hoverIndex = action.payload.hovered;
+
+      if (dragIndex === hoverIndex) {
         return store;
       }
 
-      const updatedIngredients = [...store.items];
-      const oldIndex = updatedIngredients
-        .findIndex(item => item.uuid === action.payload.dragged);
-
-      const draggedItem = updatedIngredients.splice(oldIndex, 1);
-
-      const newIndex = updatedIngredients.findIndex(item => item.uuid === action.payload.before);
-
-      updatedIngredients.splice(newIndex, 0, ...draggedItem);
+      const updatedItems = [...store.items];
+      updatedItems.splice(hoverIndex, 0, updatedItems.splice(dragIndex, 1)[0]);
 
       return ({
         ...store,
-        items: updatedIngredients
-      });
+        items: [...updatedItems],
+      })
     },
 
     setBun: (store, action) => {
@@ -74,8 +70,8 @@ export const burgerConstructorSlide = createSlice({
 export const {
   addItem,
   removeItem,
-  insertItemBefore,
-  setBun
+  moveItem,
+  setBun,
 } = burgerConstructorSlide.actions;
 
 

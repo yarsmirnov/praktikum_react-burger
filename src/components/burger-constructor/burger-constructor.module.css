@@ -24,23 +24,6 @@
   opacity: 0.1;
 }
 
-.draggingItem_hover {
-  transform: translateY(16px);
-  transition: translateY 0.3s;
-}
-
-.draggingItem_hover::before {
-  content: '';
-  position: absolute;
-  z-index: 1;
-  top: -16px;
-  width: 50%;
-  transform: translateX(-50%);
-  left: 50%;
-  height: 16px;
-  background-color: rgba(181, 255, 61, 0.75);
-}
-
 .itemIcon {
   width: 22px;
   height: 22px;
