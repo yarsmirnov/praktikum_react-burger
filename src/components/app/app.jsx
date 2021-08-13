@@ -19,7 +19,7 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <React.Fragment>
+    <>
       <AppHeader />
       <main className={'main text_type_main-default'}>
         <DndProvider backend={HTML5Backend}>
@@ -27,7 +27,7 @@ const App = () => {
           <BurgerConstructor />
         </DndProvider>
       </main>
-    </React.Fragment>
+    </>
   );
 };
 
