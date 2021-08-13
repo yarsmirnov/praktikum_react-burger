@@ -103,13 +103,12 @@ const BurgerConstructor = () => {
     if (ORDER_REQUEST) {
       return (
         (
-          <Button
-            type="primary"
-            size="large"
-            onClick={() => {}}
-          >
-            Обрабатываем заказ
-          </Button>
+          <div class="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
         )
       )
     }
