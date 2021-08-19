@@ -1,48 +1,72 @@
-import React, { useState, useMemo, useContext } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { addItem, removeItem, setBun } from '../../services/slices/burger-constructor';
+import { increaseIngredientCount, decreaseIngredientCount } from '../../services/slices/ingredients';
+import { useDrop } from 'react-dnd';
+
+import { sendOrderRequest } from '../../services/slices/order';
 
 import styles from './burger-constructor.module.css';
 
 import {
   ConstructorElement,
   Button,
-  CurrencyIcon,
-  DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+  CurrencyIcon
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import DraggableItem from './draggable-item';
 import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
 
-import { IngredientsContext } from '../../contexts/ingredients-context';
-
-
-const orderPostApi = 'https://norma.nomoreparties.space/api/orders';
-const orderInitialState = {
-  name: '',
-  id: 0,
-};
-const orderRequestStatus = {
-  PENDING: 'PENDING',
-  REQUEST: 'REQUEST',
-  SUCCESS: 'SUCCESS',
-  FAILURE: 'FAILURE',
-};
-
 
 const BurgerConstructor = () => {
+  const dispatch = useDispatch();
+  const {items: ingredients} = useSelector(store => store.burgerConstructor);
+  const {
+    ORDER_REQUEST,
+    ORDER_SUCCESS,
+    orderData
+  } = useSelector(store => store.order);
+
+  const [{canAccept}, dropTarget] = useDrop({
+    accept: 'ingredient',
+    drop(item) {
+      item.type === 'bun' ?
+        dispatch(setBun(item)) :
+        dispatch(addItem(item));
+
+      dispatch(increaseIngredientCount({
+        id: item.id,
+        type: item.type,
+      }));
+    },
+    collect: (monitor) => ({
+      canAccept: monitor.canDrop(),
+    }),
+  });
+
   const [showModal, setShowModal] = useState(false);
-  const [requestStatus, setRequestStatus] = useState(orderRequestStatus.PENDING);
-  const [orderState, setOrderState] = useState(orderInitialState);
-  const { ingredients } = useContext(IngredientsContext);
+  const [hasBun, setHasBun] = useState(false);
 
   const bun = useMemo(
-    () => ingredients.find((item) => item.type === 'bun'),
-    [ingredients]
+    () => {
+      const target = ingredients.find((item) => item.type === 'bun');
+
+      target ?
+        setHasBun(true) :
+        setHasBun(false);
+
+      return target;
+    }, [ingredients, setHasBun]
   );
 
   const fillings = useMemo(
-    () => ingredients.filter((item) => item.type !== 'bun'), [ingredients]
+    () => ingredients.filter((item) => item.type !== 'bun'),
+    [ingredients]
   );
 
   const orderList = useMemo(
-    () => [bun, ...fillings, bun],
+    () => bun ? [bun, ...fillings, bun] : [...fillings],
     [bun, fillings]
   );
 
@@ -50,43 +74,63 @@ const BurgerConstructor = () => {
     () => orderList.reduce((acc, item) => acc + item?.price, 0), [orderList]
   );
 
-  const handleButtonClick = async () => {
-    setRequestStatus(orderRequestStatus.REQUEST);
-    setOrderState(orderInitialState);
-
+  const handleButtonClick = useCallback(async () => {
     const requestData = {
       ingredients: orderList.map(item => item.id),
     }
 
-    fetch(orderPostApi, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(requestData),
-    })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error('Bad BurgerConstructor request');
-    })
-    .then(data => {
-      if (data.success) {
-        setRequestStatus(orderRequestStatus.SUCCESS);
-        setOrderState({name: data.name, id: data.order.number,sending: false});
-        setShowModal(true);
-      } else {
-        throw new Error('BurgerConstructor got unsuccessful response');
-      }
-    })
-    .catch(err => {
-      setRequestStatus(orderRequestStatus.FAILURE);
-      console.log('BurgerConstructor request error:', err);
-    });
-  };
+    dispatch(sendOrderRequest(requestData));
+    setShowModal(true);
+  }, [dispatch, setShowModal, orderList]);
+
+  const handleRemoveClick = useMemo(() => ({id, uuid}) => () => {
+    dispatch(removeItem(uuid));
+    dispatch(decreaseIngredientCount(id));
+  }, [dispatch]);
+
+  const orderButton = useMemo(() => {
+    if (!hasBun) {
+      return (
+        <Button
+          type="primary"
+          size="large"
+          onClick={() => {}}
+        >
+          Добавьте булочку
+        </Button>
+      )
+    }
+    if (ORDER_REQUEST) {
+      return (
+        (
+          <div className="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        )
+      )
+    }
+
+    return (
+      <Button
+        type="primary"
+        size="large"
+        onClick={handleButtonClick}
+      >
+        Оформить заказ
+      </Button>
+    );
+  }, [hasBun, ORDER_REQUEST, handleButtonClick]);
+
 
   if (ingredients.length === 0) {
     return (
-      <section className={`${styles.section} column pt-25 pr-4`}>
+      <section
+        className={`${styles.section} ${canAccept ? styles.canAccept: ''} column pt-25 pr-4`}
+        ref={dropTarget}
+      >
         <h2 className='visualliHidden'>
           Ваша сборка
         </h2>
@@ -96,7 +140,10 @@ const BurgerConstructor = () => {
 
 
   return (
-    <section className={`${styles.section} column pt-25 pr-4`}>
+    <section
+      className={`${styles.section} ${canAccept ? styles.canAccept: ''} column pt-25 pr-4`}
+      ref={dropTarget}
+    >
       <h2 className='visualliHidden'>
         Ваша сборка
       </h2>
@@ -114,35 +161,34 @@ const BurgerConstructor = () => {
     )
     }
 
-      <ul
-        className={`${styles.ingredientsList} scroller`}
-      >
-        {ingredients.map(item => {
-          if (item.type === 'bun') {
-            return null;
-          }
-          return (
-            <li
-              key={item.id}
-              className={styles.listItem}
-            >
-              <i
-                className={`${styles.itemIcon} mr-2`}
-              >
-                <DragIcon type="primary" />
-              </i>
-              <ConstructorElement
-                text={item.name}
+      {fillings.length > 0 &&
+      ( <ul
+          className={`${styles.ingredientsList} scroller`}
+        >
+          {ingredients.map((item, index) => {
+            if (item.type === 'bun') {
+              return null;
+            }
+            return (
+              <DraggableItem
+                key={item.uuid}
+                id={item.id}
+                uuid={item.uuid}
+                index={index}
+                name={item.name}
                 price={item.price}
-                thumbnail={item.image}
+                image={item.image}
+                handleClose={handleRemoveClick(
+                  {uuid: item.uuid, id: item.id}
+                )}
               />
-            </li>
-          );
-        })}
-      </ul>
+            );
+          })}
+        </ul>
+      )}
 
       {bun && (
-        <div className='mt-4 mb-10 pl-8 pr-4'>
+        <div className='mt-4 pl-8 pr-4'>
           <ConstructorElement
             type={'bottom'}
             isLocked={true}
@@ -154,7 +200,7 @@ const BurgerConstructor = () => {
       )}
 
       <div
-        className={`${styles.order} pr-4`}
+        className={`${styles.order} mt-10 pr-4`}
       >
         <span
           className={`${styles.orderTotal} text_type_digits-medium mr-10`}
@@ -165,34 +211,15 @@ const BurgerConstructor = () => {
           </i>
         </span>
 
-        { requestStatus !== orderRequestStatus.REQUEST ?
-          (
-            <Button
-              type="primary"
-              size="large"
-              onClick={handleButtonClick}
-            >
-              Оформить заказ
-            </Button>
-          ) :
-          (
-            <Button
-              type="primary"
-              size="large"
-              onClick={() => {}}
-            >
-              Обрабатываем заказ
-            </Button>
-          )
-        }
+        { orderButton }
       </div>
 
 
       { showModal &&
-        orderState.id &&
+        ORDER_SUCCESS &&
         (
           <Modal toggleModal={setShowModal}>
-            <OrderDetails orderId={orderState.id} />
+            <OrderDetails orderId={orderData.order.number} />
           </Modal>
       )}
     </section>

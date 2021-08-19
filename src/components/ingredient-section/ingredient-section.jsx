@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import styles from './ingredient-section.module.css';
@@ -12,18 +12,19 @@ const IngredientSection = ({
   title,
   ingredients,
   isActive,
+  sectionRef,
+  titleRef,
   onCardClick
 }) => {
-  const headingRef = useRef<any>(null);
 
   const scrollIntoHeading = useCallback(() => {
-    if (isActive && headingRef.current) {
-      headingRef.current?.scrollIntoView({
+    if (isActive && sectionRef.current) {
+      sectionRef.current?.scrollIntoView({
         behavior: 'smooth',
         block: 'start',
       })
     }
-  }, [isActive]);
+  }, [isActive, sectionRef]);
 
   useEffect(() => {
     scrollIntoHeading();
@@ -34,10 +35,10 @@ const IngredientSection = ({
   }
 
   return (
-    <section className='pt-10' key={title}>
+    <section className='pt-10' key={title} ref={sectionRef}>
       <h2
         className={`${styles.title} text_type_main-medium mb-6`}
-        ref={headingRef}
+        ref={titleRef}
       >
         {title}
       </h2>
@@ -48,7 +49,6 @@ const IngredientSection = ({
           <li key={item.id}>
             <BurgerIngredientCard
               { ...item }
-              count={0}
               onCardClick={onCardClick}
             />
           </li>
@@ -63,6 +63,14 @@ IngredientSection.propType = {
   title: PropTypes.string.isRequired,
   isActive: PropTypes.bool.isRequired,
   ingredients: PropTypes.arrayOf(PropTypes.shape(ingredientType)),
+  sectionRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+  ]),
+  titleRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+  ]),
   onCardClick: PropTypes.func.isRequired,
 };
 

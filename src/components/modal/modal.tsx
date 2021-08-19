@@ -2,6 +2,9 @@ import React, { useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 
+import { useDispatch } from 'react-redux';
+import { clearData } from '../../services/slices/ingredient-info';
+
 import styles from './modal.module.css';
 
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -12,12 +15,14 @@ const modalRoot = document.getElementById('react-modals');
 
 
 const Modal = ({ toggleModal, children }) => {
+  const dispatch = useDispatch();
   const handleCloseClick = useCallback(() => {
     toggleModal(prev => !prev);
-  }, [toggleModal]);
+    dispatch(clearData());
+  }, [toggleModal, dispatch]);
 
   return modalRoot ? createPortal((
-    <ModalOverlay toggleModal={toggleModal}>
+    <ModalOverlay toggleModal={handleCloseClick}>
       <section className={`${styles.modal} text pl-10 pr-10`}>
         <button
           className={styles.closeButton}

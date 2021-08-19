@@ -1,57 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+
+import { useDispatch } from 'react-redux';
+import { getIngredients } from '../../services/slices/ingredients';
+
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 
-import { adaptIngredients } from '../../utils/adapter';
-
-import { IngredientsContext } from '../../contexts/ingredients-context';
-
-
-const ingredientsApi = 'https://norma.nomoreparties.space/api/ingredients';
-
 
 const App = () => {
-  const [ingredients, setIngredients] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const getIngredients = async () => {
-      fetch(ingredientsApi)
-        .then(response => {
-          if (response.ok) {
-            return response.json();
-          }
-          throw new Error(`Responsed with status ${response.status}`);
-        })
-        .then(dataContainer => {
-          if (dataContainer.success) {
-            const ingredients = adaptIngredients(dataContainer.data);
-            setIngredients(ingredients);
-          } else {
-            throw new Error(`Get data finished with no success`);
-          }
-        })
-        .catch(err => {
-          console.log('Error:', err);
-        })
-    };
-
-    getIngredients();
-  }, []);
+    dispatch(getIngredients());
+  }, [dispatch]);
 
   return (
-    <React.Fragment>
+    <>
       <AppHeader />
       <main className={'main text_type_main-default'}>
-        <IngredientsContext.Provider
-          value={{ingredients, setIngredients}}
-        >
+        <DndProvider backend={HTML5Backend}>
           <BurgerIngredients />
           <BurgerConstructor />
-        </IngredientsContext.Provider>
+        </DndProvider>
       </main>
-    </React.Fragment>
+    </>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from "react";
+import React, { useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import styles from './modal-overlay.module.css';
@@ -9,7 +9,7 @@ const ModalOverlay = ({ toggleModal, children }) => {
 
   const handleClick = useCallback((evt) => {
     if (evt.target === overlayRef.current) {
-      toggleModal(prev => !prev);
+      toggleModal();
     }
   }, [toggleModal]);
 
@@ -17,7 +17,7 @@ const ModalOverlay = ({ toggleModal, children }) => {
     (evt) => {
       if (evt.key === 'Escape') {
         evt.preventDefault();
-        toggleModal(prev => !prev);
+        toggleModal();
       }
     },
     [toggleModal]

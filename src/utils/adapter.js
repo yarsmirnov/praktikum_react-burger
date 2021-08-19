@@ -16,6 +16,7 @@ const adaptIngredients = (ingredients) => {
       image: item.image,
       imageMobile: item.image_mobile,
       imageLarge: item.image_large,
+      count: 0,
       __v: item.__v,
     }
   ));

@@ -1,17 +1,19 @@
 import React from "react";
-import PropTypes from 'prop-types';
+
+import { useSelector } from 'react-redux';
 
 import styles from './ingredient-details.module.css';
 
 
-const IngredientDetails = ({
-  name,
-  imageLarge,
-  calories,
-  proteins,
-  fat,
-  carbohydrates
-}) => {
+const IngredientDetails = () => {
+  const {
+    name,
+    imageLarge,
+    calories,
+    proteins,
+    fat,
+    carbohydrates
+  } = useSelector(store => store.ingredientInfo.data);
 
   return (
     <>
@@ -64,16 +66,6 @@ const IngredientDetails = ({
       </dl>
     </>
   );
-};
-
-
-IngredientDetails.propTypes = {
-  name: PropTypes.string.isRequired,
-  imageLarge: PropTypes.string.isRequired,
-  calories: PropTypes.number.isRequired,
-  proteins: PropTypes.number.isRequired,
-  fat: PropTypes.number.isRequired,
-  carbohydrates: PropTypes.number.isRequired,
 };
 
 
