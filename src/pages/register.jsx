@@ -7,7 +7,7 @@ import styles from './register.module.css';
 
 const initialForm = {
   name: '',
-  login: '',
+  email: '',
   password: '',
 }
 

@@ -6,7 +6,7 @@ import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-component
 import styles from './login.module.css';
 
 const initialForm = {
-  login: '',
+  email: '',
   password: '',
 }
 
