@@ -6,19 +6,6 @@
   z-index: 100;
 }
 
-.main {
-  display: flex;
-  flex-wrap: wrap;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-.column {
-  box-sizing: border-box;
-  width: 600px;
-}
-
 .visualliHidden {
   position: absolute;
 
@@ -35,6 +22,25 @@
   clip: rect(0 0 0 0);
   -webkit-clip-path: inset(100%);
           clip-path: inset(100%);
+}
+
+.main {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.center-children {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.column {
+  box-sizing: border-box;
+  width: 600px;
 }
 
 .scroller {

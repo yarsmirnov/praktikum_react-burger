@@ -8,7 +8,7 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
-import { HomePage } from '../../pages';
+import { HomePage, IngredietnPage } from '../../pages';
 
 
 const App = () => {
@@ -23,6 +23,9 @@ const App = () => {
       <Switch>
         <Route path='/' exact>
           <HomePage />
+        </Route>
+        <Route path='/ingredients/:id' exact>
+          <IngredietnPage />
         </Route>
       </Switch>
     </Router>
