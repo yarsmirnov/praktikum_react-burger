@@ -8,7 +8,7 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
-import { HomePage, IngredietnPage } from '../../pages';
+import { HomePage, IngredietnPage, LoginPage } from '../../pages';
 
 
 const App = () => {
@@ -24,6 +24,11 @@ const App = () => {
         <Route path='/' exact>
           <HomePage />
         </Route>
+
+        <Route path='/login' exact>
+          <LoginPage />
+        </Route>
+
         <Route path='/ingredients/:id' exact>
           <IngredietnPage />
         </Route>
