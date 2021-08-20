@@ -12,7 +12,8 @@ import {
   HomePage,
   LoginPage,
   RegisterPage,
-  IngredietnPage
+  IngredietnPage,
+  ForgotPasswordPage
 } from '../../pages';
 
 
@@ -36,6 +37,10 @@ const App = () => {
 
         <Route path='/register' exact>
           <RegisterPage />
+        </Route>
+
+        <Route path='/forgot-password' exact>
+          <ForgotPasswordPage />
         </Route>
 
         <Route path='/ingredients/:id' exact>
