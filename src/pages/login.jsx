@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import AppHeader from '../components/app-header/app-header';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -85,11 +86,11 @@ export const LoginPage = () => {
         </div>
 
         <p className={'text text_type_main-default text_color_inactive mb-4'}>
-          Вы — новый пользователь? <a href="#nowhere" className={styles.link}>Зарегистрироваться</a>
+          Вы — новый пользователь? <Link to='/register' className={styles.link}>Зарегистрироваться</Link>
           </p>
 
         <p className={'text text_type_main-default text_color_inactive'}>
-          Забыли пароль? <a href="#nowhere" className={styles.link}>Восстановить пароль</a>
+          Забыли пароль? <Link to='/forgot-password' className={styles.link}>Восстановить пароль</Link>
         </p>
       </section>
     </>

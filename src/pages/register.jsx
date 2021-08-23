@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import AppHeader from '../components/app-header/app-header';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -101,7 +102,7 @@ export const RegisterPage = () => {
         </div>
 
         <p className={'text text_type_main-default text_color_inactive'}>
-        Уже зарегистрированы? <a href="#nowhere" className={styles.link}>Войти</a>
+        Уже зарегистрированы? <Link to='/login' className={styles.link}>Войти</Link>
         </p>
       </section>
     </>
