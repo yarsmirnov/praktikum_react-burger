@@ -10,7 +10,7 @@ const initialState = {
 const ingredientsApi = 'https://norma.nomoreparties.space/api/ingredients';
 
 
-export const ingredientsSlide = createSlice({
+export const ingredientsSlice = createSlice({
   name: 'ingredients',
   initialState,
   reducers: {
@@ -87,7 +87,7 @@ export const {
   success,
   increaseIngredientCount,
   decreaseIngredientCount
-} = ingredientsSlide.actions;
+} = ingredientsSlice.actions;
 
 export const getIngredients = () => async (dispatch) => {
   fetch(ingredientsApi)
@@ -111,4 +111,4 @@ export const getIngredients = () => async (dispatch) => {
 }
 
 
-export default ingredientsSlide.reducer;
+export default ingredientsSlice.reducer;
