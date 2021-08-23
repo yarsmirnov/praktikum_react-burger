@@ -1,30 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setValue, resetForm, verifyEmail } from '../services/slices/form-forgot-password';
 import { Link, useHistory } from 'react-router-dom';
 
 import AppHeader from '../components/app-header/app-header';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import Loader from '../components/loader/loader';
+
+import { regExpEmail } from '../utils/regexp';
 
 import styles from './forgot-password.module.css';
 
 
-const initialForm = {
-  email: '',
-};
-
-
 export const ForgotPasswordPage = () => {
-  const [form, setValue] = useState(initialForm);
+  const dispatch = useDispatch();
   const history = useHistory();
+  const { VERIFY_EMAIL_SUCCESS, VERIFY_EMAIL_REQUEST, form } = useSelector(store => store.formForgotPassword);
+  const [isFormValid, setIsFormValid] = useState(true);
 
-  const onInputChange = (evt) => {
-    setValue({ ...form, [evt.target.name]: evt.target.value });
-  };
+  useEffect(() => {
+    if (VERIFY_EMAIL_SUCCESS) {
+      history.replace({
+        pathname: '/reset-password'
+      });
+    }
+    return () => {
+      dispatch(resetForm());
+    };
+  }, [VERIFY_EMAIL_SUCCESS, history, dispatch]);
 
-  const onButtonClick = () => {
-    history.replace({
-      pathname: '/reset-password'
-    });
-  };
+  const onInputChange = useCallback((evt) => {
+    setIsFormValid(regExpEmail.test(evt.target.value));
+
+    dispatch(setValue({
+      name: evt.target.name,
+      value: evt.target.value,
+    }));
+  }, [dispatch, setIsFormValid]);
+
+  const onButtonClick = useCallback(() => {
+    if (isFormValid && form.email !== '') {
+      dispatch(verifyEmail());
+    }
+  }, [dispatch, isFormValid, form]);
 
 
   return (
@@ -42,20 +60,25 @@ export const ForgotPasswordPage = () => {
             onChange={onInputChange}
             value={form.email}
             name={'email'}
-            error={false}
+            error={!isFormValid}
             errorText={'Некорректный email'}
             size={'default'}
           />
         </div>
 
         <div className={'mb-20'}>
-          <Button
-            type="primary"
-            size="medium"
-            onClick={onButtonClick}
-          >
-            Восстановить
-          </Button>
+          { VERIFY_EMAIL_REQUEST
+            ? (
+              <Loader />
+            ) : (
+              <Button
+                type="primary"
+                size="medium"
+                onClick={onButtonClick}
+              >
+                Восстановить
+              </Button>)
+          }
         </div>
 
         <p className={'text text_type_main-default text_color_inactive'}>
