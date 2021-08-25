@@ -7,7 +7,7 @@ import AppHeader from '../components/app-header/app-header';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import Loader from '../components/loader/loader';
 
-import styles from './reset-password.module.css';
+import styles from './page-layout.module.css';
 
 
 export const ResetPasswordPage = () => {
@@ -52,69 +52,73 @@ export const ResetPasswordPage = () => {
     <>
       <AppHeader />
 
-      <section className={`${styles.container} center-children pt-30`}>
+      <section className={`${styles.formContainer} pt-30`}>
         <h1 className={`text text_type_main-medium mb-6`}>
           Восстановление пароля
         </h1>
 
-        <div className={`${styles.inputWrapper} mb-6`}>
-          { isPasswordVisable
+        <form>
+          <div className={`${styles.inputWrapper} mb-6`}>
+            { isPasswordVisable
+              ? (
+                <Input
+                  type={'text'}
+                  placeholder={'Введите новый пароль'}
+                  onChange={onInputChange}
+                  icon={'HideIcon'}
+                  value={form.password}
+                  name={'password'}
+                  error={false}
+                  onIconClick={onIconClick}
+                  errorText={'Недопустимые символы'}
+                  size={'default'} />
+                ) : (
+                <Input
+                  type={'password'}
+                  placeholder={'Введите новый пароль'}
+                  onChange={onInputChange}
+                  icon={'ShowIcon'}
+                  value={form.password}
+                  name={'password'}
+                  error={false}
+                  onIconClick={onIconClick}
+                  errorText={'Недопустимые символы'}
+                  size={'default'} />)
+            }
+          </div>
+
+          <div className={`${styles.inputWrapper} mb-6`}>
+            <Input
+              type={'text'}
+              placeholder={'Введите код из письма'}
+              onChange={onInputChange}
+              value={form.token}
+              name={'token'}
+              error={RESET_PASSWORD_FAILURE}
+              errorText={'Неверный код'}
+              size={'default'}
+            />
+          </div>
+
+          <div className={'mb-20'}>
+            { RESET_PASSWORD_REQUEST
             ? (
-              <Input
-                type={'text'}
-                placeholder={'Введите новый пароль'}
-                onChange={onInputChange}
-                icon={'HideIcon'}
-                value={form.password}
-                name={'password'}
-                error={false}
-                onIconClick={onIconClick}
-                errorText={'Недопустимые символы'}
-                size={'default'} />
-              ) : (
-              <Input
-                type={'password'}
-                placeholder={'Введите новый пароль'}
-                onChange={onInputChange}
-                icon={'ShowIcon'}
-                value={form.password}
-                name={'password'}
-                error={false}
-                onIconClick={onIconClick}
-                errorText={'Недопустимые символы'}
-                size={'default'} />)
-          }
-        </div>
+              <Loader />
+            )
+            : (
+              <Button
+                type="primary"
+                size="medium"
+                onClick={onButtonClick}
+              >
+                Сохранить
+              </Button>
+            )}
+          </div>
+        </form>
 
-        <div className={`${styles.inputWrapper} mb-6`}>
-          <Input
-            type={'text'}
-            placeholder={'Введите код из письма'}
-            onChange={onInputChange}
-            value={form.token}
-            name={'token'}
-            error={RESET_PASSWORD_FAILURE}
-            errorText={'Неверный код'}
-            size={'default'}
-          />
-        </div>
 
-        <div className={'mb-20'}>
-          { RESET_PASSWORD_REQUEST
-          ? (
-            <Loader />
-          )
-          : (
-            <Button
-              type="primary"
-              size="medium"
-              onClick={onButtonClick}
-            >
-              Сохранить
-            </Button>
-          )}
 
-        </div>
 
         <p className={'text text_type_main-default text_color_inactive'}>
           Вспомнили пароль? <Link to='/login' className={styles.link}>Войти</Link>

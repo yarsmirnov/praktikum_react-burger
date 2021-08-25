@@ -9,7 +9,7 @@ import Loader from '../components/loader/loader';
 
 import { regExpEmail } from '../utils/regexp';
 
-import styles from './forgot-password.module.css';
+import styles from './page-layout.module.css';
 
 
 export const ForgotPasswordPage = () => {
@@ -48,38 +48,41 @@ export const ForgotPasswordPage = () => {
   return (
     <>
       <AppHeader />
-      <section className={`${styles.container} center-children pt-30`}>
+
+      <section className={`${styles.formContainer} pt-30`}>
         <h1 className={`text text_type_main-medium mb-6`}>
           Восстановление пароля
         </h1>
 
-        <div className={`${styles.inputWrapper} mb-6`}>
-          <Input
-            type={'email'}
-            placeholder={'Укажите e-mail'}
-            onChange={onInputChange}
-            value={form.email}
-            name={'email'}
-            error={!isFormValid}
-            errorText={'Некорректный email'}
-            size={'default'}
-          />
-        </div>
+        <form>
+          <div className={`${styles.inputWrapper} mb-6`}>
+            <Input
+              type={'email'}
+              placeholder={'Укажите e-mail'}
+              onChange={onInputChange}
+              value={form.email}
+              name={'email'}
+              error={!isFormValid}
+              errorText={'Некорректный email'}
+              size={'default'}
+            />
+          </div>
 
-        <div className={'mb-20'}>
-          { VERIFY_EMAIL_REQUEST
-            ? (
-              <Loader />
-            ) : (
-              <Button
-                type="primary"
-                size="medium"
-                onClick={onButtonClick}
-              >
-                Восстановить
-              </Button>)
-          }
-        </div>
+          <div className={'mb-20'}>
+            { VERIFY_EMAIL_REQUEST
+              ? (
+                <Loader />
+              ) : (
+                <Button
+                  type="primary"
+                  size="medium"
+                  onClick={onButtonClick}
+                >
+                  Восстановить
+                </Button>)
+            }
+          </div>
+        </form>
 
         <p className={'text text_type_main-default text_color_inactive'}>
           Вспомнили пароль? <Link to='/login' className={styles.link}>Войти</Link>

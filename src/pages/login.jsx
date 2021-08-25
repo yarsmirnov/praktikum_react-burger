@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import AppHeader from '../components/app-header/app-header';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import styles from './login.module.css';
+import styles from './page-layout.module.css';
 
 const initialForm = {
   email: '',
@@ -30,52 +30,55 @@ export const LoginPage = () => {
   return (
     <>
       <AppHeader />
-      <section className={`${styles.container} center-children pt-30`}>
-        <h1 className={`text text_type_main-medium mb-6`}>Вход</h1>
 
-        <div className={`${styles.inputWrapper} mb-6`}>
-          <Input
-            type={'email'}
-            placeholder={'E-mail'}
-            onChange={onInputChange}
-            value={form.email}
-            name={'email'}
-            error={false}
-            errorText={'Некорректный email'}
-            size={'default'}
-          />
-        </div>
+      <section className={`${styles.formContainer} pt-30`}>
+        <h1 className={`text text_type_main-medium mb-6 pt-30`}>
+          Вход
+        </h1>
 
-        <div className={`${styles.inputWrapper} mb-6`}>
-          { isPasswordVisable
-            ? (
-              <Input
-                type={'text'}
-                placeholder={'Пароль'}
-                onChange={onInputChange}
-                icon={'HideIcon'}
-                value={form.password}
-                name={'password'}
-                error={false}
-                onIconClick={onIconClick}
-                errorText={'Недопустимые символы'}
-                size={'default'} />
-              ) : (
-              <Input
-                type={'password'}
-                placeholder={'Пароль'}
-                onChange={onInputChange}
-                icon={'ShowIcon'}
-                value={form.password}
-                name={'password'}
-                error={false}
-                onIconClick={onIconClick}
-                errorText={'Недопустимые символы'}
-                size={'default'} />)
-          }
-        </div>
+        <form className={`${styles.form} mb-20`}>
+          <div className={`${styles.inputWrapper} mb-6`}>
+            <Input
+              type={'email'}
+              placeholder={'E-mail'}
+              onChange={onInputChange}
+              value={form.email}
+              name={'email'}
+              error={false}
+              errorText={'Некорректный email'}
+              size={'default'}
+            />
+          </div>
 
-        <div className={'mb-20'}>
+          <div className={`${styles.inputWrapper} mb-6`}>
+            { isPasswordVisable
+              ? (
+                <Input
+                  type={'text'}
+                  placeholder={'Пароль'}
+                  onChange={onInputChange}
+                  icon={'HideIcon'}
+                  value={form.password}
+                  name={'password'}
+                  error={false}
+                  onIconClick={onIconClick}
+                  errorText={'Недопустимые символы'}
+                  size={'default'} />
+                ) : (
+                <Input
+                  type={'password'}
+                  placeholder={'Пароль'}
+                  onChange={onInputChange}
+                  icon={'ShowIcon'}
+                  value={form.password}
+                  name={'password'}
+                  error={false}
+                  onIconClick={onIconClick}
+                  errorText={'Недопустимые символы'}
+                  size={'default'} />)
+            }
+          </div>
+
           <Button
             type="primary"
             size="medium"
@@ -83,11 +86,11 @@ export const LoginPage = () => {
           >
             Войти
           </Button>
-        </div>
+        </form>
 
         <p className={'text text_type_main-default text_color_inactive mb-4'}>
           Вы — новый пользователь? <Link to='/register' className={styles.link}>Зарегистрироваться</Link>
-          </p>
+        </p>
 
         <p className={'text text_type_main-default text_color_inactive'}>
           Забыли пароль? <Link to='/forgot-password' className={styles.link}>Восстановить пароль</Link>
