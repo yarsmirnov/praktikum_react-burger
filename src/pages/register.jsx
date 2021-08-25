@@ -1,23 +1,42 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useHistory, Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { setValue, registerUser } from '../services/slices/form-register';
 
 import AppHeader from '../components/app-header/app-header';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import Loader from '../components/loader/loader';
 
 import styles from './page-layout.module.css';
 
-const initialForm = {
-  name: '',
-  email: '',
-  password: '',
-}
+import { regExpEmail } from '../utils/regexp';
 
 export const RegisterPage = () => {
-  const [form, setValue] = useState(initialForm);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const {
+    form,
+    REGISTER_REQUEST,
+    REGISTER_SUCCESS,
+  } = useSelector(store => store.formRegister);
+
+  const [isEmailValid, setIsEmailValid] = useState(true);
   const [isPasswordVisable, setPasswordVisability] = useState(false);
 
+  useEffect(() => {
+    if (REGISTER_SUCCESS) {
+      history.replace({pathname: '/login'});
+    }
+  }, [history, REGISTER_SUCCESS]);
+
   const onInputChange = (evt) => {
-    setValue({ ...form, [evt.target.name]: evt.target.value });
+    if (evt.target.name === 'email') {
+      setIsEmailValid(regExpEmail.test(evt.target.value));
+    }
+    dispatch(setValue({
+      name: evt.target.name,
+      value: evt.target.value,
+    }))
   };
 
   const onIconClick = () => {
@@ -26,6 +45,12 @@ export const RegisterPage = () => {
 
   const onButtonClick = (evt) => {
     evt.preventDefault();
+    if (form.email !== ''
+      && isEmailValid
+      && form.password !== ''
+      && form.name !== '') {
+      dispatch(registerUser());
+    }
   };
 
   return (
@@ -57,7 +82,7 @@ export const RegisterPage = () => {
               onChange={onInputChange}
               value={form.email}
               name={'email'}
-              error={false}
+              error={!isEmailValid}
               errorText={'Некорректный email'}
               size={'default'}
             />
@@ -93,13 +118,18 @@ export const RegisterPage = () => {
           </div>
 
           <div className={'mb-20'}>
-            <Button
-              type="primary"
-              size="medium"
-              onClick={onButtonClick}
-            >
-              Зарегистрироваться
-            </Button>
+            { REGISTER_REQUEST
+              ? (<Loader />)
+              : (
+                <Button
+                  type="primary"
+                  size="medium"
+                  onClick={onButtonClick}
+                >
+                  Зарегистрироваться
+                </Button>
+              )
+            }
           </div>
         </form>
 
