@@ -40,7 +40,8 @@ export const ResetPasswordPage = () => {
     }));
   }, [dispatch]);
 
-  const onButtonClick = () => {
+  const onButtonClick = (evt) => {
+    evt.preventDefault();
     dispatch(resetPassword());
   };
 

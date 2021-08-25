@@ -23,8 +23,8 @@ export const LoginPage = () => {
     setPasswordVisability(!isPasswordVisable);
   };
 
-  const onButtonClick = () => {
-
+  const onButtonClick = (evt) => {
+    evt.preventDefault();
   };
 
   return (
@@ -32,7 +32,7 @@ export const LoginPage = () => {
       <AppHeader />
 
       <section className={`${styles.formContainer} pt-30`}>
-        <h1 className={`text text_type_main-medium mb-6 pt-30`}>
+        <h1 className={`text text_type_main-medium mb-6`}>
           Вход
         </h1>
 

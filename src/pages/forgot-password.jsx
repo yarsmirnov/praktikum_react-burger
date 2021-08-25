@@ -38,7 +38,8 @@ export const ForgotPasswordPage = () => {
     }));
   }, [dispatch, setIsFormValid]);
 
-  const onButtonClick = useCallback(() => {
+  const onButtonClick = useCallback((evt) => {
+    evt.preventDefault();
     if (isFormValid && form.email !== '') {
       dispatch(verifyEmail());
     }

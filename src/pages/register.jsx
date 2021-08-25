@@ -24,8 +24,8 @@ export const RegisterPage = () => {
     setPasswordVisability(!isPasswordVisable);
   };
 
-  const onButtonClick = () => {
-
+  const onButtonClick = (evt) => {
+    evt.preventDefault();
   };
 
   return (
@@ -42,7 +42,7 @@ export const RegisterPage = () => {
               type={'text'}
               placeholder={'Имя'}
               onChange={onInputChange}
-              value={form.email}
+              value={form.name}
               name={'name'}
               error={false}
               errorText={'Недопустимые символы'}
