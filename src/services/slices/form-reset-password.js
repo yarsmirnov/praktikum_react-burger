@@ -64,7 +64,7 @@ export const {
 
 
 export const resetPassword = () => async (dispatch, getState) => {
-  const data = getState().form;
+  const data = getState().formResetPassword.form;
   dispatch(request());
 
   fetch(resetPasswordApi, {

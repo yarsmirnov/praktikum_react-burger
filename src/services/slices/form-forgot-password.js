@@ -63,7 +63,7 @@ export const {
 
 
 export const verifyEmail = () => async (dispatch, getState) => {
-  const data = getState().form;
+  const data = getState().formForgotPassword.form;
   dispatch(request());
 
   fetch(forgotPasswordApi, {
