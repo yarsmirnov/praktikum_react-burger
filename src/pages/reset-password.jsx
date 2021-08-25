@@ -1,28 +1,47 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { setValue, resetPassword, resetForm  } from '../services/slices/form-reset-password';
 
 import AppHeader from '../components/app-header/app-header';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import Loader from '../components/loader/loader';
 
 import styles from './reset-password.module.css';
 
 
-const initialForm = {
-  password: '',
-  verifyCode: '',
-};
-
-
 export const ResetPasswordPage = () => {
-  const [form, setValue] = useState(initialForm);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const {
+    form,
+    RESET_PASSWORD_REQUEST,
+    RESET_PASSWORD_SUCCESS,
+    RESET_PASSWORD_FAILURE
+  } = useSelector(store => store.formResetPassword);
   const [isPasswordVisable, setPasswordVisability] = useState(false);
 
-  const onInputChange = (evt) => {
-    setValue({ ...form, [evt.target.name]: evt.target.value });
-  };
+  useEffect(() => {
+    if (RESET_PASSWORD_SUCCESS) {
+      history.replace({
+        pathname: '/',
+      })
+    }
+
+    return () => {
+      dispatch(resetForm());
+    };
+  }, [dispatch, history, RESET_PASSWORD_SUCCESS]);
+
+  const onInputChange = useCallback((evt) => {
+    dispatch(setValue({
+      name: evt.target.name,
+      value: evt.target.value,
+    }));
+  }, [dispatch]);
 
   const onButtonClick = () => {
-
+    dispatch(resetPassword());
   };
 
   const onIconClick = () => {
@@ -72,22 +91,29 @@ export const ResetPasswordPage = () => {
             type={'text'}
             placeholder={'Введите код из письма'}
             onChange={onInputChange}
-            value={form.verifyCode}
-            name={'verifyCode'}
-            error={false}
+            value={form.token}
+            name={'token'}
+            error={RESET_PASSWORD_FAILURE}
             errorText={'Неверный код'}
             size={'default'}
           />
         </div>
 
         <div className={'mb-20'}>
-          <Button
-            type="primary"
-            size="medium"
-            onClick={onButtonClick}
-          >
-            Сохранить
-          </Button>
+          { RESET_PASSWORD_REQUEST
+          ? (
+            <Loader />
+          )
+          : (
+            <Button
+              type="primary"
+              size="medium"
+              onClick={onButtonClick}
+            >
+              Сохранить
+            </Button>
+          )}
+
         </div>
 
         <p className={'text text_type_main-default text_color_inactive'}>
