@@ -26,6 +26,11 @@
   justify-content: center;
 }
 
+.inputWrapper [class*='input__container'],
+.inputWrapper [class*='input_size_default'] {
+  width: 100%;
+}
+
 .link {
   color: var(--colors-interface-accent);
   text-decoration: none;

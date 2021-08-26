@@ -39,11 +39,6 @@
   max-width: 480px;
 }
 
-.profileForm [class*='input__container'],
-.profileForm [class*='input_size_default'] {
-  width: 100%;
-}
-
 .profileForm_controls {
   display: flex;
   justify-content: flex-end;
