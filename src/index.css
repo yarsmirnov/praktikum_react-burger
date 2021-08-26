@@ -1,5 +1,6 @@
 #root {
   overflow: hidden;
+  --text-dark-grey: #8585ad;
 }
 
 #react-modals {
@@ -22,6 +23,10 @@
   clip: rect(0 0 0 0);
   -webkit-clip-path: inset(100%);
           clip-path: inset(100%);
+}
+
+.text-dark {
+  color: var(--text-dark-grey);
 }
 
 .main {

@@ -9,12 +9,13 @@ import {
   Route,
 } from "react-router-dom";
 import {
-  HomePage,
-  LoginPage,
-  RegisterPage,
-  IngredietnPage,
   ForgotPasswordPage,
-  ResetPasswordPage
+  HomePage,
+  IngredietnPage,
+  LoginPage,
+  ProfilePage,
+  RegisterPage,
+  ResetPasswordPage,
 } from '../../pages';
 
 
@@ -46,6 +47,10 @@ const App = () => {
 
         <Route path="/reset-password" exact>
           <ResetPasswordPage />
+        </Route>
+
+        <Route path='/profile'>
+          <ProfilePage />
         </Route>
 
         <Route path='/ingredients/:id' exact>
