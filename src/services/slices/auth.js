@@ -6,13 +6,6 @@ const initialState = {
   user: null,
 };
 
-// const loginApi = 'https://norma.nomoreparties.space/api/auth/login';
-// const logoutApi = 'https://norma.nomoreparties.space/api/auth/logout';
-// const refreshTokenApi = 'https://norma.nomoreparties.space/api/auth/token';
-
-// const checkResponse = (response) => {
-//   return response.ok ? response.json() : response.json().then(err => Promise.reject(err));
-// }
 
 export const authSlice = createSlice({
   name: 'auth',
