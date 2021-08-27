@@ -6,6 +6,7 @@ import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-component
 
 
 import styles from './profile.module.css';
+import layoutStyles from './page-layout.module.css';
 
 
 const PageTitles = {
@@ -82,7 +83,7 @@ export const ProfilePage = () => {
           </div>
           <div className={`${styles.profileContent}`}>
             <form className={`${styles.profileForm}`}>
-              <div className={`${styles.inputWrapper} mb-6`}>
+              <div className={`${layoutStyles.inputWrapper} mb-6`}>
                 <Input
                   type={'text'}
                   placeholder={'Имя'}
@@ -96,7 +97,7 @@ export const ProfilePage = () => {
                 />
               </div>
 
-              <div className={`${styles.inputWrapper} mb-6`}>
+              <div className={`${layoutStyles.inputWrapper} mb-6`}>
                 <Input
                   type={'email'}
                   placeholder={'Логин'}
@@ -110,7 +111,7 @@ export const ProfilePage = () => {
                 />
               </div>
 
-              <div className={`${styles.inputWrapper} mb-6`}>
+              <div className={`${layoutStyles.inputWrapper} mb-6`}>
                 <Input
                   type={'password'}
                   placeholder={'Пароль'}
