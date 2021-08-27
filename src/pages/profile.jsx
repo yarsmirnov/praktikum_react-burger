@@ -1,5 +1,6 @@
 import React, { useMemo, useCallback } from 'react';
 import { Link, NavLink, useRouteMatch } from 'react-router-dom';
+import { logOut } from '../services/slices/auth';
 
 import AppHeader from '../components/app-header/app-header';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -7,6 +8,7 @@ import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-component
 
 import styles from './profile.module.css';
 import layoutStyles from './page-layout.module.css';
+import { useDispatch } from 'react-redux';
 
 
 const PageTitles = {
@@ -22,6 +24,7 @@ const LinkClasses = {
 
 export const ProfilePage = () => {
   const { url } = useRouteMatch();
+  const dispatch = useDispatch();
 
   const titleContent = useMemo(() => {
     return PageTitles.profile;
@@ -29,9 +32,18 @@ export const ProfilePage = () => {
 
   const onExitClick = useCallback((evt) => {
     evt.preventDefault();
-  }, []);
+    dispatch(logOut());
+  }, [dispatch]);
 
   const onInputChange = useCallback((evt) => {
+    evt.preventDefault();
+  }, []);
+
+  const onSaveButtonClick = useCallback((evt) => {
+    evt.preventDefault();
+  }, []);
+
+  const onResetButtonClick = useCallback((evt) => {
     evt.preventDefault();
   }, []);
 
@@ -129,12 +141,14 @@ export const ProfilePage = () => {
                 <Button
                   type="secondary"
                   size="medium"
+                  onClick={onResetButtonClick}
                 >
                   Отменить
                 </Button>
                 <Button
                   type="primary"
                   size="medium"
+                  onClick={onSaveButtonClick}
                 >
                   Сохранить
                 </Button>

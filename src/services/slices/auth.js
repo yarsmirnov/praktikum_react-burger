@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { setCookie } from '../../utils/cookie';
-import { getUserRequest } from '../api';
+import { setCookie, deleteCookie } from '../../utils/cookie';
+import { getUserRequest, logoutRequest } from '../api';
+
 
 const initialState = {
   user: null,
@@ -17,15 +18,17 @@ export const authSlice = createSlice({
         ...action.payload,
       }
     }),
+
+    removeUser: () => initialState,
   },
 });
 
 
-export const { setUser } = authSlice.actions;
+export const { setUser, removeUser } = authSlice.actions;
 
 
-const refreshToken = (afterRefresh) => (dispatch, getState, {api}) => {
-  api.refreshToken()
+const refreshToken = (afterRefresh) => (dispatch) => {
+  refreshToken()
     .then((res) => {
       localStorage.setItem('refreshToken', res.refreshToken);
       setCookie('accessToken', res.accessToken);
@@ -33,7 +36,7 @@ const refreshToken = (afterRefresh) => (dispatch, getState, {api}) => {
     });
 };
 
-export const loadUserData = () => (dispatch, getState, {api}) => {
+export const loadUserData = () => (dispatch) => {
   getUserRequest()
     .then((res) => {
       if (!res.success) throw res;
@@ -46,7 +49,17 @@ export const loadUserData = () => (dispatch, getState, {api}) => {
     });
 };
 
-
+export const logOut = () => async (dispatch) => {
+  logoutRequest(localStorage.getItem('refreshToken'))
+    .then(response => {
+      if (response.ok) {
+        dispatch(removeUser());
+        deleteCookie('accessToken');
+        localStorage.removeItem('refreshToken');
+      }
+    })
+    .catch(err => console.error(err));
+};
 
 
 export default authSlice.reducer;

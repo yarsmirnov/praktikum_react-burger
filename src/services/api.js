@@ -5,7 +5,7 @@ const baseApi = 'https://norma.nomoreparties.space/api'
 const loginApi = `${baseApi}/auth/login`;
 
 
-export const loginRequest = async form => {
+export const loginRequest = async (form) => {
   return await fetch(loginApi, {
     method: 'POST',
     mode: 'cors',
@@ -34,7 +34,7 @@ export const getUserRequest = async () =>
     referrerPolicy: 'no-referrer'
   });
 
-export const logoutRequest = async () => {
+export const logoutRequest = async (token) => {
   return await fetch(`${baseApi}/auth/logout`, {
     method: 'POST',
     mode: 'cors',
@@ -44,6 +44,7 @@ export const logoutRequest = async () => {
       'Content-Type': 'application/json'
     },
     redirect: 'follow',
-    referrerPolicy: 'no-referrer'
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify({token})
   });
 };
