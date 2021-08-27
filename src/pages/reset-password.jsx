@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { setValue, resetPassword, resetForm  } from '../services/slices/form-reset-password';
+import { setValue, resetPassword, clearForm  } from '../services/slices/form-reset-password';
 
 import AppHeader from '../components/app-header/app-header';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -29,7 +29,7 @@ export const ResetPasswordPage = () => {
     }
 
     return () => {
-      dispatch(resetForm());
+      dispatch(clearForm());
     };
   }, [dispatch, history, RESET_PASSWORD_SUCCESS]);
 

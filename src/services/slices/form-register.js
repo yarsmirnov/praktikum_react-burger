@@ -28,7 +28,7 @@ export const formRegisterSlice = createSlice({
       }
     }),
 
-    resetForm: () => initialState,
+    clearForm: () => initialState,
 
     request: (state) => ({
       ...state,
@@ -59,7 +59,7 @@ export const formRegisterSlice = createSlice({
 
 export const {
   setValue,
-  resetForm,
+  clearForm,
   request,
   success,
   failure,

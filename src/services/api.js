@@ -2,11 +2,10 @@ import { getCookie } from '../utils/cookie';
 
 
 const baseApi = 'https://norma.nomoreparties.space/api'
-const loginApi = `${baseApi}/auth/login`;
 
 
 export const loginRequest = async (form) => {
-  return await fetch(loginApi, {
+  return await fetch(`${baseApi}/auth/login`, {
     method: 'POST',
     mode: 'cors',
     cache: 'no-cache',
@@ -28,11 +27,28 @@ export const getUserRequest = async () =>
     credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + getCookie('token')
+      Authorization: 'Bearer ' + getCookie('accessToken')
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer'
   });
+
+export const patchUserRequest = async (form) => {
+  console.log(`Cookie:`, getCookie('accessToken'));
+  return await fetch(`${baseApi}/auth/user`, {
+    method: 'PATCH',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + getCookie('accessToken')
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify(form)
+  })
+};
 
 export const logoutRequest = async (token) => {
   return await fetch(`${baseApi}/auth/logout`, {

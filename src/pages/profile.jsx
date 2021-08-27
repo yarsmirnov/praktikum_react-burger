@@ -1,14 +1,16 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback, useEffect } from 'react';
 import { Link, NavLink, useRouteMatch } from 'react-router-dom';
-import { logOut } from '../services/slices/auth';
+import { setValue, clearForm, getUser, patchUser } from '../services/slices/form-profile';
+import { logout } from '../services/slices/auth';
+import { useDispatch, useSelector } from 'react-redux';
 
 import AppHeader from '../components/app-header/app-header';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import Loader from '../components/loader/loader';
 
 
 import styles from './profile.module.css';
 import layoutStyles from './page-layout.module.css';
-import { useDispatch } from 'react-redux';
 
 
 const PageTitles = {
@@ -23,8 +25,20 @@ const LinkClasses = {
 
 
 export const ProfilePage = () => {
-  const { url } = useRouteMatch();
   const dispatch = useDispatch();
+  const { url } = useRouteMatch();
+  const {
+    form,
+    GET_USER_REQUEST,
+    PATCH_USER_REQUEST,
+  } = useSelector(store => store.formProfile);
+
+  useEffect(() => {
+    dispatch(getUser());
+    return () => {
+      dispatch(clearForm());
+    }
+  }, [dispatch]);
 
   const titleContent = useMemo(() => {
     return PageTitles.profile;
@@ -32,20 +46,25 @@ export const ProfilePage = () => {
 
   const onExitClick = useCallback((evt) => {
     evt.preventDefault();
-    dispatch(logOut());
+    dispatch(logout());
   }, [dispatch]);
 
   const onInputChange = useCallback((evt) => {
-    evt.preventDefault();
-  }, []);
+    dispatch(setValue({
+      name: evt.target.name,
+      value: evt.target.value,
+    }));
+  }, [dispatch]);
 
   const onSaveButtonClick = useCallback((evt) => {
     evt.preventDefault();
-  }, []);
+    dispatch(patchUser());
+  }, [dispatch]);
 
   const onResetButtonClick = useCallback((evt) => {
     evt.preventDefault();
-  }, []);
+    dispatch(getUser());
+  }, [dispatch]);
 
 
   return (
@@ -62,6 +81,7 @@ export const ProfilePage = () => {
               <li className={`${styles.profileNav_item}`}>
                 <NavLink
                   to={`/profile`}
+                  exact
                   className={LinkClasses.default}
                   activeClassName={LinkClasses.active}
                 >
@@ -71,6 +91,7 @@ export const ProfilePage = () => {
               <li className={`${styles.profileNav_item}`}>
                 <NavLink
                   to={`${url}/orders`}
+                  exact
                   className={LinkClasses.default}
                   activeClassName={LinkClasses.active}
                 >
@@ -101,7 +122,7 @@ export const ProfilePage = () => {
                   placeholder={'Имя'}
                   onChange={onInputChange}
                   icon={'EditIcon'}
-                  value={''}
+                  value={form.name}
                   name={'name'}
                   error={false}
                   errorText={'Недопустимое имя'}
@@ -115,7 +136,7 @@ export const ProfilePage = () => {
                   placeholder={'Логин'}
                   onChange={onInputChange}
                   icon={'EditIcon'}
-                  value={''}
+                  value={form.email}
                   name={'email'}
                   error={false}
                   errorText={'Некоррекнтый email'}
@@ -129,7 +150,7 @@ export const ProfilePage = () => {
                   placeholder={'Пароль'}
                   onChange={onInputChange}
                   icon={'EditIcon'}
-                  value={''}
+                  value={form.password}
                   name={'password'}
                   error={false}
                   errorText={'Недопустимые символы'}
@@ -138,20 +159,31 @@ export const ProfilePage = () => {
               </div>
 
               <div className={`${styles.profileForm_controls}`}>
-                <Button
-                  type="secondary"
-                  size="medium"
-                  onClick={onResetButtonClick}
-                >
-                  Отменить
-                </Button>
-                <Button
-                  type="primary"
-                  size="medium"
-                  onClick={onSaveButtonClick}
-                >
-                  Сохранить
-                </Button>
+                { GET_USER_REQUEST
+                  ? (<Loader />)
+                  : (
+                    <Button
+                      type="secondary"
+                      size="medium"
+                      onClick={onResetButtonClick}
+                    >
+                      Отменить
+                    </Button>
+                  )
+                }
+
+                { PATCH_USER_REQUEST
+                  ? (<Loader />)
+                  : (
+                    <Button
+                      type="primary"
+                      size="medium"
+                      onClick={onSaveButtonClick}
+                    >
+                      Сохранить
+                    </Button>
+                  )
+                }
               </div>
             </form>
           </div>

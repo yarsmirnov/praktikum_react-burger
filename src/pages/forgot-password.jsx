@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setValue, resetForm, verifyEmail } from '../services/slices/form-forgot-password';
+import { setValue, clearForm, verifyEmail } from '../services/slices/form-forgot-password';
 import { Link, useHistory } from 'react-router-dom';
 
 import AppHeader from '../components/app-header/app-header';
@@ -25,7 +25,7 @@ export const ForgotPasswordPage = () => {
       });
     }
     return () => {
-      dispatch(resetForm());
+      dispatch(clearForm());
     };
   }, [VERIFY_EMAIL_SUCCESS, history, dispatch]);
 

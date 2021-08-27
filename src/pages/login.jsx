@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { authUser } from '../services/slices/form-login';
 
-import { setValue, resetForm } from '../services/slices/form-login';
+import { setValue, clearForm } from '../services/slices/form-login';
 
 import AppHeader from '../components/app-header/app-header';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -24,7 +24,7 @@ export const LoginPage = () => {
       history.replace({pathname: '/'});
     }
     return () => {
-      dispatch(resetForm());
+      dispatch(clearForm());
     }
   }, [history, dispatch, LOGIN_SUCCESS]);
 

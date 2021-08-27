@@ -24,7 +24,7 @@ export const formForgotPasswordSlice = createSlice({
       }
     }),
 
-    resetForm: () => initialState,
+    clearForm: () => initialState,
 
     request: (state) => ({
       ...state,
@@ -55,7 +55,7 @@ export const formForgotPasswordSlice = createSlice({
 
 export const {
   setValue,
-  resetForm,
+  clearForm,
   request,
   success,
   failure

@@ -27,7 +27,7 @@ export const formRegisterSlice = createSlice({
       }
     }),
 
-    resetForm: () => initialState,
+    clearForm: () => initialState,
 
     request: (state) => ({
       ...state,
@@ -58,11 +58,12 @@ export const formRegisterSlice = createSlice({
 
 export const {
   setValue,
-  resetForm,
+  clearForm,
   request,
   success,
   failure,
 } = formRegisterSlice.actions;
+
 
 
 export const authUser = () => (dispatch, getState) => {
@@ -80,9 +81,10 @@ export const authUser = () => (dispatch, getState) => {
     })
     .then(data => {
       if (data.success) {
+        const accessToken = data.accessToken.split('Bearer ')[1];
         dispatch(success());
         dispatch(setUser(data.user));
-        setCookie('accessToken', data.accessToken);
+        setCookie('accessToken', accessToken);
         localStorage.setItem('refreshToken', data.refreshToken);
       } else {
         dispatch(failure());

@@ -49,7 +49,7 @@ export const loadUserData = () => (dispatch) => {
     });
 };
 
-export const logOut = () => async (dispatch) => {
+export const logout = () => async (dispatch) => {
   logoutRequest(localStorage.getItem('refreshToken'))
     .then(response => {
       if (response.ok) {
