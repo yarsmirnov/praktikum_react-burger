@@ -1,22 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { authUser } from '../services/slices/form-login';
+
+import { setValue, resetForm } from '../services/slices/form-login';
 
 import AppHeader from '../components/app-header/app-header';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import Loader from '../components/loader/loader';
 
 import styles from './page-layout.module.css';
 
-const initialForm = {
-  email: '',
-  password: '',
-}
 
 export const LoginPage = () => {
-  const [form, setValue] = useState(initialForm);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const { form, LOGIN_REQUEST, LOGIN_SUCCESS } = useSelector(store => store.formLogin);
   const [isPasswordVisable, setPasswordVisability] = useState(false);
 
+  useEffect(() => {
+    if (LOGIN_SUCCESS) {
+      history.replace({pathname: '/'});
+    }
+    return () => {
+      dispatch(resetForm());
+    }
+  }, [history, dispatch, LOGIN_SUCCESS]);
+
   const onInputChange = (evt) => {
-    setValue({ ...form, [evt.target.name]: evt.target.value });
+    dispatch(setValue({
+      name: evt.target.name,
+      value: evt.target.value
+    }));
   };
 
   const onIconClick = () => {
@@ -25,6 +41,7 @@ export const LoginPage = () => {
 
   const onButtonClick = (evt) => {
     evt.preventDefault();
+    dispatch(authUser());
   };
 
   return (
@@ -79,13 +96,18 @@ export const LoginPage = () => {
             }
           </div>
 
-          <Button
-            type="primary"
-            size="medium"
-            onClick={onButtonClick}
-          >
-            Войти
-          </Button>
+          { LOGIN_REQUEST
+            ? ( <Loader /> )
+            : (
+              <Button
+                type="primary"
+                size="medium"
+                onClick={onButtonClick}
+              >
+                Войти
+              </Button>
+            )
+          }
         </form>
 
         <p className={'text text_type_main-default text_color_inactive mb-4'}>

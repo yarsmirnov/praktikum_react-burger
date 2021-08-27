@@ -81,7 +81,6 @@ export const resetPassword = () => async (dispatch, getState) => {
     })
     .then(data => {
       if (data.success) {
-        console.log(data);
         dispatch(success());
       } else {
         dispatch(failure());

@@ -64,7 +64,7 @@ export const sendOrderRequest = (data) => async (dispatch) => {
   })
   .catch(err => {
     dispatch(failure());
-    console.log('Order request error:', err);
+    console.error('Order request error:', err);
   });
 }
 

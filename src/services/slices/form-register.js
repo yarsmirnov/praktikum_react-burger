@@ -1,4 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
+import { setCookie } from '../../utils/cookie';
+import { setUser } from './auth';
 
 const initialState = {
   REGISTER_REQUEST: false,
@@ -66,9 +68,7 @@ export const {
 
 export const registerUser = () => async (dispatch, getState) => {
   const data = getState().formRegister.form;
-  console.log(getState());
   dispatch(request());
-  console.log(data);
 
   fetch(registerApi, {
     method: 'POST',
@@ -85,6 +85,9 @@ export const registerUser = () => async (dispatch, getState) => {
   .then(data => {
     if (data.success) {
       dispatch(success());
+      dispatch(setUser(data.user));
+      setCookie('accessToken', data.accessToken);
+      localStorage.setItem('refreshToken', data.refreshToken);
     } else {
       dispatch(failure());
     }

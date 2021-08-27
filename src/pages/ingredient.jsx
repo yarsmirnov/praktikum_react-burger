@@ -24,7 +24,6 @@ export const IngredietnPage = () => {
   useEffect(() => {
     dispatch(setData(ingredientData));
     setIsLoaded(true);
-    console.log(ingredientData);
 
     return () => {
       dispatch(clearData());

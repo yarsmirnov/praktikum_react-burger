@@ -88,7 +88,7 @@ export const verifyEmail = () => async (dispatch, getState) => {
     })
     .catch(err => {
       dispatch(failure());
-      console.log(err)
+      console.error(err);
     });
 };
 
