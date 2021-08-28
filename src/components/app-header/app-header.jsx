@@ -6,7 +6,7 @@ import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-dev
 import styles from './app-header.module.css';
 
 const AppHeader = () => {
-  const { user } = useSelector(store => store.auth);
+  const { user } = useSelector(store => store.user);
 
   return (
     <header className={`${styles.header} pt-4 pb-4`}>

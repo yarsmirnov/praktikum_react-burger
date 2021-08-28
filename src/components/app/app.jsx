@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
+import { loadUserData } from '../../services/slices/user';
 import { getIngredients } from '../../services/slices/ingredients';
 
 import {
@@ -23,6 +24,7 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(loadUserData());
     dispatch(getIngredients());
   }, [dispatch]);
 

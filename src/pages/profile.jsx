@@ -1,7 +1,12 @@
 import React, { useMemo, useCallback, useEffect } from 'react';
 import { Link, NavLink, useRouteMatch } from 'react-router-dom';
-import { setValue, clearForm, getUser, patchUser } from '../services/slices/form-profile';
-import { logout } from '../services/slices/auth';
+import {
+  setInitialValue,
+  setValue,
+  resetForm,
+  clearForm,
+} from '../services/slices/form-profile';
+import { patchUserData, logoutUser } from '../services/slices/user';
 import { useDispatch, useSelector } from 'react-redux';
 
 import AppHeader from '../components/app-header/app-header';
@@ -28,17 +33,20 @@ export const ProfilePage = () => {
   const dispatch = useDispatch();
   const { url } = useRouteMatch();
   const {
-    form,
+    form
+  } = useSelector(store => store.formProfile);
+  const {
+    user,
     GET_USER_REQUEST,
     PATCH_USER_REQUEST,
-  } = useSelector(store => store.formProfile);
+  } = useSelector(store => store.user);
 
   useEffect(() => {
-    dispatch(getUser());
+    dispatch(setInitialValue(user));
     return () => {
       dispatch(clearForm());
     }
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   const titleContent = useMemo(() => {
     return PageTitles.profile;
@@ -46,7 +54,7 @@ export const ProfilePage = () => {
 
   const onExitClick = useCallback((evt) => {
     evt.preventDefault();
-    dispatch(logout());
+    dispatch(logoutUser());
   }, [dispatch]);
 
   const onInputChange = useCallback((evt) => {
@@ -58,12 +66,12 @@ export const ProfilePage = () => {
 
   const onSaveButtonClick = useCallback((evt) => {
     evt.preventDefault();
-    dispatch(patchUser());
-  }, [dispatch]);
+    dispatch(patchUserData(form));
+  }, [dispatch, form]);
 
   const onResetButtonClick = useCallback((evt) => {
     evt.preventDefault();
-    dispatch(getUser());
+    dispatch(resetForm());
   }, [dispatch]);
 
 

@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
 
-import auth from '../slices/auth';
+import user from '../slices/user';
 import ingredients from '../slices/ingredients';
 import ingredientInfo from '../slices/ingredient-info';
 import burgerConstructor from '../slices/burger-constructor';
@@ -13,7 +13,7 @@ import formProfile from '../slices/form-profile';
 
 
 const rootReducer = combineReducers({
-  auth,
+  user,
   ingredients,
   ingredientInfo,
   burgerConstructor,

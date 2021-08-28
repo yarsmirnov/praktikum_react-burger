@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { setValue, registerUser } from '../services/slices/form-register';
+import { setValue } from '../services/slices/form-register';
+import { registerUser } from '../services/slices/user';
 
 import AppHeader from '../components/app-header/app-header';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -15,17 +16,19 @@ export const RegisterPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const {
-    form,
-    REGISTER_REQUEST,
-    REGISTER_SUCCESS,
+    form
   } = useSelector(store => store.formRegister);
+  const {
+    REGISTER_REQUEST,
+    REGISTER_SUCCESS
+  } = useSelector(store => store.user);
 
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [isPasswordVisable, setPasswordVisability] = useState(false);
 
   useEffect(() => {
     if (REGISTER_SUCCESS) {
-      history.replace({pathname: '/login'});
+      history.replace({pathname: '/'});
     }
   }, [history, REGISTER_SUCCESS]);
 
@@ -49,7 +52,7 @@ export const RegisterPage = () => {
       && isEmailValid
       && form.password !== ''
       && form.name !== '') {
-      dispatch(registerUser());
+      dispatch(registerUser(form));
     }
   };
 

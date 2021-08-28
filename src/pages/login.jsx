@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { authUser } from '../services/slices/form-login';
+import { loginUser } from '../services/slices/user';
 
 import { setValue, clearForm } from '../services/slices/form-login';
 
@@ -14,9 +14,10 @@ import styles from './page-layout.module.css';
 
 
 export const LoginPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(store => store.user);
   const history = useHistory();
-  const { form, LOGIN_REQUEST, LOGIN_SUCCESS } = useSelector(store => store.formLogin);
+  const { form } = useSelector(store => store.formLogin);
+  const { LOGIN_REQUEST, LOGIN_SUCCESS } = useSelector(store => store.user);
   const [isPasswordVisable, setPasswordVisability] = useState(false);
 
   useEffect(() => {
@@ -41,7 +42,7 @@ export const LoginPage = () => {
 
   const onButtonClick = (evt) => {
     evt.preventDefault();
-    dispatch(authUser());
+    dispatch(loginUser(form));
   };
 
   return (
