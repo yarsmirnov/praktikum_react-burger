@@ -15,19 +15,23 @@ import styles from './page-layout.module.css';
 export const ForgotPasswordPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { VERIFY_EMAIL_SUCCESS, VERIFY_EMAIL_REQUEST, form } = useSelector(store => store.formForgotPassword);
+  const {
+    form,
+    VERIFY_EMAIL_SUCCESS,
+    VERIFY_EMAIL_REQUEST,
+    sentEmail
+  } = useSelector(store => store.formForgotPassword);
   const [isFormValid, setIsFormValid] = useState(true);
 
   useEffect(() => {
-    if (VERIFY_EMAIL_SUCCESS) {
+    console.log(VERIFY_EMAIL_SUCCESS, sentEmail)
+    if (VERIFY_EMAIL_SUCCESS && sentEmail) {
       history.replace({
         pathname: '/reset-password'
       });
-    }
-    return () => {
       dispatch(clearForm());
-    };
-  }, [VERIFY_EMAIL_SUCCESS, history, dispatch]);
+    }
+  }, [history, dispatch, VERIFY_EMAIL_SUCCESS, sentEmail]);
 
   const onInputChange = useCallback((evt) => {
     setIsFormValid(regExpEmail.test(evt.target.value));

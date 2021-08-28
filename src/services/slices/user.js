@@ -48,7 +48,7 @@ export const userSlice = createSlice({
       REGISTER_REQUEST: true,
       REGISTER_SUCCESS: false,
       REGISTER_FAILURE: false,
-      user: {...state.user}
+      user: null
     }),
 
     setRegisterSuccess: (state) => ({
@@ -56,7 +56,7 @@ export const userSlice = createSlice({
       REGISTER_REQUEST: false,
       REGISTER_SUCCESS: true,
       REGISTER_FAILURE: false,
-      user: {...state.user}
+      user: state.user ? {...state.user} : null
     }),
 
     setRegisterFailure: (state) => ({
@@ -64,7 +64,7 @@ export const userSlice = createSlice({
       REGISTER_REQUEST: false,
       REGISTER_SUCCESS: false,
       REGISTER_FAILURE: true,
-      user: {...state.user}
+      user: null
     }),
 
     setLoginRequest: (state) => ({
@@ -72,7 +72,7 @@ export const userSlice = createSlice({
       LOGIN_REQUEST: true,
       LOGIN_SUCCESS: false,
       LOGIN_FAILURE: false,
-      user: {...state.user}
+      user: null
     }),
 
     setLoginSuccess: (state) => ({
@@ -80,7 +80,7 @@ export const userSlice = createSlice({
       LOGIN_REQUEST: false,
       LOGIN_SUCCESS: true,
       LOGIN_FAILURE: false,
-      user: {...state.user}
+      user: state.user ? {...state.user} : null
     }),
 
     setLoginFailure: (state) => ({
@@ -96,7 +96,7 @@ export const userSlice = createSlice({
       LOGOUT_REQUEST: true,
       LOGOUT_SUCCESS: false,
       LOGOUT_FAILURE: false,
-      user: {...state.user}
+      user: state.user ? {...state.user} : null
     }),
 
     setLogoutSuccess: (state) => ({
@@ -104,7 +104,7 @@ export const userSlice = createSlice({
       LOGOUT_REQUEST: false,
       LOGOUT_SUCCESS: true,
       LOGOUT_FAILURE: false,
-      user: {...state.user}
+      user: null
     }),
 
     setLogoutFailure: (state) => ({
@@ -112,7 +112,7 @@ export const userSlice = createSlice({
       LOGOUT_REQUEST: false,
       LOGOUT_SUCCESS: false,
       LOGOUT_FAILURE: true,
-      user: {...state.user}
+      user: state.user ? {...state.user} : null
     }),
 
     setGetUserRequest: (state) => ({
@@ -120,7 +120,7 @@ export const userSlice = createSlice({
       GET_USER_REQUEST: true,
       GET_USER_SUCCESS: false,
       GET_USER_FAILURE: false,
-      user: {...state.user}
+      user: state.user ? {...state.user} : null
     }),
 
     setGetUserSuccess: (state) => ({
@@ -128,7 +128,7 @@ export const userSlice = createSlice({
       GET_USER_REQUEST: false,
       GET_USER_SUCCESS: true,
       GET_USER_FAILURE: false,
-      user: {...state.user}
+      user: state.user ? {...state.user} : null
     }),
 
     setGetUserFailure: (state) => ({
@@ -136,7 +136,7 @@ export const userSlice = createSlice({
       GET_USER_REQUEST: false,
       GET_USER_SUCCESS: false,
       GET_USER_FAILURE: true,
-      user: {...state.user}
+      user: state.user ? {...state.user} : null
     }),
 
     setPatchUserRequest: (state) => ({
@@ -144,7 +144,7 @@ export const userSlice = createSlice({
       PATCH_USER_REQUEST: true,
       PATCH_USER_SUCCESS: false,
       PATCH_USER_FAILURE: false,
-      user: {...state.user}
+      user: state.user ? {...state.user} : null
     }),
 
     setPatchUserSuccess: (state) => ({
@@ -152,7 +152,7 @@ export const userSlice = createSlice({
       PATCH_USER_REQUEST: false,
       PATCH_USER_SUCCESS: true,
       PATCH_USER_FAILURE: false,
-      user: {...state.user}
+      user: state.user ? {...state.user} : null
     }),
 
     setPatchUserFailure: (state) => ({
@@ -160,7 +160,7 @@ export const userSlice = createSlice({
       PATCH_USER_REQUEST: false,
       PATCH_USER_SUCCESS: false,
       PATCH_USER_FAILURE: true,
-      user: {...state.user}
+      user: state.user ? {...state.user} : null
     }),
   },
 });

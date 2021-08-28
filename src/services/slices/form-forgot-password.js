@@ -5,6 +5,8 @@ const initialState = {
   VERIFY_EMAIL_SUCCESS: false,
   VERIFY_EMAIL_FAILURE: false,
 
+  sentEmail: null,
+
   form: {
     email: '',
   }
@@ -24,7 +26,16 @@ export const formForgotPasswordSlice = createSlice({
       }
     }),
 
-    clearForm: () => initialState,
+    setSentEmail: (state, action) => ({
+      ...state,
+      sentEmail: action.payload,
+      form: {...state.form},
+    }),
+
+    clearForm: (state) => ({
+      ...initialState,
+      sentEmail: state.form.email,
+    }),
 
     request: (state) => ({
       ...state,
@@ -39,7 +50,7 @@ export const formForgotPasswordSlice = createSlice({
       VERIFY_EMAIL_REQUEST: false,
       VERIFY_EMAIL_SUCCESS: true,
       VERIFY_EMAIL_FAILURE: false,
-      form: {...initialState.form},
+      form: {...state.form},
     }),
 
     failure: (state) => ({
@@ -55,6 +66,7 @@ export const formForgotPasswordSlice = createSlice({
 
 export const {
   setValue,
+  setSentEmail,
   clearForm,
   request,
   success,
@@ -63,26 +75,28 @@ export const {
 
 
 export const verifyEmail = () => async (dispatch, getState) => {
-  const data = getState().formForgotPassword.form;
+  const form = getState().formForgotPassword.form;
+
   dispatch(request());
+  dispatch(setSentEmail(null));
 
   fetch(forgotPasswordApi, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(data),
+    body: JSON.stringify(form),
   })
     .then(response => {
       if (response.ok) {
         return response.json();
       }
-      dispatch(failure());
       throw new Error('Failed verify email request');
     })
     .then(data => {
       if (data.success) {
         dispatch(success());
+        dispatch(setSentEmail(form.email));
       } else {
-        dispatch(failure());
+        throw new Error('Unsuccessful verify email request');
       }
       return data;
     })

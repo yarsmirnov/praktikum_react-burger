@@ -19,19 +19,27 @@ export const ResetPasswordPage = () => {
     RESET_PASSWORD_SUCCESS,
     RESET_PASSWORD_FAILURE
   } = useSelector(store => store.formResetPassword);
+  const {
+    sentEmail
+  } = useSelector(store => store.formForgotPassword)
   const [isPasswordVisable, setPasswordVisability] = useState(false);
 
   useEffect(() => {
+    if (!sentEmail) {
+      history.replace({
+        pathname: '/forgot-password',
+      })
+    }
     if (RESET_PASSWORD_SUCCESS) {
       history.replace({
-        pathname: '/',
+        pathname: '/login',
       })
     }
 
     return () => {
       dispatch(clearForm());
     };
-  }, [dispatch, history, RESET_PASSWORD_SUCCESS]);
+  }, [dispatch, history, sentEmail, RESET_PASSWORD_SUCCESS]);
 
   const onInputChange = useCallback((evt) => {
     dispatch(setValue({

@@ -9,6 +9,8 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
+import ProtectedRoute from '../protected-route/protected-route';
+import GuestRoute from '../guest-route/guest-route';
 import {
   ForgotPasswordPage,
   HomePage,
@@ -35,25 +37,25 @@ const App = () => {
           <HomePage />
         </Route>
 
-        <Route path='/login' exact>
+        <GuestRoute path='/login' exact>
           <LoginPage />
-        </Route>
+        </GuestRoute>
 
-        <Route path='/register' exact>
+        <GuestRoute path='/register' exact>
           <RegisterPage />
-        </Route>
+        </GuestRoute>
 
-        <Route path='/forgot-password' exact>
+        <GuestRoute path='/forgot-password' exact>
           <ForgotPasswordPage />
-        </Route>
+        </GuestRoute>
 
-        <Route path="/reset-password" exact>
+        <GuestRoute path="/reset-password" exact>
           <ResetPasswordPage />
-        </Route>
+        </GuestRoute>
 
-        <Route path='/profile'>
+        <ProtectedRoute path='/profile'>
           <ProfilePage />
-        </Route>
+        </ProtectedRoute>
 
         <Route path='/ingredients/:id' exact>
           <IngredietnPage />
