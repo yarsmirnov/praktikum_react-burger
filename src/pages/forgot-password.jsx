@@ -24,7 +24,6 @@ export const ForgotPasswordPage = () => {
   const [isFormValid, setIsFormValid] = useState(true);
 
   useEffect(() => {
-    console.log(VERIFY_EMAIL_SUCCESS, sentEmail)
     if (VERIFY_EMAIL_SUCCESS && sentEmail) {
       history.replace({
         pathname: '/reset-password'

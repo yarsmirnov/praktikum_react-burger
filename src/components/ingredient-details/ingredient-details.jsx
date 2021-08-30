@@ -1,34 +1,61 @@
-import React from "react";
+import React, { useMemo } from "react";
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { getIngredients } from '../../services/slices/ingredients';
+
+import Loader from '../loader/loader';
 
 import styles from './ingredient-details.module.css';
 
 
 const IngredientDetails = () => {
-  const {
-    name,
-    imageLarge,
-    calories,
-    proteins,
-    fat,
-    carbohydrates
-  } = useSelector(store => store.ingredientInfo.data);
+  const dispatch = useDispatch();
+  const { items: ingredients } = useSelector(store => store.ingredients);
+
+  const { id } = useParams();
+
+  const ingredient = useMemo(
+    () => ingredients.find(item => item.id === id),
+    [ingredients, id]);
+
+  if (!ingredients.length) {
+    dispatch(getIngredients());
+    return (
+      <div className={`${styles.loaderContainer}`}>
+        <Loader />
+      </div>
+    );
+  }
+
+  if (!ingredient) {
+    return (
+      <>
+        <h2 className={`text text_type_main-large mb-20`}>
+          Ошибка!
+        </h2>
+
+        <p className={`text text_type_main-medium`}>
+          Невозможно получить информацию об ингредиенте.
+        </p>
+      </>
+    );
+  }
 
   return (
     <>
       <h2 className={`${styles.title} text text_type_main-large mt-10`}>Детали ингредиента</h2>
       <img
         className='mb-4'
-        src={imageLarge}
-        alt={name}
+        src={ingredient.imageLarge}
+        alt={ingredient.name}
         width='480'
         height='240'
       />
       <h3
         className={`${styles.ingredientName} text_type_main-medium mb-8`}
       >
-        {name}
+        {ingredient.name}
       </h3>
       <dl className={`${styles.composition} text_type_main-default text_color_inactive mb-15`}>
         <div className={styles.compositionItem}>
@@ -36,7 +63,7 @@ const IngredientDetails = () => {
           <dd
             className={'text_type_digits-default'}
           >
-            {calories}
+            {ingredient.calories}
           </dd>
         </div>
         <div className={styles.compositionItem}>
@@ -44,7 +71,7 @@ const IngredientDetails = () => {
           <dd
             className={'text_type_digits-default'}
           >
-            {proteins}
+            {ingredient.proteins}
           </dd>
         </div>
         <div className={styles.compositionItem}>
@@ -52,7 +79,7 @@ const IngredientDetails = () => {
           <dd
             className={'text_type_digits-default'}
           >
-            {fat}
+            {ingredient.fat}
           </dd>
         </div>
         <div className={styles.compositionItem}>
@@ -60,7 +87,7 @@ const IngredientDetails = () => {
           <dd
             className={'text_type_digits-default'}
           >
-            {carbohydrates}
+            {ingredient.carbohydrates}
           </dd>
         </div>
       </dl>

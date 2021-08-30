@@ -6,6 +6,12 @@
   padding-left: 20px;
 }
 
+.loaderContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .formContainer {
   margin-right: auto;
   margin-left: auto;

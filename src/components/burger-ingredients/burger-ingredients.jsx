@@ -140,7 +140,7 @@ const BurgerIngredients = () => {
       </div>
 
       {showModal && (
-        <Modal toggleModal={setShowModal}>
+        <Modal>
           <IngredientDetails />
         </Modal>
       )}

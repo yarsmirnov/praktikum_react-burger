@@ -2,8 +2,9 @@ import React, { useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 
-import { useDispatch } from 'react-redux';
-import { clearData } from '../../services/slices/ingredient-info';
+import { useDispatch, useSelector } from 'react-redux';
+import { closeModal } from '../../services/slices/modal';
+import { useHistory } from 'react-router-dom';
 
 import styles from './modal.module.css';
 
@@ -14,12 +15,17 @@ import ModalOverlay from '../modal-overlay/modal-overlay';
 const modalRoot = document.getElementById('react-modals');
 
 
-const Modal = ({ toggleModal, children }) => {
+const Modal = ({ children }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const { isOpen } = useSelector(store => store.modal);
+
   const handleCloseClick = useCallback(() => {
-    toggleModal(prev => !prev);
-    dispatch(clearData());
-  }, [toggleModal, dispatch]);
+    dispatch(closeModal());
+    history.goBack();
+  }, [dispatch, history]);
+
+  if (!isOpen) return null;
 
   return modalRoot ? createPortal((
     <ModalOverlay toggleModal={handleCloseClick}>
@@ -41,7 +47,6 @@ const Modal = ({ toggleModal, children }) => {
 
 
 Modal.propTypes = {
-  toggleModal: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,
 };
 
