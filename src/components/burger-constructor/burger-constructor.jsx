@@ -51,7 +51,6 @@ const BurgerConstructor = () => {
     }),
   });
 
-  // const [showModal, setShowModal] = useState(false);
   const [hasBun, setHasBun] = useState(false);
 
   const bun = useMemo(
@@ -113,6 +112,19 @@ const BurgerConstructor = () => {
         </Button>
       )
     }
+
+    if (!fillings.length) {
+      return (
+        <Button
+          type="primary"
+          size="large"
+          onClick={() => {}}
+        >
+          Добавьте ингредиенты
+        </Button>
+      )
+    }
+
     if (ORDER_REQUEST) {
       return ( <Loader /> )
     }
@@ -126,18 +138,23 @@ const BurgerConstructor = () => {
         Оформить заказ
       </Button>
     );
-  }, [hasBun, ORDER_REQUEST, handleButtonClick]);
+  }, [fillings, hasBun, ORDER_REQUEST, handleButtonClick]);
 
 
   if (ingredients.length === 0) {
     return (
       <section
-        className={`${styles.section} ${canAccept ? styles.canAccept: ''} column pt-25 pr-4`}
+        className={`${styles.section} column pt-25 pr-4`}
         ref={dropTarget}
       >
         <h2 className='visualliHidden'>
           Ваша сборка
         </h2>
+        <div className={`${styles.emptyConstructor} ${styles.emptyConstructor_maxHeight} ${canAccept ? styles.canAccept: ''}`}>
+          <p className={`text text_type_main-medium`}>
+            Перетащите ингредиенты сюда
+          </p>
+        </div>
       </section>
     );
   }
@@ -152,20 +169,33 @@ const BurgerConstructor = () => {
         Ваша сборка
       </h2>
 
-    {bun && (
-      <div className='mb-4 pl-8 pr-4'>
-        <ConstructorElement
-          type={'top'}
-          isLocked={true}
-          text={`${bun.name} (верх)`}
-          price={bun.price}
-          thumbnail={bun.image}
-        />
-      </div>
-    )
+    { bun && (
+        <div className='mb-4 pl-8 pr-4'>
+          <ConstructorElement
+            type={'top'}
+            isLocked={true}
+            text={`${bun.name} (верх)`}
+            price={bun.price}
+            thumbnail={bun.image}
+          />
+        </div>
+      )
     }
 
-      {fillings.length > 0 &&
+    { !fillings.length && (
+      <ul
+        className={`${styles.ingredientsList} ${styles.emptyConstructor}`}
+      >
+        <li>
+          <p className={`text text_type_main-medium`}>
+            Добавьте ингредиенты
+          </p>
+        </li>
+      </ul>
+      )
+    }
+
+    { fillings.length > 0 &&
       ( <ul
           className={`${styles.ingredientsList} scroller`}
         >
