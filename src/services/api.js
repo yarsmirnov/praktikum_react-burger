@@ -1,8 +1,33 @@
-import { getCookie } from '../utils/cookie';
-
+import { setCookie, getCookie } from '../utils/cookie';
 
 const baseApi = 'https://norma.nomoreparties.space/api'
 
+
+const refreshTokenRequest = async () => {
+  const token = localStorage.getItem('refreshToken');
+
+  return await fetch(`${baseApi}/auth/token`, {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify({token})
+  });
+};
+
+export const refreshToken = (afterRefresh) => async (dispatch) => {
+  refreshTokenRequest()
+    .then((res) => {
+      localStorage.setItem('refreshToken', res.refreshToken);
+      setCookie('accessToken', res.accessToken);
+      dispatch(afterRefresh);
+    });
+};
 
 export const registerUserRequest = async (form) => {
   return await fetch(`${baseApi}/auth/register`, {
@@ -77,4 +102,20 @@ export const logoutRequest = async (refreshToken) => {
     referrerPolicy: 'no-referrer',
     body: JSON.stringify({token: refreshToken})
   });
+};
+
+export const orderRequest = async (orderData) => {
+  return await fetch(`${baseApi}/orders`, {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + getCookie('accessToken')
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify(orderData),
+  })
 };

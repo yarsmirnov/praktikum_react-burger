@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useMemo } from 'react';
+import { Redirect, Link, useHistory, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { loginUser } from '../services/slices/user';
 
 import { setValue, clearForm } from '../services/slices/form-login';
@@ -16,18 +15,14 @@ import styles from './page-layout.module.css';
 export const LoginPage = () => {
   const dispatch = useDispatch(store => store.user);
   const history = useHistory();
+  let location = useLocation();
   const { form } = useSelector(store => store.formLogin);
-  const { LOGIN_REQUEST, LOGIN_SUCCESS } = useSelector(store => store.user);
+  const { user, LOGIN_REQUEST, LOGIN_SUCCESS } = useSelector(store => store.user);
   const [isPasswordVisable, setPasswordVisability] = useState(false);
 
-  useEffect(() => {
-    if (LOGIN_SUCCESS) {
-      history.replace({pathname: '/'});
-    }
-    return () => {
-      dispatch(clearForm());
-    }
-  }, [history, dispatch, LOGIN_SUCCESS]);
+  let { from } = useMemo(() => {
+    return location.state || { from: { pathname: '/' } }
+  }, [location]);
 
   const onInputChange = (evt) => {
     dispatch(setValue({
@@ -44,6 +39,17 @@ export const LoginPage = () => {
     evt.preventDefault();
     dispatch(loginUser(form));
   };
+
+  if (LOGIN_SUCCESS && user) {
+    history.replace(from);
+    dispatch(clearForm());
+  } else if (user) {
+    return (
+      <Redirect
+        to={'/'}
+      />
+    );
+  }
 
   return (
     <>

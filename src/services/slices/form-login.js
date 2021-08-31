@@ -8,7 +8,7 @@ const initialState = {
 };
 
 
-export const formRegisterSlice = createSlice({
+export const formLoginSlice = createSlice({
   name: 'formLogin',
   initialState,
   reducers: {
@@ -28,7 +28,7 @@ export const formRegisterSlice = createSlice({
 export const {
   setValue,
   clearForm,
-} = formRegisterSlice.actions;
+} = formLoginSlice.actions;
 
 
-export default formRegisterSlice.reducer;
+export default formLoginSlice.reducer;

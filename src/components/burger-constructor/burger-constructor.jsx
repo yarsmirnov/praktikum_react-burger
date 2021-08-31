@@ -3,7 +3,9 @@ import React, { useState, useMemo, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addItem, removeItem, setBun } from '../../services/slices/burger-constructor';
 import { increaseIngredientCount, decreaseIngredientCount } from '../../services/slices/ingredients';
+import { openModal } from '../../services/slices/modal';
 import { useDrop } from 'react-dnd';
+import { useHistory } from 'react-router-dom';
 
 import { sendOrderRequest } from '../../services/slices/order';
 
@@ -17,16 +19,20 @@ import {
 import DraggableItem from './draggable-item';
 import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
+import Loader from '../loader/loader';
 
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const {items: ingredients} = useSelector(store => store.burgerConstructor);
   const {
     ORDER_REQUEST,
     ORDER_SUCCESS,
     orderData
   } = useSelector(store => store.order);
+  const { user } = useSelector(store => store.user);
+  const { isOpen } = useSelector(store => store.modal);
 
   const [{canAccept}, dropTarget] = useDrop({
     accept: 'ingredient',
@@ -45,7 +51,7 @@ const BurgerConstructor = () => {
     }),
   });
 
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
   const [hasBun, setHasBun] = useState(false);
 
   const bun = useMemo(
@@ -75,13 +81,20 @@ const BurgerConstructor = () => {
   );
 
   const handleButtonClick = useCallback(async () => {
-    const requestData = {
-      ingredients: orderList.map(item => item.id),
+    if (!user) {
+      history.replace({
+        pathname: '/login',
+      })
     }
+    else {
+      const requestData = {
+        ingredients: orderList.map(item => item.id),
+      };
 
-    dispatch(sendOrderRequest(requestData));
-    setShowModal(true);
-  }, [dispatch, setShowModal, orderList]);
+      dispatch(sendOrderRequest(requestData));
+      dispatch(openModal());
+    }
+  }, [user, history, dispatch, orderList]);
 
   const handleRemoveClick = useMemo(() => ({id, uuid}) => () => {
     dispatch(removeItem(uuid));
@@ -101,16 +114,7 @@ const BurgerConstructor = () => {
       )
     }
     if (ORDER_REQUEST) {
-      return (
-        (
-          <div className="lds-ellipsis">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-        )
-      )
+      return ( <Loader /> )
     }
 
     return (
@@ -215,10 +219,10 @@ const BurgerConstructor = () => {
       </div>
 
 
-      { showModal &&
+      { isOpen &&
         ORDER_SUCCESS &&
         (
-          <Modal toggleModal={setShowModal}>
+          <Modal>
             <OrderDetails orderId={orderData.order.number} />
           </Modal>
       )}

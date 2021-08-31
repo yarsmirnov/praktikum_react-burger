@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { setCookie, deleteCookie } from '../../utils/cookie';
 import {
+  refreshToken,
   registerUserRequest,
   loginRequest,
   logoutRequest,
@@ -191,15 +192,6 @@ export const {
 } = userSlice.actions;
 
 
-export const refreshToken = (afterRefresh) => (dispatch) => {
-  refreshToken()
-    .then((res) => {
-      localStorage.setItem('refreshToken', res.refreshToken);
-      setCookie('accessToken', res.accessToken);
-      dispatch(afterRefresh);
-    });
-};
-
 export const registerUser = (form) => async (dispatch) => {
   registerUserRequest(form)
   .then(res => {
@@ -231,7 +223,9 @@ export const loadUserData = () => async (dispatch) => {
 
   getUserRequest()
     .then((res) => {
-      if (!res.ok) throw res;
+      if (!res.ok && !res.status === 403) {
+        throw new Error('Failed get user request');
+      };
       return res.json();
     })
     .then(data => {
@@ -255,18 +249,17 @@ export const patchUserData = (form) => async (dispatch) => {
 
   patchUserRequest(form)
     .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      throw new Error('Failed patch user data request');
+      if (!res.ok && !res.status === 403) {
+        throw new Error('Failed get user request');
+      };
+      return res.json();
     })
     .then(data => {
-      if (data.success) {
-        dispatch(setUser(data.user));
-        dispatch(setPatchUserSuccess());
-        return data;
-      }
-      throw data;
+      if (!data.success) throw data;
+
+      dispatch(setUser(data.user));
+      dispatch(setPatchUserSuccess());
+      return data;
     })
     .catch(err => {
       if (err.message === 'jwt expired') {

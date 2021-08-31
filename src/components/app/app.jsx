@@ -40,9 +40,9 @@ const ModalSwitch = () => {
           <HomePage />
         </Route>
 
-        <GuestRoute path='/login' exact>
+        <Route path='/login' exact>
           <LoginPage />
-        </GuestRoute>
+        </Route>
 
         <GuestRoute path='/register' exact>
           <RegisterPage />
