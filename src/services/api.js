@@ -29,6 +29,37 @@ export const refreshToken = (afterRefresh) => async (dispatch) => {
     });
 };
 
+
+export const getIngredientsRequest = async () => {
+  return await fetch(`${baseApi}/ingredients`, {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + getCookie('accessToken')
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer'
+  });
+};
+
+export const getUserRequest = async () => {
+  return await fetch(`${baseApi}/auth/user`, {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + getCookie('accessToken')
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer'
+  })
+};
+
 export const registerUserRequest = async (form) => {
   return await fetch(`${baseApi}/auth/register`, {
     method: 'POST',
@@ -58,20 +89,6 @@ export const loginRequest = async (form) => {
     body: JSON.stringify(form)
   });
 };
-
-export const getUserRequest = async () =>
-  await fetch(`${baseApi}/auth/user`, {
-    method: 'GET',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + getCookie('accessToken')
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer'
-  });
 
 export const patchUserRequest = async (form) => {
   return await fetch(`${baseApi}/auth/user`, {

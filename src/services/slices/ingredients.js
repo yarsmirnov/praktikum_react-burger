@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { adaptIngredients } from '../../utils/adapter';
+import { getIngredientsRequest } from '../api';
 
 const initialState = {
   INGREDIENTS_REQUEST: false,
@@ -7,7 +8,6 @@ const initialState = {
   INGREDIENTS_FAILURE: false,
   items: [],
 };
-const ingredientsApi = 'https://norma.nomoreparties.space/api/ingredients';
 
 
 export const ingredientsSlice = createSlice({
@@ -90,7 +90,7 @@ export const {
 } = ingredientsSlice.actions;
 
 export const getIngredients = () => async (dispatch) => {
-  fetch(ingredientsApi)
+  getIngredientsRequest()
     .then(response => {
       if (response.ok) {
         return response.json();
