@@ -9,6 +9,8 @@ import AppHeader from '../components/app-header/app-header';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import Loader from '../components/loader/loader';
 
+import { regExpEmail } from '../utils/regexp';
+
 import styles from './page-layout.module.css';
 
 
@@ -19,12 +21,16 @@ export const LoginPage = () => {
   const { form } = useSelector(store => store.formLogin);
   const { user, LOGIN_REQUEST, LOGIN_SUCCESS } = useSelector(store => store.user);
   const [isPasswordVisable, setPasswordVisability] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState(true);
 
   let { from } = useMemo(() => {
     return location.state || { from: { pathname: '/' } }
   }, [location]);
 
   const onInputChange = (evt) => {
+    if (evt.target.name === 'email') {
+      setIsEmailValid(regExpEmail.test(evt.target.value));
+    }
     dispatch(setValue({
       name: evt.target.name,
       value: evt.target.value
@@ -37,7 +43,11 @@ export const LoginPage = () => {
 
   const onButtonClick = (evt) => {
     evt.preventDefault();
-    dispatch(loginUser(form));
+    if (form.email !== ''
+      && isEmailValid
+      && form.password !== '') {
+        dispatch(loginUser(form));
+      }
   };
 
   if (LOGIN_SUCCESS && user) {
@@ -68,7 +78,7 @@ export const LoginPage = () => {
               onChange={onInputChange}
               value={form.email}
               name={'email'}
-              error={false}
+              error={!isEmailValid}
               errorText={'Некорректный email'}
               size={'default'}
             />
@@ -84,9 +94,9 @@ export const LoginPage = () => {
                   icon={'HideIcon'}
                   value={form.password}
                   name={'password'}
-                  error={false}
+                  error={form.password.length ? false : true}
                   onIconClick={onIconClick}
-                  errorText={'Недопустимые символы'}
+                  errorText={'Не может быть пустым'}
                   size={'default'} />
                 ) : (
                 <Input
@@ -96,9 +106,9 @@ export const LoginPage = () => {
                   icon={'ShowIcon'}
                   value={form.password}
                   name={'password'}
-                  error={false}
+                  error={form.password.length ? false : true}
                   onIconClick={onIconClick}
-                  errorText={'Недопустимые символы'}
+                  errorText={'Не может быть пустым'}
                   size={'default'} />)
             }
           </div>
