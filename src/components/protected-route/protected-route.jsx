@@ -1,17 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { loadUserData } from '../../services/slices/user';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 
 const ProtectedRoute = ({ children, ...rest }) => {
-  const dispatch = useDispatch();
   const { user } = useSelector(store => store.user);
-
-  useEffect(() => {
-    dispatch(loadUserData());
-  }, [dispatch]);
 
   return (
     <Route
