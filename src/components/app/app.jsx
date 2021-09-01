@@ -25,6 +25,7 @@ import {
   NotFound404,
 } from '../../pages';
 
+import AppHeader from '../app-header/app-header';
 import Modal from '../modal/modal';
 
 
@@ -43,40 +44,43 @@ const ModalSwitch = () => {
   };
 
   return (
-    <div>
-      <Switch location={background || location}>
-        <Route path='/' exact>
-          <HomePage />
-        </Route>
+    <>
+      <AppHeader />
 
-        <Route path='/login' exact>
-          <LoginPage />
-        </Route>
+      <main className='container main'>
+        <Switch location={background || location}>
+          <Route path='/' exact>
+            <HomePage />
+          </Route>
 
-        <GuestRoute path='/register' exact>
-          <RegisterPage />
-        </GuestRoute>
+          <Route path='/login' exact>
+            <LoginPage />
+          </Route>
 
-        <GuestRoute path='/forgot-password' exact>
-          <ForgotPasswordPage />
-        </GuestRoute>
+          <GuestRoute path='/register' exact>
+            <RegisterPage />
+          </GuestRoute>
 
-        <GuestRoute path="/reset-password" exact>
-          <ResetPasswordPage />
-        </GuestRoute>
+          <GuestRoute path='/forgot-password' exact>
+            <ForgotPasswordPage />
+          </GuestRoute>
 
-        <ProtectedRoute path='/profile'>
-          <ProfilePage />
-        </ProtectedRoute>
+          <GuestRoute path="/reset-password" exact>
+            <ResetPasswordPage />
+          </GuestRoute>
 
-        <Route path='/ingredients/:id' exact>
-          <IngredientPage />
-        </Route>
+          <ProtectedRoute path='/profile'>
+            <ProfilePage />
+          </ProtectedRoute>
 
-        <Route>
-          <NotFound404 />
-        </Route>
-      </Switch>
+          <Route path='/ingredients/:id' exact>
+            <IngredientPage />
+          </Route>
+
+          <Route>
+            <NotFound404 />
+          </Route>
+        </Switch>
 
         { background
           && isOpen
@@ -97,7 +101,8 @@ const ModalSwitch = () => {
             </Route>
           )
         }
-    </div>
+      </main>
+    </>
   );
 };
 

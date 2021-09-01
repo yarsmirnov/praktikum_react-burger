@@ -3,7 +3,6 @@ import { Link, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setValue, resetPassword, clearForm  } from '../services/slices/form-reset-password';
 
-import AppHeader from '../components/app-header/app-header';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import Loader from '../components/loader/loader';
 
@@ -21,7 +20,8 @@ export const ResetPasswordPage = () => {
   } = useSelector(store => store.formResetPassword);
   const {
     sentEmail
-  } = useSelector(store => store.formForgotPassword)
+  } = useSelector(store => store.formForgotPassword);
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
   const [isPasswordVisable, setPasswordVisability] = useState(false);
 
   useEffect(() => {
@@ -42,6 +42,10 @@ export const ResetPasswordPage = () => {
   }, [dispatch, history, sentEmail, RESET_PASSWORD_SUCCESS]);
 
   const onInputChange = useCallback((evt) => {
+    if (evt.target.name === 'password') {
+      setIsPasswordValid(evt.target.value !== '');
+    }
+
     dispatch(setValue({
       name: evt.target.name,
       value: evt.target.value,
@@ -50,7 +54,10 @@ export const ResetPasswordPage = () => {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    dispatch(resetPassword());
+    if ( form.password !== ''
+      && form.token !== '') {
+        dispatch(resetPassword());
+      }
   };
 
   const onIconClick = () => {
@@ -58,81 +65,73 @@ export const ResetPasswordPage = () => {
   };
 
   return (
-    <>
-      <AppHeader />
+    <section className={`${styles.formContainer} pt-30`}>
+      <h1 className={`text text_type_main-medium mb-6`}>
+        Восстановление пароля
+      </h1>
 
-      <section className={`${styles.formContainer} pt-30`}>
-        <h1 className={`text text_type_main-medium mb-6`}>
-          Восстановление пароля
-        </h1>
-
-        <form onSubmit={handleSubmit}>
-          <div className={`${styles.inputWrapper} mb-6`}>
-            { isPasswordVisable
-              ? (
-                <Input
-                  type={'text'}
-                  placeholder={'Введите новый пароль'}
-                  onChange={onInputChange}
-                  icon={'HideIcon'}
-                  value={form.password}
-                  name={'password'}
-                  error={false}
-                  onIconClick={onIconClick}
-                  errorText={'Недопустимые символы'}
-                  size={'default'} />
-                ) : (
-                <Input
-                  type={'password'}
-                  placeholder={'Введите новый пароль'}
-                  onChange={onInputChange}
-                  icon={'ShowIcon'}
-                  value={form.password}
-                  name={'password'}
-                  error={false}
-                  onIconClick={onIconClick}
-                  errorText={'Недопустимые символы'}
-                  size={'default'} />)
-            }
-          </div>
-
-          <div className={`${styles.inputWrapper} mb-6`}>
-            <Input
-              type={'text'}
-              placeholder={'Введите код из письма'}
-              onChange={onInputChange}
-              value={form.token}
-              name={'token'}
-              error={RESET_PASSWORD_FAILURE}
-              errorText={'Неверный код'}
-              size={'default'}
-            />
-          </div>
-
-          <div className={'mb-20'}>
-            { RESET_PASSWORD_REQUEST
+      <form onSubmit={handleSubmit}>
+        <div className={`${styles.inputWrapper} mb-6`}>
+          { isPasswordVisable
             ? (
-              <Loader />
-            )
-            : (
-              <Button
-                type="primary"
-                size="medium"
-              >
-                Сохранить
-              </Button>
-            )}
-          </div>
-        </form>
+              <Input
+                type={'text'}
+                placeholder={'Введите новый пароль'}
+                onChange={onInputChange}
+                icon={'HideIcon'}
+                value={form.password}
+                name={'password'}
+                error={!isPasswordValid}
+                onIconClick={onIconClick}
+                errorText={'Недопустимые символы'}
+                size={'default'} />
+              ) : (
+              <Input
+                type={'password'}
+                placeholder={'Введите новый пароль'}
+                onChange={onInputChange}
+                icon={'ShowIcon'}
+                value={form.password}
+                name={'password'}
+                error={false}
+                onIconClick={onIconClick}
+                errorText={'Недопустимые символы'}
+                size={'default'} />)
+          }
+        </div>
 
+        <div className={`${styles.inputWrapper} mb-6`}>
+          <Input
+            type={'text'}
+            placeholder={'Введите код из письма'}
+            onChange={onInputChange}
+            value={form.token}
+            name={'token'}
+            error={RESET_PASSWORD_FAILURE}
+            errorText={'Неверный код'}
+            size={'default'}
+          />
+        </div>
 
+        <div className={'mb-20'}>
+          { RESET_PASSWORD_REQUEST
+          ? (
+            <Loader />
+          )
+          : (
+            <Button
+              type="primary"
+              size="medium"
+            >
+              Сохранить
+            </Button>
+          )}
+        </div>
+      </form>
 
-
-        <p className={'text text_type_main-default text_color_inactive'}>
-          Вспомнили пароль? <Link to='/login' className={styles.link}>Войти</Link>
-        </p>
-      </section>
-    </>
+      <p className={'text text_type_main-default text_color_inactive'}>
+        Вспомнили пароль? <Link to='/login' className={styles.link}>Войти</Link>
+      </p>
+    </section>
   );
-
 };
