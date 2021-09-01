@@ -29,8 +29,8 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 
 
 const ModalSwitch = () => {
-  let location = useLocation();
-  let background = location.state && location.state.background;
+  const location = useLocation();
+  const background = location.state && location.state.background;
   const { isOpen } = useSelector(store => store.modal);
 
   return (

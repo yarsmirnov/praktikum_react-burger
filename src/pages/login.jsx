@@ -17,13 +17,13 @@ import styles from './page-layout.module.css';
 export const LoginPage = () => {
   const dispatch = useDispatch(store => store.user);
   const history = useHistory();
-  let location = useLocation();
+  const location = useLocation();
   const { form } = useSelector(store => store.formLogin);
   const { user, LOGIN_REQUEST, LOGIN_SUCCESS } = useSelector(store => store.user);
   const [isPasswordVisable, setPasswordVisability] = useState(false);
   const [isEmailValid, setIsEmailValid] = useState(true);
 
-  let { from } = useMemo(() => {
+  const { from } = useMemo(() => {
     return location.state || { from: { pathname: '/' } }
   }, [location]);
 

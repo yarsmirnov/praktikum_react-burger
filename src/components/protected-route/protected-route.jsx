@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 const ProtectedRoute = ({ children, ...rest }) => {
   const dispatch = useDispatch();
-  let { user } = useSelector(store => store.user);
+  const { user } = useSelector(store => store.user);
 
   useEffect(() => {
     dispatch(loadUserData());
