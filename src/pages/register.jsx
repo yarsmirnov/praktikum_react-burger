@@ -46,7 +46,7 @@ export const RegisterPage = () => {
     setPasswordVisability(!isPasswordVisable);
   };
 
-  const onButtonClick = (evt) => {
+  const handleSubmit = (evt) => {
     evt.preventDefault();
     if (form.email !== ''
       && isEmailValid
@@ -64,7 +64,7 @@ export const RegisterPage = () => {
           Регистрация
         </h1>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className={`${styles.inputWrapper} mb-6`}>
             <Input
               type={'text'}
@@ -127,7 +127,6 @@ export const RegisterPage = () => {
                 <Button
                   type="primary"
                   size="medium"
-                  onClick={onButtonClick}
                 >
                   Зарегистрироваться
                 </Button>

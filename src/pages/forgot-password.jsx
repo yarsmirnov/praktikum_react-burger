@@ -41,7 +41,7 @@ export const ForgotPasswordPage = () => {
     }));
   }, [dispatch, setIsFormValid]);
 
-  const onButtonClick = useCallback((evt) => {
+  const handleSubmit = useCallback((evt) => {
     evt.preventDefault();
     if (isFormValid && form.email !== '') {
       dispatch(verifyEmail());
@@ -58,7 +58,7 @@ export const ForgotPasswordPage = () => {
           Восстановление пароля
         </h1>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className={`${styles.inputWrapper} mb-6`}>
             <Input
               type={'email'}
@@ -80,7 +80,6 @@ export const ForgotPasswordPage = () => {
                 <Button
                   type="primary"
                   size="medium"
-                  onClick={onButtonClick}
                 >
                   Восстановить
                 </Button>)

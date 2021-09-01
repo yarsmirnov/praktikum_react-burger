@@ -48,7 +48,7 @@ export const ResetPasswordPage = () => {
     }));
   }, [dispatch]);
 
-  const onButtonClick = (evt) => {
+  const handleSubmit = (evt) => {
     evt.preventDefault();
     dispatch(resetPassword());
   };
@@ -66,7 +66,7 @@ export const ResetPasswordPage = () => {
           Восстановление пароля
         </h1>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className={`${styles.inputWrapper} mb-6`}>
             { isPasswordVisable
               ? (
@@ -118,7 +118,6 @@ export const ResetPasswordPage = () => {
               <Button
                 type="primary"
                 size="medium"
-                onClick={onButtonClick}
               >
                 Сохранить
               </Button>

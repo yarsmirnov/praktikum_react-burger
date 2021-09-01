@@ -64,7 +64,7 @@ export const ProfilePage = () => {
     }));
   }, [dispatch]);
 
-  const onSaveButtonClick = useCallback((evt) => {
+  const handleSubmit = useCallback((evt) => {
     evt.preventDefault();
     dispatch(patchUserData(form));
   }, [dispatch, form]);
@@ -123,7 +123,10 @@ export const ProfilePage = () => {
             </p>
           </div>
           <div className={`${styles.profileContent}`}>
-            <form className={`${styles.profileForm}`}>
+            <form
+              className={`${styles.profileForm}`}
+              onSubmit={handleSubmit}
+            >
               <div className={`${layoutStyles.inputWrapper} mb-6`}>
                 <Input
                   type={'text'}
@@ -186,7 +189,6 @@ export const ProfilePage = () => {
                     <Button
                       type="primary"
                       size="medium"
-                      onClick={onSaveButtonClick}
                     >
                       Сохранить
                     </Button>
