@@ -1,11 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import styles from './order-details.module.css';
 import successGif from '../../images/done.gif';
 
 
-const OrderDetails = ({ orderId }) => {
+const OrderDetails = () => {
+  const { orderData } = useSelector(store => store.order);
 
   return (
     <>
@@ -13,7 +14,9 @@ const OrderDetails = ({ orderId }) => {
 
       <dl className={`${styles.order} mt-30`}>
         <dt className={`${styles.orderText} text_type_main-medium`}>идентификатор заказа</dt>
-        <dd className={`${styles.orderId} text_type_digits-large mb-8`}>{orderId}</dd>
+        <dd className={`${styles.orderId} text_type_digits-large mb-8`}>
+          { orderData.number }
+        </dd>
       </dl>
 
       <img
@@ -35,9 +38,9 @@ const OrderDetails = ({ orderId }) => {
 }
 
 
-OrderDetails.propTypes = {
-  orderId: PropTypes.number.isRequired,
-}
+// OrderDetails.propTypes = {
+//   id: PropTypes.number.isRequired,
+// }
 
 
 export default OrderDetails;

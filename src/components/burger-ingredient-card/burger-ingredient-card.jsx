@@ -5,12 +5,12 @@ import { Link, useLocation } from 'react-router-dom';
 import { useDrag } from 'react-dnd';
 import { openModal } from '../../services/slices/modal';
 
-import styles from './burger-ingredient-card.module.css';
-
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 
 import { ingredientType } from '../../utils/types';
 
+import styles from './burger-ingredient-card.module.css';
 
 const BurgerIngredientCard = ({
   id,
@@ -53,7 +53,7 @@ const BurgerIngredientCard = ({
         key={id}
         ref={dragRef}
         onClick={() => {
-          dispatch(openModal());
+          dispatch(openModal(IngredientDetails));
         }}
       >
         <img

@@ -1,13 +1,13 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { addItem, removeItem, setBun } from '../../services/slices/burger-constructor';
 import { increaseIngredientCount, decreaseIngredientCount } from '../../services/slices/ingredients';
 import { openModal } from '../../services/slices/modal';
 import { useDrop } from 'react-dnd';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
-import { sendOrderRequest } from '../../services/slices/order';
+import { resetRequestStatus, sendOrderRequest } from '../../services/slices/order';
 
 import styles from './burger-constructor.module.css';
 
@@ -18,21 +18,28 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import DraggableItem from './draggable-item';
 import OrderDetails from '../order-details/order-details';
-import Modal from '../modal/modal';
 import Loader from '../loader/loader';
 
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
   const {items: ingredients} = useSelector(store => store.burgerConstructor);
   const {
     ORDER_REQUEST,
     ORDER_SUCCESS,
-    orderData
   } = useSelector(store => store.order);
   const { user } = useSelector(store => store.user);
   const { isOpen } = useSelector(store => store.modal);
+
+  useEffect(() => {
+    if (ORDER_SUCCESS) {
+      history.push(`/order`, { background: location });
+      dispatch(openModal(OrderDetails));
+      dispatch(resetRequestStatus());
+    }
+  }, [history, location, dispatch, isOpen, ORDER_SUCCESS]);
 
   const [{canAccept}, dropTarget] = useDrop({
     accept: 'ingredient',
@@ -89,9 +96,7 @@ const BurgerConstructor = () => {
       const requestData = {
         ingredients: orderList.map(item => item.id),
       };
-
       dispatch(sendOrderRequest(requestData));
-      dispatch(openModal());
     }
   }, [user, history, dispatch, orderList]);
 
@@ -247,15 +252,6 @@ const BurgerConstructor = () => {
 
         { orderButton }
       </div>
-
-
-      { isOpen &&
-        ORDER_SUCCESS &&
-        (
-          <Modal>
-            <OrderDetails orderId={orderData.order.number} />
-          </Modal>
-      )}
     </section>
   );
 };

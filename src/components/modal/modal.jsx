@@ -13,8 +13,8 @@ import ModalOverlay from '../modal-overlay/modal-overlay';
 const modalRoot = document.getElementById('react-modals');
 
 
-const Modal = ({ children, closeModal }) => {
-  const { isOpen } = useSelector(store => store.modal);
+const Modal = ({ closeModal }) => {
+  const { isOpen, ComponentToView } = useSelector(store => store.modal);
 
   if (!isOpen) return null;
 
@@ -30,7 +30,7 @@ const Modal = ({ children, closeModal }) => {
             <CloseIcon type="primary" />
           </i>
         </button>
-        {children}
+        <ComponentToView />
       </section>
     </ModalOverlay>
   ), modalRoot) : null;
@@ -38,7 +38,6 @@ const Modal = ({ children, closeModal }) => {
 
 
 Modal.propTypes = {
-  children: PropTypes.element.isRequired,
   closeModal: PropTypes.func.isRequired,
 };
 

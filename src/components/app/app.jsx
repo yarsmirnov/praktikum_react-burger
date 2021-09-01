@@ -26,7 +26,6 @@ import {
 } from '../../pages';
 
 import Modal from '../modal/modal';
-import IngredientDetails from '../ingredient-details/ingredient-details';
 
 
 const ModalSwitch = () => {
@@ -82,7 +81,16 @@ const ModalSwitch = () => {
           && (
             <Route path='/ingredients/:id' exact>
               <Modal closeModal={handleModalClose}>
-                <IngredientDetails />
+              </Modal>
+            </Route>
+          )
+        }
+
+        { background
+          && isOpen
+          && (
+            <Route path='/order' exact>
+              <Modal closeModal={handleModalClose}>
               </Modal>
             </Route>
           )

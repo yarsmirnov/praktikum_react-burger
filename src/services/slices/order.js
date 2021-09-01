@@ -31,10 +31,20 @@ export const orderSlice = createSlice({
       ...initialState,
       ORDER_FAILURE: true,
     }),
+
+    resetRequestStatus: (state) => ({
+      ...initialState,
+      orderData: {...state.orderData}
+    }),
   },
 });
 
-const { request, success, failure } = orderSlice.actions;
+export const {
+  request,
+  success,
+  failure,
+  resetRequestStatus
+} = orderSlice.actions;
 
 
 export const sendOrderRequest = (orderData) => async (dispatch) => {
@@ -49,7 +59,7 @@ export const sendOrderRequest = (orderData) => async (dispatch) => {
     })
     .then(data => {
       if (!data.success) throw data;
-      dispatch(success({name: data.name, order: data.order}));
+      dispatch(success({ name: data.name, ...data.order }));
     })
     .catch(err => {
       if (err.message === 'jwt expired') {
