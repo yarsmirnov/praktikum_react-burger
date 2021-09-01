@@ -41,7 +41,7 @@ export const LoginPage = () => {
     setPasswordVisability(!isPasswordVisable);
   };
 
-  const onButtonClick = (evt) => {
+  const handleSubmit = (evt) => {
     evt.preventDefault();
     if (form.email !== ''
       && isEmailValid
@@ -70,7 +70,10 @@ export const LoginPage = () => {
           Вход
         </h1>
 
-        <form className={`${styles.form} mb-20`}>
+        <form
+          className={`${styles.form} mb-20`}
+          onSubmit={handleSubmit}
+        >
           <div className={`${styles.inputWrapper} mb-6`}>
             <Input
               type={'email'}
@@ -119,7 +122,6 @@ export const LoginPage = () => {
               <Button
                 type="primary"
                 size="medium"
-                onClick={onButtonClick}
               >
                 Войти
               </Button>
