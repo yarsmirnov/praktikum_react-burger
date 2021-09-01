@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { setCookie, deleteCookie } from '../../utils/cookie';
 import {
-  refreshToken,
+  refreshTokenRequest,
   registerUserRequest,
   loginRequest,
   logoutRequest,
@@ -192,6 +192,15 @@ export const {
 } = userSlice.actions;
 
 
+export const refreshToken = (afterRefresh) => async (dispatch) => {
+  refreshTokenRequest()
+    .then((res) => {
+      localStorage.setItem('refreshToken', res.refreshToken);
+      setCookie('accessToken', res.accessToken);
+      dispatch(afterRefresh);
+    });
+};
+
 export const registerUser = (form) => async (dispatch) => {
   registerUserRequest(form)
   .then(res => {
@@ -302,7 +311,7 @@ export const loginUser = (form) => async (dispatch) => {
 export const logoutUser = () => async (dispatch) => {
   dispatch(setLogoutRequest());
 
-  logoutRequest(localStorage.getItem('refreshToken'))
+  logoutRequest()
     .then(response => {
       if (response.ok) {
         dispatch(setUser(null));

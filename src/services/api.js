@@ -1,11 +1,9 @@
-import { setCookie, getCookie } from '../utils/cookie';
+import { getCookie } from '../utils/cookie';
 
 const baseApi = 'https://norma.nomoreparties.space/api'
 
 
-const refreshTokenRequest = async () => {
-  const token = localStorage.getItem('refreshToken');
-
+export const refreshTokenRequest = async () => {
   return await fetch(`${baseApi}/auth/token`, {
     method: 'POST',
     mode: 'cors',
@@ -16,19 +14,9 @@ const refreshTokenRequest = async () => {
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
-    body: JSON.stringify({token})
+    body: JSON.stringify({token: localStorage.getItem('refreshToken')})
   });
 };
-
-export const refreshToken = (afterRefresh) => async (dispatch) => {
-  refreshTokenRequest()
-    .then((res) => {
-      localStorage.setItem('refreshToken', res.refreshToken);
-      setCookie('accessToken', res.accessToken);
-      dispatch(afterRefresh);
-    });
-};
-
 
 export const getIngredientsRequest = async () => {
   return await fetch(`${baseApi}/ingredients`, {
@@ -106,7 +94,7 @@ export const patchUserRequest = async (form) => {
   })
 };
 
-export const logoutRequest = async (refreshToken) => {
+export const logoutRequest = async () => {
   return await fetch(`${baseApi}/auth/logout`, {
     method: 'POST',
     mode: 'cors',
@@ -117,7 +105,7 @@ export const logoutRequest = async (refreshToken) => {
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
-    body: JSON.stringify({token: refreshToken})
+    body: JSON.stringify({token: localStorage.getItem('refreshToken')})
   });
 };
 

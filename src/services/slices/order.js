@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { refreshToken, orderRequest } from '../api';
+import { orderRequest } from '../api';
+import { refreshToken } from './user';
 
 const initialState = {
   ORDER_REQUEST: false,
