@@ -32,7 +32,9 @@ const ModalSwitch = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
-  const background = location.state && location.state.background;
+  const background = (history.action === 'PUSH' || history.action === 'REPLACE')
+    && location.state
+    && location.state.background;
   const { isOpen } = useSelector(store => store.modal);
 
   const handleModalClose = () => {
