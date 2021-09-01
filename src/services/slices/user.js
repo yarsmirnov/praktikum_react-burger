@@ -247,7 +247,7 @@ export const loadUserData = () => async (dispatch) => {
         dispatch(refreshToken(loadUserData()));
       } else {
         dispatch(setUser(null));
-        dispatch(setLoginFailure());
+        dispatch(setGetUserFailure());
         console.error(err);
       }
     });

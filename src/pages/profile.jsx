@@ -37,7 +37,6 @@ export const ProfilePage = () => {
   } = useSelector(store => store.formProfile);
   const {
     user,
-    GET_USER_REQUEST,
     PATCH_USER_REQUEST,
   } = useSelector(store => store.user);
 
@@ -170,18 +169,13 @@ export const ProfilePage = () => {
               </div>
 
               <div className={`${styles.profileForm_controls}`}>
-                { GET_USER_REQUEST
-                  ? (<Loader />)
-                  : (
-                    <Button
-                      type="secondary"
-                      size="medium"
-                      onClick={onResetButtonClick}
-                    >
-                      Отменить
-                    </Button>
-                  )
-                }
+                <Button
+                  type="secondary"
+                  size="medium"
+                  onClick={onResetButtonClick}
+                >
+                  Отменить
+                </Button>
 
                 { PATCH_USER_REQUEST
                   ? (<Loader />)
