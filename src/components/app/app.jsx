@@ -3,8 +3,9 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadUserData } from '../../services/slices/user';
 import { getIngredients } from '../../services/slices/ingredients';
+import { closeModal } from '../../services/slices/modal';
 
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 
 import {
   BrowserRouter as Router,
@@ -29,9 +30,16 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 
 
 const ModalSwitch = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const location = useLocation();
   const background = location.state && location.state.background;
   const { isOpen } = useSelector(store => store.modal);
+
+  const handleModalClose = () => {
+    dispatch(closeModal());
+    history.goBack();
+  };
 
   return (
     <div>
@@ -73,7 +81,7 @@ const ModalSwitch = () => {
           && isOpen
           && (
             <Route path='/ingredients/:id' exact>
-              <Modal>
+              <Modal closeModal={handleModalClose}>
                 <IngredientDetails />
               </Modal>
             </Route>

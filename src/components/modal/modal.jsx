@@ -1,10 +1,8 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { closeModal } from '../../services/slices/modal';
-import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import styles from './modal.module.css';
 
@@ -15,25 +13,18 @@ import ModalOverlay from '../modal-overlay/modal-overlay';
 const modalRoot = document.getElementById('react-modals');
 
 
-const Modal = ({ children }) => {
-  const dispatch = useDispatch();
-  const history = useHistory();
+const Modal = ({ children, closeModal }) => {
   const { isOpen } = useSelector(store => store.modal);
-
-  const handleCloseClick = useCallback(() => {
-    dispatch(closeModal());
-    history.goBack();
-  }, [dispatch, history]);
 
   if (!isOpen) return null;
 
   return modalRoot ? createPortal((
-    <ModalOverlay toggleModal={handleCloseClick}>
+    <ModalOverlay closeModal={closeModal}>
       <section className={`${styles.modal} text pl-10 pr-10`}>
         <button
           className={styles.closeButton}
           aria-label="Закрыть модальное окно"
-          onClick={handleCloseClick}
+          onClick={closeModal}
         >
           <i>
             <CloseIcon type="primary" />
@@ -48,6 +39,7 @@ const Modal = ({ children }) => {
 
 Modal.propTypes = {
   children: PropTypes.element.isRequired,
+  closeModal: PropTypes.func.isRequired,
 };
 
 
