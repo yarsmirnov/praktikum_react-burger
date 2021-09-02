@@ -32,13 +32,11 @@ const LinkClasses = {
 export const ProfilePage = () => {
   const dispatch = useDispatch();
   const { url } = useRouteMatch();
-  const {
-    form
-  } = useSelector(store => store.formProfile);
+  const { form } = useSelector((store) => store.formProfile);
   const {
     user,
     PATCH_USER_REQUEST,
-  } = useSelector(store => store.user);
+  } = useSelector((store) => store.user);
 
   useEffect(() => {
     dispatch(setInitialValue(user));

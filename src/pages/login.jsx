@@ -14,11 +14,11 @@ import styles from './page-layout.module.css';
 
 
 export const LoginPage = () => {
-  const dispatch = useDispatch(store => store.user);
+  const dispatch = useDispatch((store) => store.user);
   const history = useHistory();
   const location = useLocation();
-  const { form } = useSelector(store => store.formLogin);
-  const { user, LOGIN_REQUEST, LOGIN_SUCCESS } = useSelector(store => store.user);
+  const { form } = useSelector((store) => store.formLogin);
+  const { user, LOGIN_REQUEST, LOGIN_SUCCESS } = useSelector((store) => store.user);
   const [isPasswordVisable, setPasswordVisability] = useState(false);
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [isPasswordValid, setIsPasswordValid] = useState(true);

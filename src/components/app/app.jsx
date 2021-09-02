@@ -5,13 +5,14 @@ import { loadUserData } from '../../services/slices/user';
 import { getIngredients } from '../../services/slices/ingredients';
 import { closeModal } from '../../services/slices/modal';
 
-import { useLocation, useHistory } from 'react-router-dom';
-
 import {
   BrowserRouter as Router,
   Switch,
   Route,
+  useLocation,
+  useHistory
 } from "react-router-dom";
+
 import ProtectedRoute from '../protected-route/protected-route';
 import GuestRoute from '../guest-route/guest-route';
 import {
@@ -36,7 +37,7 @@ const ModalSwitch = () => {
   const background = (history.action === 'PUSH' || history.action === 'REPLACE')
     && location.state
     && location.state.background;
-  const { isOpen } = useSelector(store => store.modal);
+  const { isOpen } = useSelector((store) => store.modal);
 
   const handleModalClose = () => {
     dispatch(closeModal());

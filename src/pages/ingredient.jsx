@@ -13,12 +13,12 @@ import styles from './ingredient.module.css';
 
 export const IngredientPage = () => {
   const dispatch = useDispatch();
-  const { items: ingredients } = useSelector(store => store.ingredients);
+  const { items: ingredients } = useSelector((store) => store.ingredients);
 
   const { id } = useParams();
 
   const ingredient = useMemo(
-    () => ingredients.find(item => item.id === id),
+    () => ingredients.find((item) => item.id === id),
     [ingredients, id]
   );
 
@@ -58,6 +58,7 @@ export const IngredientPage = () => {
   return (
     <>
       <AppHeader />
+
       <section className={`${layoutStyles.pageContainer} ${styles.container} center-children mt-30`}>
         <h1 className={`${styles.title} text text_type_main-large mt-10`}>
           Детали ингредиента
@@ -74,7 +75,7 @@ export const IngredientPage = () => {
         <h2
           className={`${styles.ingredientName} text_type_main-medium mb-8`}
         >
-          {ingredient.name}
+          { ingredient.name }
         </h2>
 
         <dl className={`${styles.composition} text_type_main-default text_color_inactive mb-15`}>
@@ -83,7 +84,7 @@ export const IngredientPage = () => {
             <dd
               className={'text_type_digits-default'}
             >
-              {ingredient.calories}
+              { ingredient.calories }
             </dd>
           </div>
           <div className={styles.compositionItem}>
@@ -91,7 +92,7 @@ export const IngredientPage = () => {
             <dd
               className={'text_type_digits-default'}
             >
-              {ingredient.proteins}
+              { ingredient.proteins }
             </dd>
           </div>
           <div className={styles.compositionItem}>
@@ -99,7 +100,7 @@ export const IngredientPage = () => {
             <dd
               className={'text_type_digits-default'}
             >
-              {ingredient.fat}
+              { ingredient.fat }
             </dd>
           </div>
           <div className={styles.compositionItem}>
@@ -107,7 +108,7 @@ export const IngredientPage = () => {
             <dd
               className={'text_type_digits-default'}
             >
-              {ingredient.carbohydrates}
+              { ingredient.carbohydrates }
             </dd>
           </div>
         </dl>

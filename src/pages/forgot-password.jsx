@@ -18,18 +18,18 @@ export const ForgotPasswordPage = () => {
     form,
     VERIFY_EMAIL_SUCCESS,
     VERIFY_EMAIL_REQUEST,
-    sentEmail
-  } = useSelector(store => store.formForgotPassword);
+    verifiedEmail
+  } = useSelector((store) => store.formForgotPassword);
   const [isFormValid, setIsFormValid] = useState(true);
 
   useEffect(() => {
-    if (VERIFY_EMAIL_SUCCESS && sentEmail) {
+    if (VERIFY_EMAIL_SUCCESS && verifiedEmail) {
       history.replace({
         pathname: '/reset-password'
       });
       dispatch(clearForm());
     }
-  }, [history, dispatch, VERIFY_EMAIL_SUCCESS, sentEmail]);
+  }, [history, dispatch, VERIFY_EMAIL_SUCCESS, verifiedEmail]);
 
   const onInputChange = useCallback((evt) => {
     setIsFormValid(regExpEmail.test(evt.target.value));

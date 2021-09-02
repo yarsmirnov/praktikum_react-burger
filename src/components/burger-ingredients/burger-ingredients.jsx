@@ -18,11 +18,11 @@ const navTabs = [
 ];
 
 const filterByType = (items, type) => {
-  return items.filter(item => item.type === type);
+  return items.filter((item) => item.type === type);
 };
 
 const BurgerIngredients = () => {
-  const { items: ingredients } = useSelector(store => store.ingredients);
+  const { items: ingredients } = useSelector((store) => store.ingredients);
 
   const [current, setCurrent] = useState('bun');
   const [ showModal, setShowModal ] = useState(false);
@@ -108,42 +108,45 @@ const BurgerIngredients = () => {
       </h1>
 
       <div className={styles.navigation}>
-        {navTabs.map(tab => {
-          return (
-            <Tab
-              key={tab.id}
-              value={tab.id}
-              active={current === tab.id}
-              onClick={() => {
-                setCurrent(tab.id);
-                scrollToSection(tab.id);
-              }}
-            >
-              {tab.navTitle}
-            </Tab>
-          );
-        })}
+        { navTabs.map(tab => {
+            return (
+              <Tab
+                key={tab.id}
+                value={tab.id}
+                active={current === tab.id}
+                onClick={() => {
+                  setCurrent(tab.id);
+                  scrollToSection(tab.id);
+                }}
+              >
+                { tab.navTitle }
+              </Tab>
+            );
+          })
+        }
       </div>
 
       <div className={`${styles.catalog} scroller`}>
-        {navTabs.map(tab => (
-          <IngredientSection
-            key={tab.id}
-            title={tab.sectionTitle}
-            isActive={current === tab.id}
-            ingredients={filterByType(ingredients, tab.id)}
-            onCardClick={onCardClick(setShowModal)}
-            sectionRef={sectionRefs[`${tab.id}SectionRef`]}
-            titleRef={titleRefs[`${tab.id}TitleRef`]}
-          />)
-        )}
+        { navTabs.map(tab => (
+            <IngredientSection
+              key={tab.id}
+              title={tab.sectionTitle}
+              isActive={current === tab.id}
+              ingredients={filterByType(ingredients, tab.id)}
+              onCardClick={onCardClick(setShowModal)}
+              sectionRef={sectionRefs[`${tab.id}SectionRef`]}
+              titleRef={titleRefs[`${tab.id}TitleRef`]}
+            />)
+          )
+        }
       </div>
 
-      {showModal && (
-        <Modal>
-          <IngredientDetails />
-        </Modal>
-      )}
+      { showModal && (
+          <Modal>
+            <IngredientDetails />
+          </Modal>
+        )
+      }
     </section>
   );
 }

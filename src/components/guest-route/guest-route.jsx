@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 
 const GuestRoute = ({ children, ...rest }) => {
-  const { user } = useSelector(store => store.user);
+  const { user } = useSelector((store) => store.user);
 
   return (
     <Route

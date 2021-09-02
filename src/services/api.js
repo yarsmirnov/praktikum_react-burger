@@ -1,5 +1,6 @@
 import { getCookie } from '../utils/cookie';
 
+
 const baseApi = 'https://norma.nomoreparties.space/api'
 
 
@@ -123,6 +124,19 @@ export const orderRequest = async (orderData) => {
     referrerPolicy: 'no-referrer',
     body: JSON.stringify(orderData),
   })
+};
+
+export const forgotPasswordRequest = async (formData) => {
+  return await fetch(`${baseApi}/password-reset`, {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: { 'Content-Type': 'application/json' },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify(formData),
+  });
 };
 
 export const resetPasswordRequest = async (formData) => {

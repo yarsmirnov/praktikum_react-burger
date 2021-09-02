@@ -1,18 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { forgotPasswordRequest } from '../api';
+
 
 const initialState = {
   VERIFY_EMAIL_REQUEST: false,
   VERIFY_EMAIL_SUCCESS: false,
   VERIFY_EMAIL_FAILURE: false,
 
-  sentEmail: null,
+  verifiedEmail: null,
 
   form: {
     email: '',
   }
 };
 
-const forgotPasswordApi = 'https://norma.nomoreparties.space/api/password-reset';
 
 export const formForgotPasswordSlice = createSlice({
   name: 'formForgotPassword',
@@ -26,15 +27,15 @@ export const formForgotPasswordSlice = createSlice({
       }
     }),
 
-    setSentEmail: (state, action) => ({
+    setVerifiedEmail: (state, action) => ({
       ...state,
-      sentEmail: action.payload,
+      verifiedEmail: action.payload,
       form: {...state.form},
     }),
 
     clearForm: (state) => ({
       ...initialState,
-      sentEmail: state.form.email,
+      verifiedEmail: state.form.email,
     }),
 
     request: (state) => ({
@@ -66,7 +67,7 @@ export const formForgotPasswordSlice = createSlice({
 
 export const {
   setValue,
-  setSentEmail,
+  setVerifiedEmail,
   clearForm,
   request,
   success,
@@ -75,16 +76,12 @@ export const {
 
 
 export const verifyEmail = () => async (dispatch, getState) => {
-  const form = getState().formForgotPassword.form;
+  const formData = getState().formForgotPassword.form;
 
   dispatch(request());
-  dispatch(setSentEmail(null));
+  dispatch(setVerifiedEmail(null));
 
-  fetch(forgotPasswordApi, {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(form),
-  })
+  forgotPasswordRequest(formData)
     .then(response => {
       if (response.ok) {
         return response.json();
@@ -94,7 +91,7 @@ export const verifyEmail = () => async (dispatch, getState) => {
     .then(data => {
       if (data.success) {
         dispatch(success());
-        dispatch(setSentEmail(form.email));
+        dispatch(setVerifiedEmail(formData.email));
       } else {
         throw new Error('Unsuccessful verify email request');
       }

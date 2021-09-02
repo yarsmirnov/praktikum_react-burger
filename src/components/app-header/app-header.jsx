@@ -3,10 +3,12 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+
 import styles from './app-header.module.css';
 
+
 const AppHeader = () => {
-  const { user } = useSelector(store => store.user);
+  const { user } = useSelector((store) => store.user);
 
   return (
     <header className={`${styles.header} pt-4 pb-4`}>
@@ -53,14 +55,12 @@ const AppHeader = () => {
               </Link>
             )
           }
-
-          <a className={styles.link} href="#nowhere">
-          </a>
         </li>
       </ul>
 
     </header>
   );
-}
+};
+
 
 export default AppHeader;

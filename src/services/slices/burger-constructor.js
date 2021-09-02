@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {v4 as uuidv4} from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 
 const initialState = {
@@ -68,6 +68,7 @@ export const burgerConstructorSlide = createSlice({
     clearConstructor: () => initialState,
   },
 });
+
 
 export const {
   addItem,

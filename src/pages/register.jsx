@@ -16,11 +16,11 @@ export const RegisterPage = () => {
   const history = useHistory();
   const {
     form
-  } = useSelector(store => store.formRegister);
+  } = useSelector((store) => store.formRegister);
   const {
     REGISTER_REQUEST,
     REGISTER_SUCCESS
-  } = useSelector(store => store.user);
+  } = useSelector((store) => store.user);
 
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [isPasswordValid, setIsPasswordValid] = useState(true);

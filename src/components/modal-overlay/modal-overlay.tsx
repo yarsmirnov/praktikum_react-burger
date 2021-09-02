@@ -21,7 +21,7 @@ const ModalOverlay = ({ closeModal, children }) => {
       }
     },
     [closeModal]
-  )
+  );
 
   useEffect(() => {
     document.addEventListener('keydown', handleEscPress);
@@ -36,7 +36,7 @@ const ModalOverlay = ({ closeModal, children }) => {
       ref={overlayRef}
       onClick={handleClick}
     >
-      {children}
+      { children }
     </div>
   );
 };

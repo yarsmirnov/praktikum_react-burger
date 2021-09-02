@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { useDispatch } from 'react-redux';
+import { openModal } from '../../services/slices/modal';
 import { Link, useLocation } from 'react-router-dom';
 import { useDrag } from 'react-dnd';
-import { openModal } from '../../services/slices/modal';
 
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientDetails from '../ingredient-details/ingredient-details';
@@ -11,6 +11,7 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import { ingredientType } from '../../utils/types';
 
 import styles from './burger-ingredient-card.module.css';
+
 
 const BurgerIngredientCard = ({
   id,
@@ -26,7 +27,7 @@ const BurgerIngredientCard = ({
 }) => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const [,dragRef] = useDrag({
+  const [, dragRef] = useDrag({
     type: 'ingredient',
     item: {
       id,
@@ -62,21 +63,22 @@ const BurgerIngredientCard = ({
           alt={name}
         />
         <span className={`${styles.price} text_type_digits-default mb-1`}>
-          {price}
+          { price }
           <i className='ml-2'>
             <CurrencyIcon type="primary" />
           </i>
         </span>
 
         <h3 className={`${styles.title} text_type_main-default`}>
-          {name}
+          { name }
         </h3>
 
-        {count ?
-          (<i className={styles.counter}>
-            <Counter count={count} size="default" />
-          </i>):
-          null}
+        { count
+            ? (<i className={styles.counter}>
+                <Counter count={count} size="default" />
+              </i>)
+            : null
+        }
       </Link>
     </>
   );

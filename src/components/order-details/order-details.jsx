@@ -1,12 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import styles from './order-details.module.css';
 import successGif from '../../images/done.gif';
+
+import styles from './order-details.module.css';
 
 
 const OrderDetails = () => {
-  const { orderData } = useSelector(store => store.order);
+  const { orderData } = useSelector((store) => store.order);
 
   return (
     <>
@@ -36,11 +37,6 @@ const OrderDetails = () => {
     </>
   );
 }
-
-
-// OrderDetails.propTypes = {
-//   id: PropTypes.number.isRequired,
-// }
 
 
 export default OrderDetails;

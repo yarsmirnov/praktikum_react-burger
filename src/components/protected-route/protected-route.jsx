@@ -5,22 +5,22 @@ import { useSelector } from 'react-redux';
 
 
 const ProtectedRoute = ({ children, ...rest }) => {
-  const { user } = useSelector(store => store.user);
+  const { user } = useSelector((store) => store.user);
 
   return (
     <Route
       {...rest}
-      render={({location}) =>
-        user ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: '/login',
-              state: { from: location }
-            }}
-          />
-        )
+      render={({ location }) =>
+        user
+         ? ( children )
+         : (
+            <Redirect
+              to={{
+                pathname: '/login',
+                state: { from: location }
+              }}
+            />
+          )
       }
     />
   );

@@ -11,7 +11,7 @@ import styles from './ingredient-details.module.css';
 
 const IngredientDetails = () => {
   const dispatch = useDispatch();
-  const { items: ingredients } = useSelector(store => store.ingredients);
+  const { items: ingredients } = useSelector((store) => store.ingredients);
 
   const { id } = useParams();
 
@@ -55,7 +55,7 @@ const IngredientDetails = () => {
       <h3
         className={`${styles.ingredientName} text_type_main-medium mb-8`}
       >
-        {ingredient.name}
+        { ingredient.name }
       </h3>
       <dl className={`${styles.composition} text_type_main-default text_color_inactive mb-15`}>
         <div className={styles.compositionItem}>
@@ -63,7 +63,7 @@ const IngredientDetails = () => {
           <dd
             className={'text_type_digits-default'}
           >
-            {ingredient.calories}
+            { ingredient.calories }
           </dd>
         </div>
         <div className={styles.compositionItem}>
@@ -71,7 +71,7 @@ const IngredientDetails = () => {
           <dd
             className={'text_type_digits-default'}
           >
-            {ingredient.proteins}
+            { ingredient.proteins }
           </dd>
         </div>
         <div className={styles.compositionItem}>
@@ -79,7 +79,7 @@ const IngredientDetails = () => {
           <dd
             className={'text_type_digits-default'}
           >
-            {ingredient.fat}
+            { ingredient.fat }
           </dd>
         </div>
         <div className={styles.compositionItem}>
@@ -87,7 +87,7 @@ const IngredientDetails = () => {
           <dd
             className={'text_type_digits-default'}
           >
-            {ingredient.carbohydrates}
+            { ingredient.carbohydrates }
           </dd>
         </div>
       </dl>
