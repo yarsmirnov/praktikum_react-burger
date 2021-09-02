@@ -64,6 +64,8 @@ export const burgerConstructorSlide = createSlice({
         ],
       });
     },
+
+    clearConstructor: () => initialState,
   },
 });
 
@@ -72,6 +74,7 @@ export const {
   removeItem,
   moveItem,
   setBun,
+  clearConstructor
 } = burgerConstructorSlide.actions;
 
 

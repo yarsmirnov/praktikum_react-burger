@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { addItem, removeItem, setBun } from '../../services/slices/burger-constructor';
-import { increaseIngredientCount, decreaseIngredientCount } from '../../services/slices/ingredients';
+import { addItem, removeItem, setBun, clearConstructor } from '../../services/slices/burger-constructor';
+import {
+  increaseIngredientCount,
+  decreaseIngredientCount,
+  resetIngredientsCounter
+} from '../../services/slices/ingredients';
 import { openModal } from '../../services/slices/modal';
 import { useDrop } from 'react-dnd';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -38,6 +42,8 @@ const BurgerConstructor = () => {
       history.push(`/order`, { background: location });
       dispatch(openModal(OrderDetails));
       dispatch(resetRequestStatus());
+      dispatch(clearConstructor());
+      dispatch(resetIngredientsCounter());
     }
   }, [history, location, dispatch, isOpen, ORDER_SUCCESS]);
 

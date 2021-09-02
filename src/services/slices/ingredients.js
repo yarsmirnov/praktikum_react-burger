@@ -79,6 +79,22 @@ export const ingredientsSlice = createSlice({
         items: updatedIngredients,
       });
     },
+
+    resetIngredientsCounter: (state) => {
+      const itemsWithEmptyCounter = state.items.map(
+        item => {
+          if (item.count) {
+            return { ...item, count: 0 };
+          }
+          return item;
+        }
+      );
+
+      return {
+        ...state,
+        items: itemsWithEmptyCounter,
+      };
+    },
   },
 });
 
@@ -86,7 +102,8 @@ export const ingredientsSlice = createSlice({
 export const {
   success,
   increaseIngredientCount,
-  decreaseIngredientCount
+  decreaseIngredientCount,
+  resetIngredientsCounter
 } = ingredientsSlice.actions;
 
 export const getIngredients = () => async (dispatch) => {
