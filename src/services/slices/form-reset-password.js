@@ -1,4 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { resetPasswordRequest } from '../api';
+
 
 const initialState = {
   RESET_PASSWORD_REQUEST: false,
@@ -10,8 +12,6 @@ const initialState = {
     token: '',
   }
 };
-
-const resetPasswordApi = 'https://norma.nomoreparties.space/api/password-reset/reset';
 
 export const formResetPasswordSlice = createSlice({
   name: 'formResetPassword',
@@ -64,14 +64,11 @@ export const {
 
 
 export const resetPassword = () => async (dispatch, getState) => {
-  const data = getState().formResetPassword.form;
+  const formData = getState().formResetPassword.form;
+
   dispatch(request());
 
-  fetch(resetPasswordApi, {
-    nethod: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(data),
-  })
+  resetPasswordRequest(formData)
     .then(response => {
       if (response.ok) {
         return response.json();
@@ -82,8 +79,6 @@ export const resetPassword = () => async (dispatch, getState) => {
     .then(data => {
       if (data.success) {
         dispatch(success());
-      } else {
-        dispatch(failure());
       }
       return data;
     })
