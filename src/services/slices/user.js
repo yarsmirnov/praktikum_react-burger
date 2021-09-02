@@ -198,7 +198,8 @@ export const refreshToken = (afterRefresh) => async (dispatch) => {
       localStorage.setItem('refreshToken', res.refreshToken);
       setCookie('accessToken', res.accessToken);
       dispatch(afterRefresh);
-    });
+    })
+    .catch(err => { throw err });
 };
 
 export const registerUser = (form) => async (dispatch) => {
