@@ -7,8 +7,6 @@ import styles from './burger-ingredients.module.css';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientSection from '../ingredient-section/ingredient-section';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import Modal from '../modal/modal';
 
 
 const navTabs = [
@@ -25,7 +23,6 @@ const BurgerIngredients = () => {
   const { items: ingredients } = useSelector((store) => store.ingredients);
 
   const [current, setCurrent] = useState('bun');
-  const [ showModal, setShowModal ] = useState(false);
 
   const { ref: bunSectionRef, inView: bunInView } = useInView({
     threshold: 0,
@@ -96,10 +93,6 @@ const BurgerIngredients = () => {
     }
   }, [titleRefs]);
 
-  const onCardClick = (showModal) => (data) => {
-    showModal(true);
-  }
-
 
   return (
     <section className='column mr-10'>
@@ -133,20 +126,12 @@ const BurgerIngredients = () => {
               title={tab.sectionTitle}
               isActive={current === tab.id}
               ingredients={filterByType(ingredients, tab.id)}
-              onCardClick={onCardClick(setShowModal)}
               sectionRef={sectionRefs[`${tab.id}SectionRef`]}
               titleRef={titleRefs[`${tab.id}TitleRef`]}
             />)
           )
         }
       </div>
-
-      { showModal && (
-          <Modal>
-            <IngredientDetails />
-          </Modal>
-        )
-      }
     </section>
   );
 }

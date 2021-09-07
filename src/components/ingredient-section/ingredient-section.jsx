@@ -14,7 +14,6 @@ const IngredientSection = ({
   isActive,
   sectionRef,
   titleRef,
-  onCardClick
 }) => {
 
   const scrollIntoHeading = useCallback(() => {
@@ -49,7 +48,6 @@ const IngredientSection = ({
           <li key={item.id}>
             <BurgerIngredientCard
               { ...item }
-              onCardClick={onCardClick}
             />
           </li>
         ))}
@@ -71,7 +69,6 @@ IngredientSection.propType = {
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.instanceOf(Element) })
   ]),
-  onCardClick: PropTypes.func.isRequired,
 };
 
 
