@@ -1,17 +1,29 @@
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux';
 
-import ingredients from '../slices/ingredients';
-import ingredientInfo from '../slices/ingredient-info';
 import burgerConstructor from '../slices/burger-constructor';
+import formForgotPassword from '../slices/form-forgot-password';
+import formLogin from '../slices/form-login';
+import formProfile from '../slices/form-profile';
+import formRegister from '../slices/form-register';
+import formResetPassword from '../slices/form-reset-password';
+import ingredients from '../slices/ingredients';
+import modal from '../slices/modal';
 import order from '../slices/order';
+import user from '../slices/user';
 
 
 const rootReducer = combineReducers({
-  ingredients,
-  ingredientInfo,
   burgerConstructor,
+  formForgotPassword,
+  formLogin,
+  formProfile,
+  formRegister,
+  formResetPassword,
+  ingredients,
+  modal,
   order,
-})
+  user,
+});
 
 
 export default rootReducer;

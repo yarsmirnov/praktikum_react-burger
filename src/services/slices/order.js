@@ -1,4 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { orderRequest } from '../api';
+import { refreshToken } from './user';
 
 
 const initialState = {
@@ -7,8 +9,6 @@ const initialState = {
   ORDER_FAILURE: false,
   orderData: {},
 };
-
-const orderPostApi = 'https://norma.nomoreparties.space/api/orders';
 
 
 export const orderSlice = createSlice({
@@ -33,40 +33,46 @@ export const orderSlice = createSlice({
       ...initialState,
       ORDER_FAILURE: true,
     }),
+
+    resetRequestStatus: (state) => ({
+      ...initialState,
+      orderData: {...state.orderData}
+    }),
   },
 });
 
-const { request, success, failure } = orderSlice.actions;
+
+export const {
+  request,
+  success,
+  failure,
+  resetRequestStatus
+} = orderSlice.actions;
 
 
-export const sendOrderRequest = (data) => async (dispatch) => {
+export const sendOrderRequest = (orderData) => async (dispatch) => {
   dispatch(request());
 
-  fetch(orderPostApi, {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(data),
-  })
-  .then((response) => {
-    if (response.ok) {
-      return response.json();
-    }
-    dispatch(failure());
-    throw new Error('Bad BurgerConstructor request');
-  })
-  .then(data => {
-    if (data.success) {
-      dispatch(success({name: data.name, order: data.order}));
-    } else {
-      dispatch(failure());
-      throw new Error('BurgerConstructor got unsuccessful response');
-    }
-  })
-  .catch(err => {
-    dispatch(failure());
-    console.log('Order request error:', err);
-  });
-}
+  orderRequest(orderData)
+    .then((res) => {
+      if (!res.ok && !res.status === 403) {
+        throw new Error('Failed send order request');
+      };
+      return res.json();
+    })
+    .then(data => {
+      if (!data.success) throw data;
+      dispatch(success({ name: data.name, ...data.order }));
+    })
+    .catch(err => {
+      if (err.message === 'jwt expired') {
+        dispatch(refreshToken(orderRequest(orderData)));
+      } else {
+        dispatch(failure());
+        console.error('Order request error:', err);
+      }
+    });
+};
 
 
 export default orderSlice.reducer;

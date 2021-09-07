@@ -1,11 +1,24 @@
+.pageContainer {
+  box-sizing: border-box;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
 .loaderContainer {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .title {
-  align-self: flex-start;
   margin-bottom: 0;
 }
 

@@ -1,22 +1,10 @@
 #root {
   overflow: hidden;
+  --text-dark-grey: #8585ad;
 }
 
 #react-modals {
   z-index: 100;
-}
-
-.main {
-  display: flex;
-  flex-wrap: wrap;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-.column {
-  box-sizing: border-box;
-  width: 600px;
 }
 
 .visualliHidden {
@@ -35,6 +23,31 @@
   clip: rect(0 0 0 0);
   -webkit-clip-path: inset(100%);
           clip-path: inset(100%);
+}
+
+.text-dark {
+  color: var(--text-dark-grey);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.container {
+  box-sizing: border-box;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.main {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.column {
+  box-sizing: border-box;
+  width: 600px;
 }
 
 .scroller {

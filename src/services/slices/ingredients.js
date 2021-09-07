@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { adaptIngredients } from '../../utils/adapter';
+import { getIngredientsRequest } from '../api';
 
 const initialState = {
   INGREDIENTS_REQUEST: false,
@@ -7,10 +8,9 @@ const initialState = {
   INGREDIENTS_FAILURE: false,
   items: [],
 };
-const ingredientsApi = 'https://norma.nomoreparties.space/api/ingredients';
 
 
-export const ingredientsSlide = createSlice({
+export const ingredientsSlice = createSlice({
   name: 'ingredients',
   initialState,
   reducers: {
@@ -79,6 +79,22 @@ export const ingredientsSlide = createSlice({
         items: updatedIngredients,
       });
     },
+
+    resetIngredientsCounter: (state) => {
+      const itemsWithEmptyCounter = state.items.map(
+        item => {
+          if (item.count) {
+            return { ...item, count: 0 };
+          }
+          return item;
+        }
+      );
+
+      return {
+        ...state,
+        items: itemsWithEmptyCounter,
+      };
+    },
   },
 });
 
@@ -86,11 +102,12 @@ export const ingredientsSlide = createSlice({
 export const {
   success,
   increaseIngredientCount,
-  decreaseIngredientCount
-} = ingredientsSlide.actions;
+  decreaseIngredientCount,
+  resetIngredientsCounter
+} = ingredientsSlice.actions;
 
 export const getIngredients = () => async (dispatch) => {
-  fetch(ingredientsApi)
+  getIngredientsRequest()
     .then(response => {
       if (response.ok) {
         return response.json();
@@ -106,9 +123,9 @@ export const getIngredients = () => async (dispatch) => {
       }
     })
     .catch(err => {
-      console.log('Error:', err);
+      console.error('Error:', err);
     })
 }
 
 
-export default ingredientsSlide.reducer;
+export default ingredientsSlice.reducer;

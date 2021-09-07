@@ -1,0 +1,46 @@
+.pageContainer {
+  composes: pageContainer from './page-layout.module.css';
+}
+
+.columnsContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.navContainer {
+  width: 320px;
+}
+
+.profileNav {
+  margin-top: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.profileNav_item {
+  display: flex;
+  align-items: center;
+  min-height: 64px;
+}
+
+.nav_link {
+  text-decoration: none;
+}
+
+.nav_linkActive {
+  color: var(--text-primary-color);
+}
+
+.profileContent {
+  flex-grow: 1;
+}
+
+.profileForm {
+  max-width: 480px;
+}
+
+.profileForm_controls {
+  display: flex;
+  justify-content: flex-end;
+}
+

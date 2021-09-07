@@ -1,16 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { useDispatch } from 'react-redux';
-import { setData } from '../../services/slices/ingredient-info';
-
+import { openModal } from '../../services/slices/modal';
+import { Link, useLocation } from 'react-router-dom';
 import { useDrag } from 'react-dnd';
 
-import styles from './burger-ingredient-card.module.css';
-
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 
 import { ingredientType } from '../../utils/types';
+
+import styles from './burger-ingredient-card.module.css';
 
 
 const BurgerIngredientCard = ({
@@ -19,16 +19,15 @@ const BurgerIngredientCard = ({
   name,
   price,
   image,
-  imageLarge,
   proteins,
   fat,
   carbohydrates,
   calories,
-  onCardClick,
   count,
 }) => {
   const dispatch = useDispatch();
-  const [,dragRef] = useDrag({
+  const location = useLocation();
+  const [, dragRef] = useDrag({
     type: 'ingredient',
     item: {
       id,
@@ -43,28 +42,19 @@ const BurgerIngredientCard = ({
     }
   });
 
-  const handleCardClick = () => {
-    dispatch(setData({
-      name,
-      imageLarge,
-      calories,
-      proteins,
-      fat,
-      carbohydrates,
-    }));
-  };
 
   return (
     <>
-      <a
-        href='#nowhere'
+      <Link
+        to={{
+          pathname: `/ingredients/${id}`,
+          state: { background: location}
+        }}
         className={styles.card}
         key={id}
         ref={dragRef}
-        onClick={(evt) => {
-          evt.preventDefault();
-          handleCardClick();
-          onCardClick();
+        onClick={() => {
+          dispatch(openModal(IngredientDetails));
         }}
       >
         <img
@@ -73,22 +63,23 @@ const BurgerIngredientCard = ({
           alt={name}
         />
         <span className={`${styles.price} text_type_digits-default mb-1`}>
-          {price}
+          { price }
           <i className='ml-2'>
             <CurrencyIcon type="primary" />
           </i>
         </span>
 
         <h3 className={`${styles.title} text_type_main-default`}>
-          {name}
+          { name }
         </h3>
 
-        {count ?
-          (<i className={styles.counter}>
-            <Counter count={count} size="default" />
-          </i>):
-          null}
-      </a>
+        { count
+            ? (<i className={styles.counter}>
+                <Counter count={count} size="default" />
+              </i>)
+            : null
+        }
+      </Link>
     </>
   );
 }
@@ -96,7 +87,6 @@ const BurgerIngredientCard = ({
 
 BurgerIngredientCard.propTypes = {
   ...ingredientType,
-  onCardClick: PropTypes.func.isRequired,
 };
 
 

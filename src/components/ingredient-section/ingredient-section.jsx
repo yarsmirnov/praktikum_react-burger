@@ -1,11 +1,11 @@
 import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import styles from './ingredient-section.module.css';
-
 import BurgerIngredientCard from '../burger-ingredient-card/burger-ingredient-card';
 
 import { ingredientType } from '../../utils/types';
+
+import styles from './ingredient-section.module.css';
 
 
 const IngredientSection = ({
@@ -14,7 +14,6 @@ const IngredientSection = ({
   isActive,
   sectionRef,
   titleRef,
-  onCardClick
 }) => {
 
   const scrollIntoHeading = useCallback(() => {
@@ -40,16 +39,15 @@ const IngredientSection = ({
         className={`${styles.title} text_type_main-medium mb-6`}
         ref={titleRef}
       >
-        {title}
+        { title }
       </h2>
       <ul
         className={`${styles.items} pl-4`}
       >
-        {ingredients.map(item => (
+        {ingredients.map((item) => (
           <li key={item.id}>
             <BurgerIngredientCard
               { ...item }
-              onCardClick={onCardClick}
             />
           </li>
         ))}
@@ -71,7 +69,6 @@ IngredientSection.propType = {
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.instanceOf(Element) })
   ]),
-  onCardClick: PropTypes.func.isRequired,
 };
 
 

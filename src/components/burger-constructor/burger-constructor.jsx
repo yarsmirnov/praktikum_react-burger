@@ -1,13 +1,25 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { addItem, removeItem, setBun } from '../../services/slices/burger-constructor';
-import { increaseIngredientCount, decreaseIngredientCount } from '../../services/slices/ingredients';
+import {
+  addItem,
+  removeItem,
+  setBun,
+  clearConstructor
+} from '../../services/slices/burger-constructor';
+import {
+  increaseIngredientCount,
+  decreaseIngredientCount,
+  resetIngredientsCounter
+} from '../../services/slices/ingredients';
+import {
+  resetRequestStatus,
+  sendOrderRequest
+} from '../../services/slices/order';
+import { openModal } from '../../services/slices/modal';
 import { useDrop } from 'react-dnd';
 
-import { sendOrderRequest } from '../../services/slices/order';
-
-import styles from './burger-constructor.module.css';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import {
   ConstructorElement,
@@ -16,17 +28,32 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import DraggableItem from './draggable-item';
 import OrderDetails from '../order-details/order-details';
-import Modal from '../modal/modal';
+import Loader from '../loader/loader';
+
+import styles from './burger-constructor.module.css';
 
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
-  const {items: ingredients} = useSelector(store => store.burgerConstructor);
+  const history = useHistory();
+  const location = useLocation();
+  const { items: ingredients } = useSelector((store) => store.burgerConstructor);
   const {
     ORDER_REQUEST,
     ORDER_SUCCESS,
-    orderData
-  } = useSelector(store => store.order);
+  } = useSelector((store) => store.order);
+  const { user } = useSelector((store) => store.user);
+  const { isOpen } = useSelector((store) => store.modal);
+
+  useEffect(() => {
+    if (ORDER_SUCCESS) {
+      history.push(`/order`, { background: location });
+      dispatch(openModal(OrderDetails));
+      dispatch(resetRequestStatus());
+      dispatch(clearConstructor());
+      dispatch(resetIngredientsCounter());
+    }
+  }, [history, location, dispatch, isOpen, ORDER_SUCCESS]);
 
   const [{canAccept}, dropTarget] = useDrop({
     accept: 'ingredient',
@@ -45,7 +72,6 @@ const BurgerConstructor = () => {
     }),
   });
 
-  const [showModal, setShowModal] = useState(false);
   const [hasBun, setHasBun] = useState(false);
 
   const bun = useMemo(
@@ -74,14 +100,19 @@ const BurgerConstructor = () => {
     () => orderList.reduce((acc, item) => acc + item?.price, 0), [orderList]
   );
 
-  const handleButtonClick = useCallback(async () => {
-    const requestData = {
-      ingredients: orderList.map(item => item.id),
+  const handleButtonClick = useCallback(() => {
+    if (!user) {
+      history.replace({
+        pathname: '/login',
+      })
     }
-
-    dispatch(sendOrderRequest(requestData));
-    setShowModal(true);
-  }, [dispatch, setShowModal, orderList]);
+    else {
+      const requestData = {
+        ingredients: orderList.map((item) => item.id),
+      };
+      dispatch(sendOrderRequest(requestData));
+    }
+  }, [user, history, dispatch, orderList]);
 
   const handleRemoveClick = useMemo(() => ({id, uuid}) => () => {
     dispatch(removeItem(uuid));
@@ -100,17 +131,21 @@ const BurgerConstructor = () => {
         </Button>
       )
     }
-    if (ORDER_REQUEST) {
+
+    if (!fillings.length) {
       return (
-        (
-          <div className="lds-ellipsis">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-        )
+        <Button
+          type="primary"
+          size="large"
+          onClick={() => {}}
+        >
+          Добавьте ингредиенты
+        </Button>
       )
+    }
+
+    if (ORDER_REQUEST) {
+      return ( <Loader /> )
     }
 
     return (
@@ -122,22 +157,25 @@ const BurgerConstructor = () => {
         Оформить заказ
       </Button>
     );
-  }, [hasBun, ORDER_REQUEST, handleButtonClick]);
-
+  }, [fillings, hasBun, ORDER_REQUEST, handleButtonClick]);
 
   if (ingredients.length === 0) {
     return (
       <section
-        className={`${styles.section} ${canAccept ? styles.canAccept: ''} column pt-25 pr-4`}
+        className={`${styles.section} column pt-25 pr-4`}
         ref={dropTarget}
       >
         <h2 className='visualliHidden'>
           Ваша сборка
         </h2>
+        <div className={`${styles.emptyConstructor} ${styles.emptyConstructor_maxHeight} ${canAccept ? styles.canAccept: ''}`}>
+          <p className={`text text_type_main-medium`}>
+            Перетащите ингредиенты сюда
+          </p>
+        </div>
       </section>
     );
   }
-
 
   return (
     <section
@@ -148,56 +186,72 @@ const BurgerConstructor = () => {
         Ваша сборка
       </h2>
 
-    {bun && (
-      <div className='mb-4 pl-8 pr-4'>
-        <ConstructorElement
-          type={'top'}
-          isLocked={true}
-          text={`${bun.name} (верх)`}
-          price={bun.price}
-          thumbnail={bun.image}
-        />
-      </div>
-    )
-    }
-
-      {fillings.length > 0 &&
-      ( <ul
-          className={`${styles.ingredientsList} scroller`}
-        >
-          {ingredients.map((item, index) => {
-            if (item.type === 'bun') {
-              return null;
-            }
-            return (
-              <DraggableItem
-                key={item.uuid}
-                id={item.id}
-                uuid={item.uuid}
-                index={index}
-                name={item.name}
-                price={item.price}
-                image={item.image}
-                handleClose={handleRemoveClick(
-                  {uuid: item.uuid, id: item.id}
-                )}
-              />
-            );
-          })}
-        </ul>
-      )}
-
-      {bun && (
-        <div className='mt-4 pl-8 pr-4'>
+    { bun && (
+        <div className='mb-4 pl-8 pr-4'>
           <ConstructorElement
-            type={'bottom'}
+            type={'top'}
             isLocked={true}
-            text={`${bun.name} (низ)`}
+            text={`${bun.name} (верх)`}
             price={bun.price}
             thumbnail={bun.image}
           />
         </div>
-      )}
+      )
+    }
+
+    { !fillings.length && (
+        <ul
+          className={`${styles.ingredientsList} ${styles.emptyConstructor}`}
+        >
+          <li>
+            <p className={`text text_type_main-medium`}>
+              Добавьте ингредиенты
+            </p>
+          </li>
+        </ul>
+      )
+    }
+
+    { fillings.length > 0 && (
+        <ul
+          className={`${styles.ingredientsList} scroller`}
+        >
+          { ingredients.map((item, index) => {
+              if (item.type === 'bun') {
+                return null;
+              }
+              return (
+                <DraggableItem
+                  key={item.uuid}
+                  id={item.id}
+                  uuid={item.uuid}
+                  index={index}
+                  name={item.name}
+                  price={item.price}
+                  image={item.image}
+                  handleClose={handleRemoveClick(
+                    {uuid: item.uuid, id: item.id}
+                  )}
+                />
+              );
+            })
+          }
+        </ul>
+      )
+    }
+
+      { bun && (
+          <div className='mt-4 pl-8 pr-4'>
+            <ConstructorElement
+              type={'bottom'}
+              isLocked={true}
+              text={`${bun.name} (низ)`}
+              price={bun.price}
+              thumbnail={bun.image}
+            />
+          </div>
+        )
+      }
 
       <div
         className={`${styles.order} mt-10 pr-4`}
@@ -205,7 +259,7 @@ const BurgerConstructor = () => {
         <span
           className={`${styles.orderTotal} text_type_digits-medium mr-10`}
         >
-          {totalPrice}
+          { totalPrice }
           <i className={`${styles.orderCurrencyIcon} ml-2`}>
             <CurrencyIcon type="primary" />
           </i>
@@ -213,15 +267,6 @@ const BurgerConstructor = () => {
 
         { orderButton }
       </div>
-
-
-      { showModal &&
-        ORDER_SUCCESS &&
-        (
-          <Modal toggleModal={setShowModal}>
-            <OrderDetails orderId={orderData.order.number} />
-          </Modal>
-      )}
     </section>
   );
 };

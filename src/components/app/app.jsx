@@ -1,33 +1,125 @@
 import React, { useEffect } from 'react';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadUserData } from '../../services/slices/user';
 import { getIngredients } from '../../services/slices/ingredients';
+import { closeModal } from '../../services/slices/modal';
 
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useLocation,
+  useHistory
+} from "react-router-dom";
+
+import ProtectedRoute from '../protected-route/protected-route';
+import GuestRoute from '../guest-route/guest-route';
+import {
+  ForgotPasswordPage,
+  HomePage,
+  IngredientPage,
+  LoginPage,
+  ProfilePage,
+  RegisterPage,
+  ResetPasswordPage,
+  NotFound404,
+} from '../../pages';
 
 import AppHeader from '../app-header/app-header';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
+import Modal from '../modal/modal';
+
+
+const ModalSwitch = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
+  const background = (history.action === 'PUSH' || history.action === 'REPLACE')
+    && location.state
+    && location.state.background;
+  const { isOpen } = useSelector((store) => store.modal);
+
+  const handleModalClose = () => {
+    dispatch(closeModal());
+    history.goBack();
+  };
+
+  return (
+    <>
+      <AppHeader />
+
+      <main className='container main'>
+        <Switch location={background || location}>
+          <Route path='/' exact>
+            <HomePage />
+          </Route>
+
+          <Route path='/login' exact>
+            <LoginPage />
+          </Route>
+
+          <GuestRoute path='/register' exact>
+            <RegisterPage />
+          </GuestRoute>
+
+          <GuestRoute path='/forgot-password' exact>
+            <ForgotPasswordPage />
+          </GuestRoute>
+
+          <GuestRoute path="/reset-password" exact>
+            <ResetPasswordPage />
+          </GuestRoute>
+
+          <ProtectedRoute path='/profile'>
+            <ProfilePage />
+          </ProtectedRoute>
+
+          <Route path='/ingredients/:id' exact>
+            <IngredientPage />
+          </Route>
+
+          <Route>
+            <NotFound404 />
+          </Route>
+        </Switch>
+
+        { background
+          && isOpen
+          && (
+            <Route path='/ingredients/:id' exact>
+              <Modal closeModal={handleModalClose}>
+              </Modal>
+            </Route>
+          )
+        }
+
+        { background
+          && isOpen
+          && (
+            <Route path='/order' exact>
+              <Modal closeModal={handleModalClose}>
+              </Modal>
+            </Route>
+          )
+        }
+      </main>
+    </>
+  );
+};
 
 
 const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(loadUserData());
     dispatch(getIngredients());
   }, [dispatch]);
 
   return (
-    <>
-      <AppHeader />
-      <main className={'main text_type_main-default'}>
-        <DndProvider backend={HTML5Backend}>
-          <BurgerIngredients />
-          <BurgerConstructor />
-        </DndProvider>
-      </main>
-    </>
+    <Router>
+      <ModalSwitch />
+    </Router>
   );
 };
 

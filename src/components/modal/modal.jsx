@@ -1,39 +1,36 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 
-import { useDispatch } from 'react-redux';
-import { clearData } from '../../services/slices/ingredient-info';
-
-import styles from './modal.module.css';
+import { useSelector } from 'react-redux';
 
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay/modal-overlay';
+
+import styles from './modal.module.css';
 
 
 const modalRoot = document.getElementById('react-modals');
 
 
-const Modal = ({ toggleModal, children }) => {
-  const dispatch = useDispatch();
-  const handleCloseClick = useCallback(() => {
-    toggleModal(prev => !prev);
-    dispatch(clearData());
-  }, [toggleModal, dispatch]);
+const Modal = ({ closeModal }) => {
+  const { isOpen, ComponentToView } = useSelector((store) => store.modal);
+
+  if (!isOpen) return null;
 
   return modalRoot ? createPortal((
-    <ModalOverlay toggleModal={handleCloseClick}>
+    <ModalOverlay closeModal={closeModal}>
       <section className={`${styles.modal} text pl-10 pr-10`}>
         <button
           className={styles.closeButton}
           aria-label="Закрыть модальное окно"
-          onClick={handleCloseClick}
+          onClick={closeModal}
         >
           <i>
             <CloseIcon type="primary" />
           </i>
         </button>
-        {children}
+        <ComponentToView />
       </section>
     </ModalOverlay>
   ), modalRoot) : null;
@@ -41,8 +38,7 @@ const Modal = ({ toggleModal, children }) => {
 
 
 Modal.propTypes = {
-  toggleModal: PropTypes.func.isRequired,
-  children: PropTypes.element.isRequired,
+  closeModal: PropTypes.func.isRequired,
 };
 
 

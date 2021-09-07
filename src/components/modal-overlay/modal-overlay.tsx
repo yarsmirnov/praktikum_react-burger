@@ -4,24 +4,24 @@ import PropTypes from 'prop-types';
 import styles from './modal-overlay.module.css';
 
 
-const ModalOverlay = ({ toggleModal, children }) => {
+const ModalOverlay = ({ closeModal, children }) => {
   const overlayRef = useRef(null);
 
   const handleClick = useCallback((evt) => {
     if (evt.target === overlayRef.current) {
-      toggleModal();
+      closeModal();
     }
-  }, [toggleModal]);
+  }, [closeModal]);
 
   const handleEscPress = useCallback(
     (evt) => {
       if (evt.key === 'Escape') {
         evt.preventDefault();
-        toggleModal();
+        closeModal();
       }
     },
-    [toggleModal]
-  )
+    [closeModal]
+  );
 
   useEffect(() => {
     document.addEventListener('keydown', handleEscPress);
@@ -36,14 +36,14 @@ const ModalOverlay = ({ toggleModal, children }) => {
       ref={overlayRef}
       onClick={handleClick}
     >
-      {children}
+      { children }
     </div>
   );
 };
 
 
 ModalOverlay.propTypes = {
-  toggleModal: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,
 };
 
