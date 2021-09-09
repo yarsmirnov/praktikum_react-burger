@@ -9,7 +9,6 @@ import {
 import { patchUserData, logoutUser } from '../services/slices/user';
 import { useDispatch, useSelector } from 'react-redux';
 
-import AppHeader from '../components/app-header/app-header';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import Loader from '../components/loader/loader';
 
@@ -73,124 +72,120 @@ export const ProfilePage = () => {
 
 
   return (
-    <>
-      <AppHeader />
+    <section className={`${styles.pageContainer} pt-30`}>
+      <h1 className={`visualliHidden`}>
+        { titleContent }
+      </h1>
+      <div className={`${styles.columnsContainer} mr-15`}>
+        <div className={`${styles.navContainer} mr-15`}>
+          <ul className={`${styles.profileNav} mb-20`}>
+            <li className={`${styles.profileNav_item}`}>
+              <NavLink
+                to={`/profile`}
+                exact
+                className={LinkClasses.default}
+                activeClassName={LinkClasses.active}
+              >
+                Профиль
+              </NavLink>
+            </li>
+            <li className={`${styles.profileNav_item}`}>
+              <NavLink
+                to={`${url}/orders`}
+                exact
+                className={LinkClasses.default}
+                activeClassName={LinkClasses.active}
+              >
+                История заказов
+              </NavLink>
+            </li>
+            <li className={`${styles.profileNav_item}`}>
+              <Link
+                to={`/`}
+                className={LinkClasses.default}
+                activeClassName={LinkClasses.active}
+                onClick={onExitClick}
+              >
+                Выход
+              </Link>
+            </li>
+          </ul>
 
-      <section className={`${styles.pageContainer} pt-30`}>
-        <h1 className={`visualliHidden`}>
-          { titleContent }
-        </h1>
-        <div className={`${styles.columnsContainer} mr-15`}>
-          <div className={`${styles.navContainer} mr-15`}>
-            <ul className={`${styles.profileNav} mb-20`}>
-              <li className={`${styles.profileNav_item}`}>
-                <NavLink
-                  to={`/profile`}
-                  exact
-                  className={LinkClasses.default}
-                  activeClassName={LinkClasses.active}
-                >
-                  Профиль
-                </NavLink>
-              </li>
-              <li className={`${styles.profileNav_item}`}>
-                <NavLink
-                  to={`${url}/orders`}
-                  exact
-                  className={LinkClasses.default}
-                  activeClassName={LinkClasses.active}
-                >
-                  История заказов
-                </NavLink>
-              </li>
-              <li className={`${styles.profileNav_item}`}>
-                <Link
-                  to={`/`}
-                  className={LinkClasses.default}
-                  activeClassName={LinkClasses.active}
-                  onClick={onExitClick}
-                >
-                  Выход
-                </Link>
-              </li>
-            </ul>
-
-            <p className={`text text_type_main-default text-dark`}>
-              В этом разделе вы можете изменить свои персональные данные
-            </p>
-          </div>
-          <div className={`${styles.profileContent}`}>
-            <form
-              className={`${styles.profileForm}`}
-              onSubmit={handleSubmit}
-            >
-              <div className={`${layoutStyles.inputWrapper} mb-6`}>
-                <Input
-                  type={'text'}
-                  placeholder={'Имя'}
-                  onChange={onInputChange}
-                  icon={'EditIcon'}
-                  value={form.name}
-                  name={'name'}
-                  error={false}
-                  errorText={'Недопустимое имя'}
-                  size={'default'}
-                />
-              </div>
-
-              <div className={`${layoutStyles.inputWrapper} mb-6`}>
-                <Input
-                  type={'email'}
-                  placeholder={'Логин'}
-                  onChange={onInputChange}
-                  icon={'EditIcon'}
-                  value={form.email}
-                  name={'email'}
-                  error={false}
-                  errorText={'Некоррекнтый email'}
-                  size={'default'}
-                />
-              </div>
-
-              <div className={`${layoutStyles.inputWrapper} mb-6`}>
-                <Input
-                  type={'password'}
-                  placeholder={'Пароль'}
-                  onChange={onInputChange}
-                  icon={'EditIcon'}
-                  value={form.password}
-                  name={'password'}
-                  error={false}
-                  errorText={'Недопустимые символы'}
-                  size={'default'}
-                />
-              </div>
-
-              <div className={`${styles.profileForm_controls}`}>
-                <Button
-                  type="secondary"
-                  size="medium"
-                  onClick={onResetButtonClick}
-                >
-                  Отменить
-                </Button>
-
-                { PATCH_USER_REQUEST
-                  ? (<Loader />)
-                  : (
-                    <Button
-                      type="primary"
-                      size="medium"
-                    >
-                      Сохранить
-                    </Button>
-                  )
-                }
-              </div>
-            </form>
-          </div>
+          <p className={`text text_type_main-default text-dark`}>
+            В этом разделе вы можете изменить свои персональные данные
+          </p>
         </div>
-      </section>
-    </>
+        <div className={`${styles.profileContent}`}>
+          <form
+            className={`${styles.profileForm}`}
+            onSubmit={handleSubmit}
+          >
+            <div className={`${layoutStyles.inputWrapper} mb-6`}>
+              <Input
+                type={'text'}
+                placeholder={'Имя'}
+                onChange={onInputChange}
+                icon={'EditIcon'}
+                value={form.name}
+                name={'name'}
+                error={false}
+                errorText={'Недопустимое имя'}
+                size={'default'}
+              />
+            </div>
+
+            <div className={`${layoutStyles.inputWrapper} mb-6`}>
+              <Input
+                type={'email'}
+                placeholder={'Логин'}
+                onChange={onInputChange}
+                icon={'EditIcon'}
+                value={form.email}
+                name={'email'}
+                error={false}
+                errorText={'Некоррекнтый email'}
+                size={'default'}
+              />
+            </div>
+
+            <div className={`${layoutStyles.inputWrapper} mb-6`}>
+              <Input
+                type={'password'}
+                placeholder={'Пароль'}
+                onChange={onInputChange}
+                icon={'EditIcon'}
+                value={form.password}
+                name={'password'}
+                error={false}
+                errorText={'Недопустимые символы'}
+                size={'default'}
+              />
+            </div>
+
+            <div className={`${styles.profileForm_controls}`}>
+              <Button
+                type="secondary"
+                size="medium"
+                onClick={onResetButtonClick}
+              >
+                Отменить
+              </Button>
+
+              { PATCH_USER_REQUEST
+                ? (<Loader />)
+                : (
+                  <Button
+                    type="primary"
+                    size="medium"
+                  >
+                    Сохранить
+                  </Button>
+                )
+              }
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
   );
 };
