@@ -24,11 +24,9 @@ export const IngredientPage = () => {
   if (!ingredients.length) {
     dispatch(getIngredients());
     return (
-      <>
-        <div className={`${styles.loaderContainer} pt-30`}>
-          <Loader />
-        </div>
-      </>
+      <div className={`${styles.loaderContainer} pt-30`}>
+        <Loader />
+      </div>
     );
   }
 

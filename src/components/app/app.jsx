@@ -16,10 +16,12 @@ import {
 import ProtectedRoute from '../protected-route/protected-route';
 import GuestRoute from '../guest-route/guest-route';
 import {
+  FeedPage,
   ForgotPasswordPage,
   HomePage,
   IngredientPage,
   LoginPage,
+  OrderPage,
   ProfilePage,
   RegisterPage,
   ResetPasswordPage,
@@ -48,7 +50,7 @@ const ModalSwitch = () => {
     <>
       <AppHeader />
 
-      <main className='container main'>
+      <main className='container'>
         <Switch location={background || location}>
           <Route path='/' exact>
             <HomePage />
@@ -76,6 +78,14 @@ const ModalSwitch = () => {
 
           <Route path='/ingredients/:id' exact>
             <IngredientPage />
+          </Route>
+
+          <Route path='/feed' exact>
+            <FeedPage />
+          </Route>
+
+          <Route path='/feed/:id' exact>
+            <OrderPage />
           </Route>
 
           <Route>

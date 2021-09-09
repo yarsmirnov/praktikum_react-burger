@@ -1,0 +1,28 @@
+.ordersStatusContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.ordersStatusColumn {
+  flex-grow: 1;
+}
+
+.orderStatusTitle {
+  margin-top: 0;
+  padding: 0;
+}
+
+.ordersList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.orderId {
+  margin: 0;
+  padding: 0;
+}
+
+.orderId_done {
+  color: var(--colors-interface-success);
+}
