@@ -11,26 +11,6 @@
   width: 320px;
 }
 
-.profileNav {
-  margin-top: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.profileNav_item {
-  display: flex;
-  align-items: center;
-  min-height: 64px;
-}
-
-.nav_link {
-  text-decoration: none;
-}
-
-.nav_linkActive {
-  color: var(--text-primary-color);
-}
-
 .profileContent {
   flex-grow: 1;
 }

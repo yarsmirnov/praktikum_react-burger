@@ -1,17 +1,16 @@
 import React, { useMemo, useCallback, useEffect } from 'react';
-import { Link, NavLink, useRouteMatch } from 'react-router-dom';
 import {
   setInitialValue,
   setValue,
   resetForm,
   clearForm,
 } from '../services/slices/form-profile';
-import { patchUserData, logoutUser } from '../services/slices/user';
+import { patchUserData } from '../services/slices/user';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import Loader from '../components/loader/loader';
-
+import ProfileNavigation from '../components/profile-navigation/profile-navigation';
 
 import styles from './profile.module.css';
 import layoutStyles from './page-layout.module.css';
@@ -22,15 +21,9 @@ const PageTitles = {
   orders: 'История заказов',
 };
 
-const LinkClasses = {
-  default: `${styles.nav_link} text text_type_main-medium text_color_inactive`,
-  active: `${styles.nav_linkActive} text text_type_main-medium`,
-}
-
 
 export const ProfilePage = () => {
   const dispatch = useDispatch();
-  const { url } = useRouteMatch();
   const { form } = useSelector((store) => store.formProfile);
   const {
     user,
@@ -47,11 +40,6 @@ export const ProfilePage = () => {
   const titleContent = useMemo(() => {
     return PageTitles.profile;
   }, []);
-
-  const onExitClick = useCallback((evt) => {
-    evt.preventDefault();
-    dispatch(logoutUser());
-  }, [dispatch]);
 
   const onInputChange = useCallback((evt) => {
     dispatch(setValue({
@@ -78,38 +66,7 @@ export const ProfilePage = () => {
       </h1>
       <div className={`${styles.columnsContainer} mr-15`}>
         <div className={`${styles.navContainer} mr-15`}>
-          <ul className={`${styles.profileNav} mb-20`}>
-            <li className={`${styles.profileNav_item}`}>
-              <NavLink
-                to={`/profile`}
-                exact
-                className={LinkClasses.default}
-                activeClassName={LinkClasses.active}
-              >
-                Профиль
-              </NavLink>
-            </li>
-            <li className={`${styles.profileNav_item}`}>
-              <NavLink
-                to={`${url}/orders`}
-                exact
-                className={LinkClasses.default}
-                activeClassName={LinkClasses.active}
-              >
-                История заказов
-              </NavLink>
-            </li>
-            <li className={`${styles.profileNav_item}`}>
-              <Link
-                to={`/`}
-                className={LinkClasses.default}
-                activeClassName={LinkClasses.active}
-                onClick={onExitClick}
-              >
-                Выход
-              </Link>
-            </li>
-          </ul>
+          <ProfileNavigation extraClasses={`mb-20`} />
 
           <p className={`text text_type_main-default text-dark`}>
             В этом разделе вы можете изменить свои персональные данные
