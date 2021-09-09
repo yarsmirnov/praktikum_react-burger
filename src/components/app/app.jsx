@@ -112,6 +112,16 @@ const ModalSwitch = () => {
             </Route>
           )
         }
+
+        { background
+          && isOpen
+          && (
+            <Route path='/feed/:id' exact>
+              <Modal closeModal={handleModalClose}>
+              </Modal>
+            </Route>
+          )
+        }
       </main>
     </>
   );
