@@ -23,6 +23,7 @@ import {
   LoginPage,
   OrderPage,
   ProfilePage,
+  ProfileOrdersPage,
   RegisterPage,
   ResetPasswordPage,
   NotFound404,
@@ -72,9 +73,17 @@ const ModalSwitch = () => {
             <ResetPasswordPage />
           </GuestRoute>
 
-          <ProtectedRoute path='/profile'>
+          <ProtectedRoute path='/profile' exact>
             <ProfilePage />
           </ProtectedRoute>
+
+          <ProtectedRoute path='/profile/orders' exact>
+            <ProfileOrdersPage />
+          </ProtectedRoute>
+
+          <Route path='/profile/orders/:id' exact>
+            <OrderPage />
+          </Route>
 
           <Route path='/ingredients/:id' exact>
             <IngredientPage />
@@ -117,6 +126,16 @@ const ModalSwitch = () => {
           && isOpen
           && (
             <Route path='/feed/:id' exact>
+              <Modal closeModal={handleModalClose}>
+              </Modal>
+            </Route>
+          )
+        }
+
+        { background
+          && isOpen
+          && (
+            <Route path='/profile/orders/:id' exact>
               <Modal closeModal={handleModalClose}>
               </Modal>
             </Route>

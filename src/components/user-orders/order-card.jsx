@@ -1,19 +1,47 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-
 import { ingredientType, orderType } from '../../utils/types';
+
 import { getIngredientsData } from '../../utils/utils';
 
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-
-import styles from './orders-feed.module.css';
 import PreviewItem from '../preview-item/preview-item';
 
+import styles from './order-card.module.css';
 
-const MAX_INGREDIENTS_PREVIEW = 6;
+
+const MAX_INGREDIENTS_PREVIEW = 10;
+
+const generateStatusElement = (status) => {
+  switch (status) {
+    case 'done': {
+      return (
+        <span className={`${styles.statusDone}`}>
+          Выполнен
+        </span>
+      );
+    }
+    case 'cooking': {
+      return (
+        <span className={`${styles.statusInWork}`}>
+          Готовится
+        </span>
+      )
+    }
+    case 'canseled': {
+      return (
+        <span className={`${styles.statusCanseled}`}>
+          Готовится
+        </span>
+      );
+    }
+    default:
+      return null;
+  }
+};
 
 
-const FeedCard = ({
+const OrderCard = ({
   orderInfo,
   ingredientsList
 }) => {
@@ -21,9 +49,14 @@ const FeedCard = ({
     ingredients,
     name,
     createdAt,
-    number
+    number,
+    status
   } = orderInfo;
   const orderDate = createdAt;
+  const orderStatus = useMemo(
+    () => generateStatusElement(status),
+    [status]
+  );
 
   const ingredientsData = useMemo(
     () => getIngredientsData(ingredients, ingredientsList),
@@ -48,7 +81,9 @@ const FeedCard = ({
   }, [ingredientsData]);
 
   return (
-    <div className={`${styles.card} p-6`}>
+    <div
+      className={`${styles.card} text text_type_main-default p-6`}
+    >
       <div className={`${styles.card_header} mb-6`}>
         <p className={`text text_type_digits-default`}>
           {`#${String(number).padStart(6, 0)}`}
@@ -58,9 +93,13 @@ const FeedCard = ({
         </p>
       </div>
 
-      <h3 className={`text text_type_main-medium mb-6`}>
+      <h3 className={`text text_type_main-medium mb-2`}>
         { name }
       </h3>
+
+      <p className={`text mb-6`}>
+        { orderStatus }
+      </p>
 
       <div className={`${styles.card_footer}`}>
         <ul className={`${styles.card_ingredientsPreview}`}>
@@ -89,14 +128,15 @@ const FeedCard = ({
         </p>
       </div>
     </div>
-  )
+  );
+
 };
 
 
-FeedCard.propTypes = {
+OrderCard.propTypes = {
   orderInfo: PropTypes.shape(orderType).isRequired,
   ingredientsList: PropTypes.arrayOf(PropTypes.shape(ingredientType)).isRequired,
-}
+};
 
 
-export default FeedCard;
+export default OrderCard;

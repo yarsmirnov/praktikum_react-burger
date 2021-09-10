@@ -1,0 +1,19 @@
+.form {
+  max-width: 480px;
+}
+
+.formControls {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.inputWrapper {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.inputWrapper [class*='input__container'],
+.inputWrapper [class*='input_size_default'] {
+  width: 100%;
+}

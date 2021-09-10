@@ -65,7 +65,7 @@ const OrderInfo = () => {
     [ingredientsDatabase]
   );
   const totalPrice = useMemo(
-    () => ingredientsData.reduce((acc, item) => acc + item.price, 0),
+    () => ingredientsData.reduce((acc, item) => acc + item.price * item.count, 0),
     [ingredientsData]
   );
 

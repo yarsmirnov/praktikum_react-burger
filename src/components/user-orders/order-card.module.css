@@ -1,0 +1,62 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 40px;
+  background: var(--background);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 0px 1px rgba(0, 0, 0, 0.04);
+}
+
+.card_header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card_footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card_ingredientsPreview {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.orderName {
+  margin-top: 0;
+  padding: 0;
+}
+
+.card_totalPrice {
+  display: flex;
+  align-items: center;
+}
+
+.card_totalPriceIcon {
+  display: flex;
+  align-items: center;
+}
+
+.card_totalPriceIcon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.orderStatus {
+  margin-top: 0;
+  padding: 0;
+}
+
+.statusDone {
+  color: var(--colors-interface-success);
+}
+
+.statusInWork {
+  color: var(--colors-interface-accent);
+}
+
+.statusCanseled {
+  color: var(--colors-interface-error);
+}

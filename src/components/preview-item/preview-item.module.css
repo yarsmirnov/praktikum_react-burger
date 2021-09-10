@@ -10,23 +10,35 @@
   border-radius: 50%;
 }
 
-.item:nth-of-type(6) {
-  z-index: 0;
-}
-.item:nth-of-type(5) {
-  z-index: 1;
-}
-.item:nth-of-type(4) {
-  z-index: 2;
-}
-.item:nth-of-type(3) {
-  z-index: 3;
+.item:nth-of-type(1) {
+  z-index: 9;
 }
 .item:nth-of-type(2) {
+  z-index: 8;
+}
+.item:nth-of-type(3) {
+  z-index: 7;
+}
+.item:nth-of-type(4) {
+  z-index: 6;
+}
+.item:nth-of-type(5) {
+  z-index: 5;
+}
+.item:nth-of-type(6) {
   z-index: 4;
 }
-.item:nth-of-type(1) {
-  z-index: 5;
+.item:nth-of-type(7) {
+  z-index: 3;
+}
+.item:nth-of-type(8) {
+  z-index: 2;
+}
+.item:nth-of-type(9) {
+  z-index: 1;
+}
+.item:nth-of-type(10) {
+  z-index: 0;
 }
 
 .item::before {
