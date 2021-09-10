@@ -1,8 +1,8 @@
 import { getCookie } from '../utils/cookie';
 
 
-const baseApi = 'https://norma.nomoreparties.space/api'
-
+const baseApi = 'https://norma.nomoreparties.space/api';
+export const wsOrdersApi = 'wss://norma.nomoreparties.space/orders/all';
 
 export const refreshTokenRequest = async () => {
   return await fetch(`${baseApi}/auth/token`, {
