@@ -1,7 +1,8 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
-import { requestSuccess } from '../utils/mock-orders';
+import { CONNECTION_START, CONNECTION_CLOSED } from '../services/slices/websocket';
+import { wsAllOrdersApi } from '../services/api';
 
 import OrdersFeed from '../components/orders-feed/orders-feed';
 import OrdersSummary from '../components/orders-summary/orders-summary';
@@ -11,8 +12,16 @@ import layoutStyles from './page-layout.module.css';
 
 
 export const FeedPage = () => {
+  const dispatch = useDispatch();
   const { items: ingredients } = useSelector((store) => store.ingredients);
-  const { orders, total, totalToday } = requestSuccess;
+  const { orders, total, totalToday } = useSelector((store) => store.websocket);
+
+  useEffect(() => {
+    dispatch(CONNECTION_START(wsAllOrdersApi));
+    return () => {
+      dispatch(CONNECTION_CLOSED());
+    }
+  }, [dispatch]);
 
   if (!ingredients.length || !orders.length) {
     return (

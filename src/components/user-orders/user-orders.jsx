@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation, useRouteMatch } from 'react-router-dom';
 
-import { requestSuccess } from  '../../utils/mock-orders';
 import { openModal } from '../../services/slices/modal';
+import { CONNECTION_START, CONNECTION_CLOSED } from '../../services/slices/websocket';
+import { wsUserOrdersApi } from '../../services/api';
+import { getCookie } from '../../utils/cookie';
 
 import Loader from '../loader/loader';
 import OrderCard from './order-card';
@@ -17,15 +19,40 @@ const UserOrders = () => {
   const location = useLocation();
   const { url } = useRouteMatch();
   const { items: ingredientsDatabase } = useSelector((store) => store.ingredients);
-  const { orders } = requestSuccess;
+  const { orders } = useSelector((store) => store.websocket);
 
-  if (!orders
-    || !orders.length
-    || !ingredientsDatabase
+  useEffect(() => {
+    const wsUrl = `${wsUserOrdersApi}${getCookie('accessToken')}`;
+    dispatch(CONNECTION_START(wsUrl));
+    return () => {
+      dispatch(CONNECTION_CLOSED());
+    }
+  }, [dispatch]);
+
+  if (!ingredientsDatabase
     || !ingredientsDatabase.length) {
     return (
       <div className={`${styles.loaderContainer} pt-30`}>
         <Loader />
+      </div>
+    );
+  }
+
+  if (!orders.length) {
+    return (
+      <div className={`pt-20`}>
+        <p className={`text text_type_main-large text-with-glow mb-4`}>
+          Здесь пусто :(
+        </p>
+        <p className={`text text_type_main-medium`}>
+          {`Вы можете оформить свой первый заказ `}
+          <Link
+            to='/'
+            className={`${styles.link}`}
+          >
+            на главной.
+          </Link>
+        </p>
       </div>
     );
   }

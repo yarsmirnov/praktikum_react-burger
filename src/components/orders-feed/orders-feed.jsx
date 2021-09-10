@@ -17,6 +17,14 @@ const OrdersFeed = ({ orders, ingredientsList }) => {
   const location = useLocation();
   const { url } = useRouteMatch();
 
+  if (!orders.length) {
+    return (
+      <p className={`text text_type_main-medium`}>
+        Здесь пока ещё пусто
+      </p>
+    )
+  }
+
   return (
     <ul className={`${styles.list} scroller`}>
       { orders.map((orderInfo) => (

@@ -18,3 +18,20 @@
   color: currentColor;
   text-decoration: none;
 }
+
+.link {
+  color: var(--text-inactive-color);
+  text-decoration: none;
+}
+
+.link:hover {
+  color: var(--colors-interface-success);
+}
+
+.link:active {
+  opacity: 0.5;
+}
+
+.link_active {
+  color: var(--text-primary-color);
+}

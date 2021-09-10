@@ -3,11 +3,11 @@ import thunk from 'redux-thunk';
 import rootReducer from './reducers/root-reducer';
 import { socketMiddleware } from './moddlewares/socketMiddleware';
 
-import { wsOrdersApi } from './api';
+import { wsAllOrdersApi } from './api';
 
 const store = configureStore({
   reducer: rootReducer,
-  middleware: [thunk, socketMiddleware(wsOrdersApi)],
+  middleware: [thunk, socketMiddleware(wsAllOrdersApi)],
   devTools: process.env.NODE_ENV !== 'production',
 });
 

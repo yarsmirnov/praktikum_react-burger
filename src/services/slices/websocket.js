@@ -3,7 +3,9 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   wsConnected: false,
-  messages: [],
+  orders: [],
+  total: 0,
+  totalToday: 0,
   error: ''
 };
 
@@ -30,19 +32,16 @@ export const websocketSlice = createSlice({
       }
     },
 
-    CONNECTION_CLOSED: (state, action) => {
-      return {
-        ...state,
-        error: null,
-        wsConnected: false
-      }
-    },
+    CONNECTION_CLOSED: () => initialState,
 
     GET_MESSAGE: (state, action) => {
+      const { orders, total, totalToday } = action.payload;
       return {
         ...state,
         error: null,
-        messages: action.payload
+        orders,
+        total,
+        totalToday,
       };
     },
   }
