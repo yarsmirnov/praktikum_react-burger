@@ -8,7 +8,7 @@ import styles from './profile.module.css';
 
 export const ProfilePage = () => {
   return (
-    <section className={`${styles.pageContainer} pt-30`}>
+    <section className={`${styles.pageContainer} pt-10`}>
       <h1 className={`visualliHidden`}>
         { `Провиль пользователя` }
       </h1>
