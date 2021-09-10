@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { ingredientType, orderType } from '../../utils/types';
 import { getIngredientsData } from '../../utils/utils';
+import { formatDate } from '../../utils/dates';
 
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -23,7 +24,7 @@ const FeedCard = ({
     createdAt,
     number
   } = orderInfo;
-  const orderDate = createdAt;
+  const orderDate = formatDate(createdAt);
 
   const ingredientsData = useMemo(
     () => getIngredientsData(ingredients, ingredientsList),
