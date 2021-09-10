@@ -4,41 +4,14 @@ import { ingredientType, orderType } from '../../utils/types';
 
 import { getIngredientsData } from '../../utils/utils';
 
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import PreviewItem from '../preview-item/preview-item';
+import OrderStatus from '../order-status/order-status';
+import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './order-card.module.css';
 
 
 const MAX_INGREDIENTS_PREVIEW = 10;
-
-const generateStatusElement = (status) => {
-  switch (status) {
-    case 'done': {
-      return (
-        <span className={`${styles.statusDone}`}>
-          Выполнен
-        </span>
-      );
-    }
-    case 'cooking': {
-      return (
-        <span className={`${styles.statusInWork}`}>
-          Готовится
-        </span>
-      )
-    }
-    case 'canseled': {
-      return (
-        <span className={`${styles.statusCanseled}`}>
-          Готовится
-        </span>
-      );
-    }
-    default:
-      return null;
-  }
-};
 
 
 const OrderCard = ({
@@ -53,10 +26,6 @@ const OrderCard = ({
     status
   } = orderInfo;
   const orderDate = createdAt;
-  const orderStatus = useMemo(
-    () => generateStatusElement(status),
-    [status]
-  );
 
   const ingredientsData = useMemo(
     () => getIngredientsData(ingredients, ingredientsList),
@@ -98,7 +67,7 @@ const OrderCard = ({
       </h3>
 
       <p className={`text mb-6`}>
-        { orderStatus }
+        <OrderStatus status={status} />
       </p>
 
       <div className={`${styles.card_footer}`}>

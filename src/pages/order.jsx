@@ -4,40 +4,13 @@ import { useSelector } from 'react-redux';
 import { order } from '../utils/mock-orders';
 import { getIngredientsData } from '../utils/utils';
 
-import Loader from '../components/loader/loader';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import Loader from '../components/loader/loader';
+import OrderStatus from '../components/order-status/order-status';
 
 import layoutStyles from './page-layout.module.css';
 import styles from './order.module.css';
 
-
-const generateStatusElement = (status) => {
-  switch (status) {
-    case 'done': {
-      return (
-        <span className={`${styles.statusDone}`}>
-          Выполнен
-        </span>
-      );
-    }
-    case 'cooking': {
-      return (
-        <span className={`${styles.statusInWork}`}>
-          Готовится
-        </span>
-      )
-    }
-    case 'canseled': {
-      return (
-        <span className={`${styles.statusCanseled}`}>
-          Готовится
-        </span>
-      );
-    }
-    default:
-      return null;
-  }
-};
 
 const generateIngredientElement = ({ img, name, count, price }) => {
   return (
@@ -96,7 +69,7 @@ export const OrderPage = () => {
       </p>
 
       <p className={`${styles.orderStatus} mb-15`}>
-        { generateStatusElement(status) }
+        <OrderStatus status={status} />
       </p>
 
       <h3 className={`${styles.orderComposition} text text_type_main-medium mb-6`}>

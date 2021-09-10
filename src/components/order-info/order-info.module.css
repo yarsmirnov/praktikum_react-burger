@@ -28,18 +28,6 @@
   padding: 0;
 }
 
-.statusDone {
-  color: var(--colors-interface-success);
-}
-
-.statusInWork {
-  color: var(--colors-interface-accent);
-}
-
-.statusCanseled {
-  color: var(--colors-interface-error);
-}
-
 .orderComposition {
   margin-top: 0;
   padding: 0;

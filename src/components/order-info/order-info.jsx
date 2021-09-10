@@ -5,38 +5,11 @@ import { order } from '../../utils/mock-orders';
 import { getIngredientsData } from '../../utils/utils';
 
 import Loader from '../loader/loader';
+import OrderStatus from '../order-status/order-status';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './order-info.module.css';
 
-
-const generateStatusElement = (status) => {
-  switch (status) {
-    case 'done': {
-      return (
-        <span className={`${styles.statusDone}`}>
-          Выполнен
-        </span>
-      );
-    }
-    case 'cooking': {
-      return (
-        <span className={`${styles.statusInWork}`}>
-          Готовится
-        </span>
-      )
-    }
-    case 'canseled': {
-      return (
-        <span className={`${styles.statusCanseled}`}>
-          Готовится
-        </span>
-      );
-    }
-    default:
-      return null;
-  }
-};
 
 const generateIngredientElement = ({ img, name, count, price }) => {
   return (
@@ -95,7 +68,7 @@ const OrderInfo = () => {
       </p>
 
       <p className={`${styles.orderStatus} mb-15`}>
-        { generateStatusElement(status) }
+        <OrderStatus status={status} />
       </p>
 
       <h3 className={`${styles.orderComposition} text text_type_main-medium mb-6`}>
