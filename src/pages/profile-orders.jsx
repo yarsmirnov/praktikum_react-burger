@@ -18,7 +18,7 @@ export const ProfileOrdersPage = () => {
           <ProfileNavigation extraClasses={`mb-20`} />
 
           <p className={`text text_type_main-default text-dark`}>
-            В этом разделе вы можете изменить свои персональные данные
+            В этом разделе вы можете просмотреть историю ваших заказов
           </p>
         </div>
 
