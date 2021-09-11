@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
-import { order } from '../../utils/mock-orders';
+import { formatDate } from '../../utils/dates';
 import { getIngredientsData } from '../../utils/utils';
 
 import Loader from '../loader/loader';
@@ -10,6 +11,12 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 
 import styles from './order-info.module.css';
 
+
+const getOrderDataFromOrders = (orderNumber, ordersList) => {
+  return ordersList.find(
+    (order) => parseInt(order.number, 10) === parseInt(orderNumber, 10)
+  );
+};
 
 const generateIngredientElement = ({ img, name, count, price }) => {
   return (
@@ -33,16 +40,25 @@ const generateIngredientElement = ({ img, name, count, price }) => {
 
 const OrderInfo = () => {
   const { items: ingredientsDatabase } = useSelector((store) => store.ingredients);
+  const { orders } = useSelector((store) => store.websocket);
+  const { orderNumber } = useParams();
+
+  const order = useMemo(
+    () => getOrderDataFromOrders(orderNumber, orders),
+    [orderNumber, orders]
+  );
+
   const ingredientsData = useMemo(
     () => getIngredientsData(order?.ingredients, ingredientsDatabase),
-    [ingredientsDatabase]
+    [order, ingredientsDatabase]
   );
+
   const totalPrice = useMemo(
     () => ingredientsData.reduce((acc, item) => acc + item.price * item.count, 0),
     [ingredientsData]
   );
 
-  if (!order || !ingredientsDatabase || !ingredientsDatabase.length) {
+  if (!order) {
     return (
       <div className={`${styles.loaderContainer} pt-30`}>
         <Loader />
@@ -52,6 +68,7 @@ const OrderInfo = () => {
 
   const { name, number, status, createdAt } = order;
   const orderNumberToShow = `#${String(number).padStart(6,0)}`;
+  const dateToShow = formatDate(createdAt);
 
   return (
     <div className={`${styles.pageContainer} text text_type_main-default pt-15 pb-10`}>
@@ -82,8 +99,8 @@ const OrderInfo = () => {
       </ul>
 
       <div className={`${styles.orderColumns}`}>
-        <p className={`${styles.orderDate} text_type_digits-default text_color_inactive`}>
-          { createdAt }
+        <p className={`${styles.orderDate} text_type_main-default text_color_inactive`}>
+          { dateToShow }
         </p>
 
         <p className={`${styles.orderTotalPrice} text_type_digits-default`}>

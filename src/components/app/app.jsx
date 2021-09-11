@@ -81,7 +81,7 @@ const ModalSwitch = () => {
             <ProfileOrdersPage />
           </ProtectedRoute>
 
-          <Route path='/profile/orders/:id' exact>
+          <Route path='/profile/orders/:orderNumber' exact>
             <OrderPage />
           </Route>
 
@@ -93,7 +93,7 @@ const ModalSwitch = () => {
             <FeedPage />
           </Route>
 
-          <Route path='/feed/:id' exact>
+          <Route path='/feed/:orderNumber' exact>
             <OrderPage />
           </Route>
 
@@ -125,7 +125,7 @@ const ModalSwitch = () => {
         { background
           && isOpen
           && (
-            <Route path='/feed/:id' exact>
+            <Route path='/feed/:orderNumber' exact>
               <Modal closeModal={handleModalClose}>
               </Modal>
             </Route>
@@ -135,7 +135,7 @@ const ModalSwitch = () => {
         { background
           && isOpen
           && (
-            <Route path='/profile/orders/:id' exact>
+            <Route path='/profile/orders/:orderNumber' exact>
               <Modal closeModal={handleModalClose}>
               </Modal>
             </Route>

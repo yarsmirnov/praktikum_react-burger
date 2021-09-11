@@ -50,6 +50,20 @@ export const getUserRequest = async () => {
   })
 };
 
+export const getOrderRequest = async (orderNumber) => {
+  return await fetch(`https://norma.nomoreparties.space/api/orders/${orderNumber}`, {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer'
+  });
+};
+
 export const registerUserRequest = async (form) => {
   return await fetch(`${baseApi}/auth/register`, {
     method: 'POST',

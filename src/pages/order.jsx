@@ -1,8 +1,10 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
-import { order } from '../utils/mock-orders';
 import { getIngredientsData } from '../utils/utils';
+import { formatDate } from '../utils/dates';
+import { getOrderRequest } from '../services/api';
 
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import Loader from '../components/loader/loader';
@@ -34,16 +36,45 @@ const generateIngredientElement = ({ img, name, count, price }) => {
 
 export const OrderPage = () => {
   const { items: ingredientsDatabase } = useSelector((store) => store.ingredients);
+  const { orderNumber } = useParams();
+  const [ order, setOrder ] = useState(null);
+  const [ requestStatus, setRequesStatus ] = useState({
+    PENDING: false,
+    SUCCESS: false,
+    ERROR: false
+  });
+
+  useEffect(() => {
+    setRequesStatus({PENDING: true, SUCCESS: false, ERROR: true});
+
+    getOrderRequest(orderNumber)
+      .then(res => {
+        if (!res.ok) {
+          setRequesStatus({PENDING: false, SUCCESS: false, ERROR: true});
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setOrder(data.orders[0]);
+        setRequesStatus({PENDING: false, SUCCESS: true, ERROR: false})
+      })
+      .catch(err => {
+        setRequesStatus({PENDING: false, SUCCESS: false, ERROR: true});
+        console.error(err);
+      })
+  }, [orderNumber]);
+
   const ingredientsData = useMemo(
     () => getIngredientsData(order?.ingredients, ingredientsDatabase),
-    [ingredientsDatabase]
+    [order, ingredientsDatabase]
   );
   const totalPrice = useMemo(
     () => ingredientsData.reduce((acc, item) => acc + item.price, 0),
     [ingredientsData]
   );
 
-  if (!order || !ingredientsDatabase || !ingredientsDatabase.length) {
+  if (requestStatus.PENDING || !ingredientsDatabase || !ingredientsDatabase.length) {
     return (
       <div className={`${layoutStyles.loaderContainer} pt-30`}>
         <Loader />
@@ -51,8 +82,34 @@ export const OrderPage = () => {
     );
   }
 
+  if (requestStatus.ERROR) {
+    <div className={`${layoutStyles.loaderContainer} pt-30`}>
+      <h1 className={`text text_type_main-large text-with-glow mb-20`}>
+        Что-то пошло не так :(
+      </h1>
+      <p className={`text text_type_main-medium mb-4`}>
+        Не получилось получить данные о заказе
+      </p>
+    </div>
+  }
+
+  if (order && !order.number) {
+    <div className={`${layoutStyles.loaderContainer} pt-30`}>
+      <h1 className={`text text_type_main-large text-with-glow mb-20`}>
+        Что-то пошло не так :(
+      </h1>
+      <p className={`text text_type_main-medium mb-4`}>
+        Не получилось получить данные о заказе
+      </p>
+      <p className={`text text_type_main-medium`}>
+        Возможно указан некорректный номер заказа
+      </p>
+    </div>
+  }
+
   const { name, number, status, createdAt } = order;
   const orderNumberToShow = `#${String(number).padStart(6,0)}`;
+  const dateToShow = formatDate(createdAt);
 
   return (
     <section className={`${styles.pageContainer} text text_type_main-default pt-30`}>
@@ -83,8 +140,8 @@ export const OrderPage = () => {
       </ul>
 
       <div className={`${styles.orderColumns}`}>
-        <p className={`${styles.orderDate} text_type_digits-default text_color_inactive`}>
-          { createdAt }
+        <p className={`${styles.orderDate} text_type_main-default text_color_inactive`}>
+          { dateToShow }
         </p>
 
         <p className={`${styles.orderTotalPrice} text_type_digits-default`}>
