@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { ingredientType, orderType } from '../../utils/types';
 
 import { getIngredientsData } from '../../utils/utils';
+import { formatDate } from '../../utils/dates';
 
 import PreviewItem from '../preview-item/preview-item';
 import OrderStatus from '../order-status/order-status';
@@ -25,7 +26,7 @@ const OrderCard = ({
     number,
     status
   } = orderInfo;
-  const orderDate = createdAt;
+  const dateToShow = formatDate(createdAt);
 
   const ingredientsData = useMemo(
     () => getIngredientsData(ingredients, ingredientsList),
@@ -58,7 +59,7 @@ const OrderCard = ({
           {`#${String(number).padStart(6, 0)}`}
         </p>
         <p className={`text text_type_main-default text_color_inactive`}>
-          { orderDate }
+          { dateToShow }
         </p>
       </div>
 
