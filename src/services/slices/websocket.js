@@ -6,7 +6,7 @@ const initialState = {
   orders: [],
   total: 0,
   totalToday: 0,
-  error: ''
+  error: null
 };
 
 
@@ -14,7 +14,7 @@ export const websocketSlice = createSlice({
   name: 'WS',
   initialState,
   reducers: {
-    CONNECTION_START: () => initialState,
+    CONNECTION_START: (state) => initialState,
 
     CONNECTION_SUCCESS: (state) => {
       return {
