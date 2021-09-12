@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation, useRouteMatch } from 'react-router-dom';
 
@@ -19,7 +19,14 @@ const UserOrders = () => {
   const location = useLocation();
   const { url } = useRouteMatch();
   const { items: ingredientsDatabase } = useSelector((store) => store.ingredients);
-  const { orders } = useSelector((store) => store.websocket);
+  const { wsConnected, error, orders } = useSelector((store) => store.websocket);
+
+  const sortedOrders = useMemo(
+    () => orders.length
+      ? [...orders].reverse()
+      : [],
+    [orders]
+  );
 
   useEffect(() => {
     const wsUrl = `${wsUserOrdersApi}${getCookie('accessToken')}`;
@@ -29,11 +36,24 @@ const UserOrders = () => {
     }
   }, [dispatch]);
 
-  if (!ingredientsDatabase
+  if ((!wsConnected && !error)
     || !ingredientsDatabase.length) {
     return (
       <div className={`${styles.loaderContainer} pt-30`}>
         <Loader />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className={`pt-20`}>
+        <p className={`text text_type_main-large text-with-glow mb-4`}>
+          Произошла ошибка :(
+        </p>
+        <p className={`text text_type_main-medium`}>
+          Не получилось загрузить данные с сервера
+        </p>
       </div>
     );
   }
@@ -59,7 +79,7 @@ const UserOrders = () => {
 
   return (
     <ul className={`${styles.list} scroller`}>
-      { orders.map(
+      { sortedOrders.map(
         (order) => (
           <li className={`mb-6`} key={order.number}>
             <Link
