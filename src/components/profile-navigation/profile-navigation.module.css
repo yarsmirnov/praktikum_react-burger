@@ -1,0 +1,21 @@
+.list {
+  margin-top: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list_item {
+  display: flex;
+  align-items: center;
+  min-height: 64px;
+}
+
+.navLink {
+  font: inherit;
+  text-decoration: none;
+  color: var(--text-inactive-color);
+}
+
+.navLink_active {
+  color: var(--text-primary-color);
+}

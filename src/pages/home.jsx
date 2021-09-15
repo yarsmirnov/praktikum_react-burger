@@ -10,8 +10,10 @@ import BurgerConstructor from '../components/burger-constructor/burger-construct
 export const HomePage = () => {
   return (
     <DndProvider backend={HTML5Backend}>
-      <BurgerIngredients />
-      <BurgerConstructor />
+      <div className={`columnsContainer`}>
+        <BurgerIngredients />
+        <BurgerConstructor />
+      </div>
     </DndProvider>
   );
 };

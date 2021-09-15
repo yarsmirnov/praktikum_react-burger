@@ -16,11 +16,14 @@ import {
 import ProtectedRoute from '../protected-route/protected-route';
 import GuestRoute from '../guest-route/guest-route';
 import {
+  FeedPage,
   ForgotPasswordPage,
   HomePage,
   IngredientPage,
   LoginPage,
+  OrderPage,
   ProfilePage,
+  ProfileOrdersPage,
   RegisterPage,
   ResetPasswordPage,
   NotFound404,
@@ -48,7 +51,7 @@ const ModalSwitch = () => {
     <>
       <AppHeader />
 
-      <main className='container main'>
+      <main className='container'>
         <Switch location={background || location}>
           <Route path='/' exact>
             <HomePage />
@@ -70,12 +73,28 @@ const ModalSwitch = () => {
             <ResetPasswordPage />
           </GuestRoute>
 
-          <ProtectedRoute path='/profile'>
+          <ProtectedRoute path='/profile' exact>
             <ProfilePage />
           </ProtectedRoute>
 
+          <ProtectedRoute path='/profile/orders' exact>
+            <ProfileOrdersPage />
+          </ProtectedRoute>
+
+          <Route path='/profile/orders/:orderNumber' exact>
+            <OrderPage />
+          </Route>
+
           <Route path='/ingredients/:id' exact>
             <IngredientPage />
+          </Route>
+
+          <Route path='/feed' exact>
+            <FeedPage />
+          </Route>
+
+          <Route path='/feed/:orderNumber' exact>
+            <OrderPage />
           </Route>
 
           <Route>
@@ -97,6 +116,26 @@ const ModalSwitch = () => {
           && isOpen
           && (
             <Route path='/order' exact>
+              <Modal closeModal={handleModalClose}>
+              </Modal>
+            </Route>
+          )
+        }
+
+        { background
+          && isOpen
+          && (
+            <Route path='/feed/:orderNumber' exact>
+              <Modal closeModal={handleModalClose}>
+              </Modal>
+            </Route>
+          )
+        }
+
+        { background
+          && isOpen
+          && (
+            <Route path='/profile/orders/:orderNumber' exact>
               <Modal closeModal={handleModalClose}>
               </Modal>
             </Route>

@@ -1,8 +1,9 @@
 import { getCookie } from '../utils/cookie';
 
 
-const baseApi = 'https://norma.nomoreparties.space/api'
-
+const baseApi = 'https://norma.nomoreparties.space/api';
+export const wsAllOrdersApi = 'wss://norma.nomoreparties.space/orders/all';
+export const wsUserOrdersApi = 'wss://norma.nomoreparties.space/orders?token=';
 
 export const refreshTokenRequest = async () => {
   return await fetch(`${baseApi}/auth/token`, {
@@ -27,7 +28,7 @@ export const getIngredientsRequest = async () => {
     credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + getCookie('accessToken')
+      'Authorization': 'Bearer ' + getCookie('accessToken')
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer'
@@ -42,11 +43,25 @@ export const getUserRequest = async () => {
     credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + getCookie('accessToken')
+      'Authorization': 'Bearer ' + getCookie('accessToken')
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer'
   })
+};
+
+export const getOrderRequest = async (orderNumber) => {
+  return await fetch(`https://norma.nomoreparties.space/api/orders/${orderNumber}`, {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer'
+  });
 };
 
 export const registerUserRequest = async (form) => {
@@ -87,7 +102,7 @@ export const patchUserRequest = async (form) => {
     credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + getCookie('accessToken')
+      'Authorization': 'Bearer ' + getCookie('accessToken')
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
@@ -118,7 +133,7 @@ export const orderRequest = async (orderData) => {
     credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + getCookie('accessToken')
+      'Authorization': 'Bearer ' + getCookie('accessToken')
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer',

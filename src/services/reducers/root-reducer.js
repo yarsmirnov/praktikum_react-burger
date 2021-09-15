@@ -10,6 +10,7 @@ import ingredients from '../slices/ingredients';
 import modal from '../slices/modal';
 import order from '../slices/order';
 import user from '../slices/user';
+import websocket from '../slices/websocket';
 
 
 const rootReducer = combineReducers({
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   modal,
   order,
   user,
+  websocket,
 });
 
 

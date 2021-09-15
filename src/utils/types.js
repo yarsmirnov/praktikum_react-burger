@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 
-const ingredientType = {
+export const ingredientType = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
@@ -13,7 +13,14 @@ const ingredientType = {
   image: PropTypes.string.isRequired,
   imageMobile: PropTypes.string.isRequired,
   imageLarge: PropTypes.string.isRequired,
-}
+};
 
-
-export {ingredientType};
+export const orderType = {
+  _id: PropTypes.string.isRequired,
+  ingredients: PropTypes.arrayOf(PropTypes.string).isRequired,
+  status: PropTypes.oneOf(['done', 'cooking']).isRequired,
+  name: PropTypes.string.isRequired,
+  createdAt: PropTypes.string.isRequired,
+  updatedAt: PropTypes.string.isRequired,
+  number: PropTypes.number.isRequired,
+};

@@ -1,0 +1,19 @@
+.default {
+  color: var(--text-primary-color);
+}
+
+.created {
+  color: var(--text-primary-color);
+}
+
+.pending {
+  color: var(--colors-interface-accent);
+}
+
+.done {
+  color: var(--colors-interface-success);
+}
+
+.canseled {
+  color: var(--colors-interface-error);
+}

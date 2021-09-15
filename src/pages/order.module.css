@@ -1,0 +1,139 @@
+.pageContainer {
+  max-width: 640px;
+  margin: 0 auto;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.orderNumber {
+  margin-top: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.orderName {
+  margin-top: 0;
+  padding: 0;
+}
+
+.orderStatus {
+  margin-top: 0;
+  padding: 0;
+}
+
+.statusDone {
+  color: var(--colors-interface-success);
+}
+
+.statusInWork {
+  color: var(--colors-interface-accent);
+}
+
+.statusCanseled {
+  color: var(--colors-interface-error);
+}
+
+.orderComposition {
+  margin-top: 0;
+  padding: 0;
+}
+
+.ingredientsList {
+  width: 100%;
+  max-height: 312px;
+  margin-top: 0;
+  padding-left: 0;
+}
+
+.ingredient {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.ingredient + .ingredient {
+  margin-top: 16px;
+}
+
+.ingredientPreview {
+  position: relative;
+  box-sizing: border-box;
+  width: 64px;
+  height: 64px;
+  overflow: hidden;
+  background-origin: border-box;
+  background-image: linear-gradient(45deg, #801AB2, #4C4CFF);
+  border: 2px solid transparent;
+  border-radius: 50%;
+}
+
+.ingredientPreview::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: var(--background-alt);
+  border-radius: 50%;
+}
+
+.ingredientPreview img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 56px;
+  object-fit: cover;
+}
+
+.ingredientName {
+  flex-grow: 1;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.ingredientPrice {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.ingredientPrice i {
+  display: flex;
+  align-items: center;
+}
+
+.ingredientPrice svg {
+  width: 22px;
+  height: 22px;
+}
+
+.orderColumns {
+  display: flex;
+  justify-content: space-between;
+}
+
+.orderDate {
+  margin: 0;
+  padding: 0;
+}
+
+.orderTotalPrice {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.orderTotalPrice i {
+  display: flex;
+  align-items: center;
+}
+
+.orderTotalPrice svg {
+  width: 22px;
+  height: 22px;
+}
