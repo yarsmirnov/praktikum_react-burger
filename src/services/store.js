@@ -6,7 +6,7 @@ import { socketMiddleware } from './moddlewares/socketMiddleware';
 
 const store = configureStore({
   reducer: rootReducer,
-  middleware: [thunk, socketMiddleware()],
+  middleware: [thunk, socketMiddleware],
   devTools: process.env.NODE_ENV !== 'production',
 });
 
