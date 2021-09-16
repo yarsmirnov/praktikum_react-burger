@@ -35,7 +35,7 @@ export const formForgotPasswordSlice = createSlice({
 
     clearForm: (state) => ({
       ...initialState,
-      verifiedEmail: state.form.email,
+      verifiedEmail: state.verifiedEmail,
     }),
 
     request: (state) => ({
