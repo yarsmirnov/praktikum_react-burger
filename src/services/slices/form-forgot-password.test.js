@@ -111,10 +111,10 @@ describe('Test form-forgot-password reducer', () => {
     };
 
     expect(reducer(initialStore1, clearForm()))
-      .toEqual({ ...expected1 });
+      .toEqual(expected1);
 
     expect(reducer(initialStore2, clearForm()))
-      .toEqual({ ...expected2 });
+      .toEqual(expected2);
   })
 
   it('setVerifiedEmail() should set verifiedEmail', () => {
@@ -304,6 +304,10 @@ describe('Test form-forgot-password reducer', () => {
     };
 
     expect(reducer(initialState1, success()))
+      .toEqual(expected);
+    expect(reducer(initialState2, success()))
+      .toEqual(expected);
+    expect(reducer(initialState3, success()))
       .toEqual(expected);
   })
 });
