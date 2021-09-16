@@ -62,7 +62,7 @@ describe('Test form-login reducers', () => {
   })
 
 
-  it('clearForm() should reset store.fomr to initialState', () => {
+  it('clearForm() should reset store.form to initialState', () => {
     const storeWithFilledUpForm = {
       form: {
         email: 'test@mail.com',
