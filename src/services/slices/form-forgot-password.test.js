@@ -6,10 +6,7 @@ import {
   request,
   success,
   failure,
-
-  verifyEmail
 } from './form-forgot-password';
-
 
 describe('Test form-forgot-password reducer', () => {
   const initialState = {

@@ -1,7 +1,7 @@
 import { getCookie } from '../utils/cookie';
 
 
-const baseApi = 'https://norma.nomoreparties.space/api';
+export const baseApi = 'https://norma.nomoreparties.space/api';
 export const wsAllOrdersApi = 'wss://norma.nomoreparties.space/orders/all';
 export const wsUserOrdersApi = 'wss://norma.nomoreparties.space/orders?token=';
 
