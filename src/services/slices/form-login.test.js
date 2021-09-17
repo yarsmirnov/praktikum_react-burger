@@ -4,8 +4,6 @@ import {
   clearForm,
 } from './form-login';
 
-// Read this one:
-// https://www.xtivia.com/blog/best-practices-for-testing-a-react-redux-toolkit-app/
 
 describe('Test form-login reducers', () => {
   const initialState = {
