@@ -100,7 +100,9 @@ export const ingredientsSlice = createSlice({
 
 
 export const {
+  request,
   success,
+  failure,
   increaseIngredientCount,
   decreaseIngredientCount,
   resetIngredientsCounter
