@@ -26,6 +26,7 @@ export const orderSlice = createSlice({
       ...state,
       ORDER_REQUEST: false,
       ORDER_SUCCESS: true,
+      ORDER_FAILURE: false,
       orderData: {...action.payload}
     }),
 
