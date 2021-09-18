@@ -30,6 +30,8 @@ import DraggableItem from './draggable-item';
 import OrderDetails from '../order-details/order-details';
 import Loader from '../loader/loader';
 
+import { v4 as uuidv4 } from 'uuid';
+
 import styles from './burger-constructor.module.css';
 
 
@@ -59,8 +61,8 @@ const BurgerConstructor = () => {
     accept: 'ingredient',
     drop(item) {
       item.type === 'bun' ?
-        dispatch(setBun(item)) :
-        dispatch(addItem(item));
+        dispatch(setBun({ ...item, uuid: uuidv4() })) :
+        dispatch(addItem({ ...item, uuid: uuidv4() }));
 
       dispatch(increaseIngredientCount({
         id: item.id,

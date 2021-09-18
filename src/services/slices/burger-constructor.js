@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 
 
 const initialState = {
@@ -14,7 +14,7 @@ export const burgerConstructorSlide = createSlice({
     addItem: (store, action) => ({
       ...store,
       items: [...store.items,
-        {...action.payload, uuid: uuidv4()}
+        {...action.payload}
       ],
     }),
 
@@ -49,7 +49,6 @@ export const burgerConstructorSlide = createSlice({
 
         updatedIngredients.splice(bunIndex, 1, {
           ...action.payload,
-          uuid: uuidv4()
         });
 
         return ({
@@ -60,7 +59,7 @@ export const burgerConstructorSlide = createSlice({
       return ({
         ...store,
         items: [...store.items,
-          {...action.payload, uuid: uuidv4()}
+          { ...action.payload }
         ],
       });
     },
