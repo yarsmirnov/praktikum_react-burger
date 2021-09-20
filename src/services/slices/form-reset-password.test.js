@@ -4,8 +4,18 @@ import {
   clearForm,
   request,
   success,
-  failure
+  failure,
+
+  resetPassword
 } from './form-reset-password';
+
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import { initialState } from './form-reset-password';
+
+
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
 
 
 describe('Test form-reset-password reducer', () => {
@@ -247,3 +257,40 @@ describe('Test form-reset-password reducer', () => {
       .toEqual(expected);
   })
 });
+
+
+describe('Test form-reset-password thunk', () => {
+  it('Test resetPassword()', ()  => {
+    global.fetch = jest.fn(() => {
+      return Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({
+          success: true,
+        }),
+      })
+    });
+
+    const formMock = {
+      password: '123456',
+      token: 'tokenTokenToken',
+    };
+
+    const store = mockStore({
+      formResetPassword: {
+        ...initialState,
+        form: formMock
+      }
+    });
+
+    const expectedActions = [
+      { type: 'formResetPassword/request', payload: undefined },
+      { type: 'formResetPassword/success', payload: undefined }
+    ];
+
+    return store.dispatch(resetPassword()).then(() => {
+      const actions = store.getActions()
+      expect(actions).toEqual(expectedActions);
+    });
+  })
+});
+
