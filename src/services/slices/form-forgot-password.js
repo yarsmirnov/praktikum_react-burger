@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { forgotPasswordRequest } from '../api';
 
 
-const initialState = {
+export const initialState = {
   VERIFY_EMAIL_REQUEST: false,
   VERIFY_EMAIL_SUCCESS: false,
   VERIFY_EMAIL_FAILURE: false,
@@ -81,7 +81,7 @@ export const verifyEmail = () => async (dispatch, getState) => {
   dispatch(request());
   dispatch(setVerifiedEmail(null));
 
-  forgotPasswordRequest(formData)
+  await forgotPasswordRequest(formData)
     .then(response => {
       if (response.ok) {
         return response.json();

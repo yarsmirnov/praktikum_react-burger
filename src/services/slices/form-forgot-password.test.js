@@ -6,7 +6,18 @@ import {
   request,
   success,
   failure,
+
+  verifyEmail
 } from './form-forgot-password';
+
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import { initialState } from './form-forgot-password';
+
+
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
+
 
 describe('Test form-forgot-password reducer', () => {
   const initialState = {
@@ -306,5 +317,45 @@ describe('Test form-forgot-password reducer', () => {
       .toEqual(expected);
     expect(reducer(initialState3, success()))
       .toEqual(expected);
+  })
+});
+
+
+describe('Test form-forgot-password thunk', () => {
+  it('Test verifyEmail()', ()  => {
+    global.fetch = jest.fn(() => {
+      return Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({
+          success: true,
+        }),
+      })
+    });
+
+    const verifiedEmail = 'example@mail.com';
+
+    const store = mockStore({
+      formForgotPassword: {
+        ...initialState,
+        form: {
+          email: verifiedEmail,
+        }
+      }
+    });
+
+    const expectedActions = [
+      { type: 'formForgotPassword/request', payload: undefined },
+      { type: 'formForgotPassword/setVerifiedEmail', payload: null },
+      { type: 'formForgotPassword/success', payload: undefined },
+      {
+        type: 'formForgotPassword/setVerifiedEmail',
+        payload: 'example@mail.com'
+      }
+    ];
+
+    return store.dispatch(verifyEmail()).then(() => {
+      const actions = store.getActions()
+      expect(actions).toEqual(expectedActions);
+    });
   })
 });
