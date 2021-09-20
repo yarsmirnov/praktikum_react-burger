@@ -20,10 +20,23 @@ import {
 
   setPatchUserRequest,
   setPatchUserSuccess,
-  setPatchUserFailure
+  setPatchUserFailure,
+
+  refreshToken,
+  registerUser,
+  loadUserData,
+  patchUserData,
+  loginUser,
+  logoutUser
 } from './user';
 
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import { initialState } from './user';
 
+
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
 const user = { email: 'example@mail.com', name: 'Some Name' };
 
 
@@ -1959,5 +1972,183 @@ describe('Test user reducer', () => {
       .toEqual(expected);
     expect(reducer(initial3, setPatchUserFailure()))
       .toEqual(expected3);
+  })
+});
+
+
+describe('Test user thunk functions', () => {
+  it('Test refreshToken() should call provided action', () => {
+    global.fetch = jest.fn(() => {
+      return Promise.resolve({
+        ok: true,
+        accessToken: 'Bearer tokenTokenToken',
+      })
+    });
+
+    const store = mockStore({});
+    const action = { type: 'testAction', payload: 'test' };
+    const expectedActions = [
+      action,
+    ];
+
+    return store.dispatch(refreshToken(action)).then(() => {
+      const actions = store.getActions(expectedActions);
+
+      expect(actions).toEqual(expectedActions);
+    });
+  })
+
+  it('Test registerUser()', () => {
+    global.fetch = jest.fn(() => {
+      return Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({
+          success: true,
+          accessToken: 'Bearer tokenTokenToken',
+          user,
+        }),
+      })
+    });
+
+    const store = mockStore({
+      user: initialState
+    });
+    const requestPayload = {
+      email: 'example@mail.com',
+      password: '123456'
+    };
+    const expectedActions = [
+      { type: 'user/setUser', payload: user },
+      { type: 'user/setRegisterSuccess', payload: undefined }
+    ];
+
+    return store.dispatch(registerUser(requestPayload))
+      .then(() => {
+        const actions = store.getActions()
+
+        expect(actions).toEqual(expectedActions);
+      });
+  })
+
+  it('Test loadUserData()', () => {
+    global.fetch = jest.fn(() => {
+      return Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({
+          success: true,
+          user,
+        }),
+      })
+    });
+
+    const store = mockStore({
+      user: initialState
+    });
+
+    const expectedActions = [
+      { type: 'user/setGetUserRequest', payload: undefined },
+      { type: 'user/setUser', payload: user },
+      { type: 'user/setGetUserSuccess', payload: undefined },
+    ];
+
+    return store.dispatch(loadUserData())
+      .then(() => {
+        const actions = store.getActions()
+
+        expect(actions).toEqual(expectedActions);
+      });
+  })
+
+  it('Test patchUserData()', () => {
+    const requestPayload = {
+      email: 'another@mail.com',
+      name: 'Another Name',
+      password: 'aNother'
+    };
+
+    global.fetch = jest.fn(() => {
+      return Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({
+          success: true,
+          user: requestPayload,
+        }),
+      })
+    });
+
+    const store = mockStore({
+      user: initialState
+    });
+
+    const expectedActions = [
+      { type: 'user/setPatchUserRequest', payload: undefined },
+      { type: 'user/setUser', payload: requestPayload },
+      { type: 'user/setPatchUserSuccess', payload: undefined },
+    ];
+
+    return store.dispatch(patchUserData(requestPayload))
+      .then(() => {
+        const actions = store.getActions()
+
+        expect(actions).toEqual(expectedActions);
+      });
+  })
+
+  it('Test loginUser()', () => {
+    global.fetch = jest.fn(() => {
+      return Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({
+          success: true,
+          user,
+          accessToken: 'Bearer tokenTokenToken',
+        }),
+      })
+    });
+
+    const store = mockStore({
+      user: initialState
+    });
+
+    const expectedActions = [
+      { type: 'user/setLoginRequest', payload: undefined },
+      { type: 'user/setUser', payload: user },
+      { type: 'user/setLoginSuccess', payload: undefined },
+    ];
+
+    return store.dispatch(loginUser(user))
+      .then(() => {
+        const actions = store.getActions()
+
+        expect(actions).toEqual(expectedActions);
+      });
+  })
+
+  it('Test logoutUser()', () => {
+    global.fetch = jest.fn(() => {
+      return Promise.resolve({
+        ok: true,
+      })
+    });
+
+    const store = mockStore({
+      user: {
+        ...initialState,
+        ...user
+      }
+    });
+
+    const expectedActions = [
+      { type: 'user/setLogoutRequest', payload: undefined },
+      { type: 'user/setUser', payload: null },
+      { type: 'user/setLogoutSuccess', payload: undefined },
+    ];
+
+    return store.dispatch(logoutUser())
+      .then(() => {
+        const actions = store.getActions()
+
+        expect(actions).toEqual(expectedActions);
+      });
   })
 });

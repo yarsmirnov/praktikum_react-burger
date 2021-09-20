@@ -20,6 +20,10 @@ export const getIngredientsData = (idList, ingredientsDatabase) => {
   const uniqueIdsWithCount = countUniqueItems(idList);
 
   for (const [ id, count ] of Object.entries(uniqueIdsWithCount)) {
+    if(!id) {
+      continue;
+    }
+
     const ingredientData = ingredientsDatabase.find(
       (ingredient) => ingredient.id === id
     );
