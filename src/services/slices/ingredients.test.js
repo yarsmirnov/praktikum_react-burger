@@ -5,8 +5,19 @@ import {
   failure,
   increaseIngredientCount,
   decreaseIngredientCount,
-  resetIngredientsCounter
+  resetIngredientsCounter,
+
+  getIngredients
 } from './ingredients';
+
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import { initialState } from './ingredients';
+
+
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
+
 
 const bun1 = {
   id: '60d3b41abdacab0026a733c6',
@@ -20,6 +31,21 @@ const bun1 = {
   image: 'https://code.s3.yandex.net/react/code/bun-02.png',
   imageMobile: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
   imageLarge: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
+  count: 0,
+  __v: 0
+};
+const bun1Raw = {
+  _id: '60d3b41abdacab0026a733c6',
+  name: 'Краторная булка N-200i',
+  type: 'bun',
+  proteins: 80,
+  fat: 24,
+  carbohydrates: 53,
+  calories: 420,
+  price: 1255,
+  image: 'https://code.s3.yandex.net/react/code/bun-02.png',
+  image_mobile: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
+  image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
   count: 0,
   __v: 0
 };
@@ -50,6 +76,21 @@ const ingredient1 = {
   image: 'https://code.s3.yandex.net/react/code/meat-03.png',
   imageMobile: 'https://code.s3.yandex.net/react/code/meat-03-mobile.png',
   imageLarge: 'https://code.s3.yandex.net/react/code/meat-03-large.png',
+  count: 0,
+  __v: 0
+};
+const ingredient1Raw = {
+  _id: '60d3b41abdacab0026a733c8',
+  name: 'Филе Люминесцентного тетраодонтимформа',
+  type: 'main',
+  proteins: 44,
+  fat: 26,
+  carbohydrates: 85,
+  calories: 643,
+  price: 988,
+  image: 'https://code.s3.yandex.net/react/code/meat-03.png',
+  image_mobile: 'https://code.s3.yandex.net/react/code/meat-03-mobile.png',
+  image_large: 'https://code.s3.yandex.net/react/code/meat-03-large.png',
   count: 0,
   __v: 0
 };
@@ -338,5 +379,38 @@ describe('Test ingredients reducer', () => {
 
     expect(reducer(initial, resetIngredientsCounter()))
       .toEqual(expected);
+  })
+});
+
+
+describe('Test ingredients thunk', () => {
+  it('Test getIngredients()', ()  => {
+    global.fetch = jest.fn(() => {
+      return Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({
+          success: true,
+          data: [ bun1Raw, ingredient1Raw ],
+        }),
+      })
+    });
+
+
+    const store = mockStore({
+      formResetPassword: initialState,
+    });
+
+    const expectedActions = [
+      {
+        type: 'ingredients/success',
+        payload: [ bun1, ingredient1 ]
+      }
+    ];
+
+    return store.dispatch(getIngredients()).then(() => {
+      const actions = store.getActions()
+
+      expect(actions).toEqual(expectedActions);
+    });
   })
 });
