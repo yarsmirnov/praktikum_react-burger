@@ -164,7 +164,7 @@ const BurgerConstructor = () => {
   if (ingredients.length === 0) {
     return (
       <section
-        className={`${styles.section} column pt-25 pr-4`}
+        className={`column pt-25 pr-4`}
         ref={dropTarget}
       >
         <h2 className='visualliHidden'>
@@ -181,7 +181,7 @@ const BurgerConstructor = () => {
 
   return (
     <section
-      className={`${styles.section} ${canAccept ? styles.canAccept: ''} column pt-25 pr-4`}
+      className={`${canAccept ? styles.canAccept: ''} column pt-25 pr-4`}
       ref={dropTarget}
     >
       <h2 className='visualliHidden'>
