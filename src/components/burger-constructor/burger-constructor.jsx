@@ -30,6 +30,8 @@ import DraggableItem from './draggable-item';
 import OrderDetails from '../order-details/order-details';
 import Loader from '../loader/loader';
 
+import { v4 as uuidv4 } from 'uuid';
+
 import styles from './burger-constructor.module.css';
 
 
@@ -59,8 +61,8 @@ const BurgerConstructor = () => {
     accept: 'ingredient',
     drop(item) {
       item.type === 'bun' ?
-        dispatch(setBun(item)) :
-        dispatch(addItem(item));
+        dispatch(setBun({ ...item, uuid: uuidv4() })) :
+        dispatch(addItem({ ...item, uuid: uuidv4() }));
 
       dispatch(increaseIngredientCount({
         id: item.id,
@@ -162,7 +164,7 @@ const BurgerConstructor = () => {
   if (ingredients.length === 0) {
     return (
       <section
-        className={`${styles.section} column pt-25 pr-4`}
+        className={`column pt-25 pr-4`}
         ref={dropTarget}
       >
         <h2 className='visualliHidden'>
@@ -179,7 +181,7 @@ const BurgerConstructor = () => {
 
   return (
     <section
-      className={`${styles.section} ${canAccept ? styles.canAccept: ''} column pt-25 pr-4`}
+      className={`${canAccept ? styles.canAccept: ''} column pt-25 pr-4`}
       ref={dropTarget}
     >
       <h2 className='visualliHidden'>

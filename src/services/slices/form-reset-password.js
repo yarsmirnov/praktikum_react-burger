@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { resetPasswordRequest } from '../api';
 
 
-const initialState = {
+export const initialState = {
   RESET_PASSWORD_REQUEST: false,
   RESET_PASSWORD_SUCCESS: false,
   RESET_PASSWORD_FAILURE: false,
@@ -68,7 +68,7 @@ export const resetPassword = () => async (dispatch, getState) => {
 
   dispatch(request());
 
-  resetPasswordRequest(formData)
+  await resetPasswordRequest(formData)
     .then(response => {
       if (response.ok) {
         return response.json();

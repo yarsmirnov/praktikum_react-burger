@@ -26,6 +26,7 @@ export const orderSlice = createSlice({
       ...state,
       ORDER_REQUEST: false,
       ORDER_SUCCESS: true,
+      ORDER_FAILURE: false,
       orderData: {...action.payload}
     }),
 
@@ -53,7 +54,7 @@ export const {
 export const sendOrderRequest = (orderData) => async (dispatch) => {
   dispatch(request());
 
-  orderRequest(orderData)
+  await orderRequest(orderData)
     .then((res) => {
       if (!res.ok && !res.status === 403) {
         throw new Error('Failed send order request');

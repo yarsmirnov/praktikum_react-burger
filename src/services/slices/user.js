@@ -193,7 +193,7 @@ export const {
 
 
 export const refreshToken = (afterRefresh) => async (dispatch) => {
-  refreshTokenRequest()
+  await refreshTokenRequest()
     .then((res) => {
       localStorage.setItem('refreshToken', res.refreshToken);
       setCookie('accessToken', res.accessToken);
@@ -203,7 +203,7 @@ export const refreshToken = (afterRefresh) => async (dispatch) => {
 };
 
 export const registerUser = (form) => async (dispatch) => {
-  registerUserRequest(form)
+  await registerUserRequest(form)
   .then(res => {
     if (res.ok) {
       return res.json();
@@ -231,7 +231,7 @@ export const registerUser = (form) => async (dispatch) => {
 export const loadUserData = () => async (dispatch) => {
   dispatch(setGetUserRequest());
 
-  getUserRequest()
+  await getUserRequest()
     .then((res) => {
       if (!res.ok && !res.status === 403) {
         throw new Error('Failed get user request');
@@ -257,7 +257,7 @@ export const loadUserData = () => async (dispatch) => {
 export const patchUserData = (form) => async (dispatch) => {
   dispatch(setPatchUserRequest());
 
-  patchUserRequest(form)
+  await patchUserRequest(form)
     .then(res => {
       if (!res.ok && !res.status === 403) {
         throw new Error('Failed get user request');
@@ -284,7 +284,7 @@ export const patchUserData = (form) => async (dispatch) => {
 export const loginUser = (form) => async (dispatch) => {
   dispatch(setLoginRequest());
 
-  loginRequest(form)
+  await loginRequest(form)
     .then(res => {
       if (res.ok) {
         return res.json();
@@ -312,9 +312,9 @@ export const loginUser = (form) => async (dispatch) => {
 export const logoutUser = () => async (dispatch) => {
   dispatch(setLogoutRequest());
 
-  logoutRequest()
-    .then(response => {
-      if (response.ok) {
+  await logoutRequest()
+    .then(res => {
+      if (res.ok) {
         dispatch(setUser(null));
         deleteCookie('accessToken');
         localStorage.removeItem('refreshToken');

@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { adaptIngredients } from '../../utils/adapter';
 import { getIngredientsRequest } from '../api';
 
-const initialState = {
+export const initialState = {
   INGREDIENTS_REQUEST: false,
   INGREDIENTS_SUCCESS: false,
   INGREDIENTS_FAILURE: false,
@@ -100,14 +100,16 @@ export const ingredientsSlice = createSlice({
 
 
 export const {
+  request,
   success,
+  failure,
   increaseIngredientCount,
   decreaseIngredientCount,
   resetIngredientsCounter
 } = ingredientsSlice.actions;
 
 export const getIngredients = () => async (dispatch) => {
-  getIngredientsRequest()
+  await getIngredientsRequest()
     .then(response => {
       if (response.ok) {
         return response.json();
@@ -125,7 +127,7 @@ export const getIngredients = () => async (dispatch) => {
     .catch(err => {
       console.error('Error:', err);
     })
-}
+};
 
 
 export default ingredientsSlice.reducer;
