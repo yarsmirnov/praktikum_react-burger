@@ -1,11 +1,11 @@
 import React, { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  setInitialValue,
-  setValue,
-  resetForm,
-  clearForm,
-} from '../../services/slices/form-profile';
+  setInitialValueAction,
+  setValueAction,
+  resetFormAction,
+  clearFormAction,
+} from '../../services/actions/form-profile';
 import { patchUserData } from '../../services/slices/user';
 
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -23,14 +23,14 @@ const FormProfileUpdateUser = () => {
   } = useSelector((store) => store.user);
 
   useEffect(() => {
-    dispatch(setInitialValue(user));
+    dispatch(setInitialValueAction(user));
     return () => {
-      dispatch(clearForm());
+      dispatch(clearFormAction());
     }
   }, [dispatch, user]);
 
   const onInputChange = useCallback((evt) => {
-    dispatch(setValue({
+    dispatch(setValueAction({
       name: evt.target.name,
       value: evt.target.value,
     }));
@@ -43,7 +43,7 @@ const FormProfileUpdateUser = () => {
 
   const onResetButtonClick = useCallback((evt) => {
     evt.preventDefault();
-    dispatch(resetForm());
+    dispatch(resetFormAction());
   }, [dispatch]);
 
   return (
