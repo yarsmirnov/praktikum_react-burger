@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setValue, clearForm, verifyEmail } from '../services/slices/form-forgot-password';
+import {
+  setValueAction,
+  clearFormAction,
+  verifyEmailAction
+} from '../services/actions/form-forgot-password';
 import { Link, useHistory } from 'react-router-dom';
 
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -27,14 +31,14 @@ export const ForgotPasswordPage = () => {
       history.replace({
         pathname: '/reset-password'
       });
-      dispatch(clearForm());
+      dispatch(clearFormAction());
     }
   }, [history, dispatch, VERIFY_EMAIL_SUCCESS, verifiedEmail]);
 
   const onInputChange = useCallback((evt) => {
     setIsFormValid(regExpEmail.test(evt.target.value));
 
-    dispatch(setValue({
+    dispatch(setValueAction({
       name: evt.target.name,
       value: evt.target.value,
     }));
@@ -43,7 +47,7 @@ export const ForgotPasswordPage = () => {
   const handleSubmit = useCallback((evt) => {
     evt.preventDefault();
     if (isFormValid && form.email !== '') {
-      dispatch(verifyEmail());
+      dispatch(verifyEmailAction());
     }
   }, [dispatch, isFormValid, form]);
 
