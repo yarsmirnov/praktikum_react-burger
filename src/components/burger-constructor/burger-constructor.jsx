@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
+import { useDrop } from 'react-dnd';
+
 import {
-  addItem,
-  removeItem,
-  setBun,
-  clearConstructor
-} from '../../services/slices/burger-constructor';
+  addItemAction,
+  removeItemAction,
+  setBunAction,
+  clearConstructorAction
+} from '../../services/actions/burger-constructor';
 import {
   increaseIngredientCount,
   decreaseIngredientCount,
@@ -17,9 +19,6 @@ import {
   sendOrderRequest
 } from '../../services/slices/order';
 import { openModal } from '../../services/slices/modal';
-import { useDrop } from 'react-dnd';
-
-import { useHistory, useLocation } from 'react-router-dom';
 
 import {
   ConstructorElement,
@@ -52,7 +51,7 @@ const BurgerConstructor = () => {
       history.push(`/order`, { background: location });
       dispatch(openModal(OrderDetails));
       dispatch(resetRequestStatus());
-      dispatch(clearConstructor());
+      dispatch(clearConstructorAction());
       dispatch(resetIngredientsCounter());
     }
   }, [history, location, dispatch, isOpen, ORDER_SUCCESS]);
@@ -61,8 +60,8 @@ const BurgerConstructor = () => {
     accept: 'ingredient',
     drop(item) {
       item.type === 'bun' ?
-        dispatch(setBun({ ...item, uuid: uuidv4() })) :
-        dispatch(addItem({ ...item, uuid: uuidv4() }));
+        dispatch(setBunAction({ ...item, uuid: uuidv4() })) :
+        dispatch(addItemAction({ ...item, uuid: uuidv4() }));
 
       dispatch(increaseIngredientCount({
         id: item.id,
@@ -117,7 +116,7 @@ const BurgerConstructor = () => {
   }, [user, history, dispatch, orderList]);
 
   const handleRemoveClick = useMemo(() => ({id, uuid}) => () => {
-    dispatch(removeItem(uuid));
+    dispatch(removeItemAction(uuid));
     dispatch(decreaseIngredientCount(id));
   }, [dispatch]);
 

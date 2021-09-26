@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import burgerConstructor from '../slices/burger-constructor';
+import burgerConstructor from './burger-constructor';
 import formForgotPassword from '../slices/form-forgot-password';
 import formLogin from '../slices/form-login';
 import formProfile from '../slices/form-profile';

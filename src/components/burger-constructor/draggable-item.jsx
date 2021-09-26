@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { useDispatch } from 'react-redux';
-import { moveItem } from '../../services/slices/burger-constructor';
+import { moveItemAction } from '../../services/actions/burger-constructor';
 
 import { useDrag, useDrop } from 'react-dnd';
 
@@ -57,7 +57,7 @@ const DraggableItem = ({
         return;
       }
 
-      dispatch(moveItem({dragged, hovered}));
+      dispatch(moveItemAction({dragged, hovered}));
       item.index = hovered;
     },
   });
