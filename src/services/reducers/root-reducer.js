@@ -6,7 +6,7 @@ import formLogin from './form-login';
 import formProfile from './form-profile';
 import formRegister from './form-register';
 import formResetPassword from './form-reset-password';
-import ingredients from '../slices/ingredients';
+import ingredients from './ingredients';
 import modal from '../slices/modal';
 import order from '../slices/order';
 import user from '../slices/user';

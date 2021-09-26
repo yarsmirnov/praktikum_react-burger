@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { loadUserData } from '../../services/slices/user';
-import { getIngredients } from '../../services/slices/ingredients';
+import { getIngredientsAction } from '../../services/actions/ingredients';
 import { closeModal } from '../../services/slices/modal';
 
 import {
@@ -152,7 +152,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(loadUserData());
-    dispatch(getIngredients());
+    dispatch(getIngredientsAction());
   }, [dispatch]);
 
   return (

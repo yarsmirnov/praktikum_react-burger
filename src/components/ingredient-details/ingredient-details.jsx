@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getIngredients } from '../../services/slices/ingredients';
+import { getIngredientsAction } from '../../services/actions/ingredients';
 
 import Loader from '../loader/loader';
 
@@ -20,7 +20,7 @@ const IngredientDetails = () => {
     [ingredients, id]);
 
   if (!ingredients.length) {
-    dispatch(getIngredients());
+    dispatch(getIngredientsAction());
     return (
       <div className={`${styles.loaderContainer}`}>
         <Loader />

@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 
-import { getIngredients } from '../services/slices/ingredients';
+import { getIngredientsAction } from '../services/actions/ingredients';
 
 import Loader from '../components/loader/loader';
 
@@ -22,7 +22,7 @@ export const IngredientPage = () => {
   );
 
   if (!ingredients.length) {
-    dispatch(getIngredients());
+    dispatch(getIngredientsAction());
     return (
       <div className={`${styles.loaderContainer} pt-30`}>
         <Loader />

@@ -10,10 +10,10 @@ import {
   clearConstructorAction
 } from '../../services/actions/burger-constructor';
 import {
-  increaseIngredientCount,
-  decreaseIngredientCount,
-  resetIngredientsCounter
-} from '../../services/slices/ingredients';
+  increaseIngredientCountAction,
+  decreaseIngredientCountAction,
+  resetIngredientsCounterAction
+} from '../../services/actions/ingredients';
 import {
   resetRequestStatus,
   sendOrderRequest
@@ -52,7 +52,7 @@ const BurgerConstructor = () => {
       dispatch(openModal(OrderDetails));
       dispatch(resetRequestStatus());
       dispatch(clearConstructorAction());
-      dispatch(resetIngredientsCounter());
+      dispatch(resetIngredientsCounterAction());
     }
   }, [history, location, dispatch, isOpen, ORDER_SUCCESS]);
 
@@ -63,7 +63,7 @@ const BurgerConstructor = () => {
         dispatch(setBunAction({ ...item, uuid: uuidv4() })) :
         dispatch(addItemAction({ ...item, uuid: uuidv4() }));
 
-      dispatch(increaseIngredientCount({
+      dispatch(increaseIngredientCountAction({
         id: item.id,
         type: item.type,
       }));
@@ -117,7 +117,7 @@ const BurgerConstructor = () => {
 
   const handleRemoveClick = useMemo(() => ({id, uuid}) => () => {
     dispatch(removeItemAction(uuid));
-    dispatch(decreaseIngredientCount(id));
+    dispatch(decreaseIngredientCountAction(id));
   }, [dispatch]);
 
   const orderButton = useMemo(() => {
