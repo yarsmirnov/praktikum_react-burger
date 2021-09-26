@@ -7,7 +7,7 @@ import formProfile from './form-profile';
 import formRegister from './form-register';
 import formResetPassword from './form-reset-password';
 import ingredients from './ingredients';
-import modal from '../slices/modal';
+import modal from './modal';
 import order from '../slices/order';
 import user from '../slices/user';
 import websocket from '../slices/websocket';

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadUserData } from '../../services/slices/user';
 import { getIngredientsAction } from '../../services/actions/ingredients';
-import { closeModal } from '../../services/slices/modal';
+import { closeModalAction } from '../../services/actions/modal';
 
 import {
   BrowserRouter as Router,
@@ -43,7 +43,7 @@ const ModalSwitch = () => {
   const { isOpen } = useSelector((store) => store.modal);
 
   const handleModalClose = () => {
-    dispatch(closeModal());
+    dispatch(closeModalAction());
     history.goBack();
   };
 

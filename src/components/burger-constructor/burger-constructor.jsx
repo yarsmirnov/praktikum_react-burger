@@ -18,7 +18,7 @@ import {
   resetRequestStatus,
   sendOrderRequest
 } from '../../services/slices/order';
-import { openModal } from '../../services/slices/modal';
+import { openModalAction } from '../../services/actions/modal';
 
 import {
   ConstructorElement,
@@ -49,7 +49,7 @@ const BurgerConstructor = () => {
   useEffect(() => {
     if (ORDER_SUCCESS) {
       history.push(`/order`, { background: location });
-      dispatch(openModal(OrderDetails));
+      dispatch(openModalAction(OrderDetails));
       dispatch(resetRequestStatus());
       dispatch(clearConstructorAction());
       dispatch(resetIngredientsCounterAction());

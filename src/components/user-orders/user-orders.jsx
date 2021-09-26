@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation, useRouteMatch } from 'react-router-dom';
 
-import { openModal } from '../../services/slices/modal';
+import { openModalAction } from '../../services/actions/modal';
 import { CONNECTION_START, CONNECTION_CLOSED } from '../../services/slices/websocket';
 import { wsUserOrdersApi } from '../../services/api';
 import { getCookie } from '../../utils/cookie';
@@ -89,7 +89,7 @@ const UserOrders = () => {
                 state: { background: location}
               }}
               onClick={() => {
-                dispatch(openModal(OrderInfo));
+                dispatch(openModalAction(OrderInfo));
               }}
             >
               <OrderCard

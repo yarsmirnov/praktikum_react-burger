@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useDispatch } from 'react-redux';
-import { openModal } from '../../services/slices/modal';
+import { openModalAction } from '../../services/actions/modal';
 import { Link, useLocation } from 'react-router-dom';
 import { useDrag } from 'react-dnd';
 
@@ -54,7 +54,7 @@ const BurgerIngredientCard = ({
         key={id}
         ref={dragRef}
         onClick={() => {
-          dispatch(openModal(IngredientDetails));
+          dispatch(openModalAction(IngredientDetails));
         }}
       >
         <img

@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useRouteMatch, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { openModal } from '../../services/slices/modal';
+import { openModalAction } from '../../services/actions/modal';
 
 import { ingredientType, orderType } from '../../utils/types';
 
@@ -36,7 +36,7 @@ const OrdersFeed = ({ orders, ingredientsList }) => {
               state: { background: location}
             }}
             onClick={() => {
-              dispatch(openModal(OrderInfo));
+              dispatch(openModalAction(OrderInfo));
             }}
           >
             <FeedCard
