@@ -3,7 +3,10 @@ import { Redirect, Link, useHistory, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { loginUser } from '../services/slices/user';
 
-import { setValue, clearForm } from '../services/slices/form-login';
+import {
+  setValueAction,
+  clearFormAction
+} from '../services/actions/form-login';
 
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import Loader from '../components/loader/loader';
@@ -35,7 +38,7 @@ export const LoginPage = () => {
       setIsPasswordValid(evt.target.value !== '');
     }
 
-    dispatch(setValue({
+    dispatch(setValueAction({
       name: evt.target.name,
       value: evt.target.value
     }));
@@ -56,7 +59,7 @@ export const LoginPage = () => {
 
   if (LOGIN_SUCCESS && user) {
     history.replace(from);
-    dispatch(clearForm());
+    dispatch(clearFormAction());
   } else if (user) {
     return (
       <Redirect

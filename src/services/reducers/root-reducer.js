@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 
 import burgerConstructor from './burger-constructor';
 import formForgotPassword from './form-forgot-password';
-import formLogin from '../slices/form-login';
+import formLogin from './form-login';
 import formProfile from '../slices/form-profile';
 import formRegister from '../slices/form-register';
 import formResetPassword from '../slices/form-reset-password';
