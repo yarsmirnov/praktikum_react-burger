@@ -5,7 +5,7 @@ import formForgotPassword from './form-forgot-password';
 import formLogin from './form-login';
 import formProfile from './form-profile';
 import formRegister from './form-register';
-import formResetPassword from '../slices/form-reset-password';
+import formResetPassword from './form-reset-password';
 import ingredients from '../slices/ingredients';
 import modal from '../slices/modal';
 import order from '../slices/order';

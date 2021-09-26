@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { setValue, resetPassword, clearForm  } from '../services/slices/form-reset-password';
+import {
+  setValueAction,
+  resetPasswordAction,
+  clearFormAction
+ } from '../services/actions/form-reset-password';
 
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import Loader from '../components/loader/loader';
@@ -35,7 +39,7 @@ export const ResetPasswordPage = () => {
     }
 
     return () => {
-      dispatch(clearForm());
+      dispatch(clearFormAction());
     };
   }, [dispatch, history, verifiedEmail, RESET_PASSWORD_SUCCESS]);
 
@@ -44,7 +48,7 @@ export const ResetPasswordPage = () => {
       setIsPasswordValid(evt.target.value !== '');
     }
 
-    dispatch(setValue({
+    dispatch(setValueAction({
       name: evt.target.name,
       value: evt.target.value,
     }));
@@ -54,7 +58,7 @@ export const ResetPasswordPage = () => {
     evt.preventDefault();
     if ( form.password !== ''
       && form.token !== '') {
-        dispatch(resetPassword());
+        dispatch(resetPasswordAction());
       }
   };
 
