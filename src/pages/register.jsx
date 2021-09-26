@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { setValue } from '../services/slices/form-register';
+import {
+  setValueAction
+} from '../services/actions/form-register';
 import { registerUser } from '../services/slices/user';
 
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -40,7 +42,7 @@ export const RegisterPage = () => {
       setIsPasswordValid(evt.target.value !== '');
     }
 
-    dispatch(setValue({
+    dispatch(setValueAction({
       name: evt.target.name,
       value: evt.target.value
     }));

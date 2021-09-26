@@ -4,7 +4,7 @@ import burgerConstructor from './burger-constructor';
 import formForgotPassword from './form-forgot-password';
 import formLogin from './form-login';
 import formProfile from './form-profile';
-import formRegister from '../slices/form-register';
+import formRegister from './form-register';
 import formResetPassword from '../slices/form-reset-password';
 import ingredients from '../slices/ingredients';
 import modal from '../slices/modal';
