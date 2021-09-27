@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers/root-reducer';
-import { socketMiddleware } from './moddlewares/socketMiddleware';
+import { socketMiddleware } from './middlewares/socketMiddleware';
 
 
 const store = configureStore({
