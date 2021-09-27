@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { CONNECTION_START, CONNECTION_CLOSED } from '../services/slices/websocket';
+import {
+  wsConnectionStart,
+  wsConnectionClosed
+} from '../services/actions/websocket';
 import { wsAllOrdersApi } from '../services/api';
 
 import OrdersFeed from '../components/orders-feed/orders-feed';
@@ -17,9 +20,9 @@ export const FeedPage = () => {
   const { orders, total, totalToday } = useSelector((store) => store.websocket);
 
   useEffect(() => {
-    dispatch(CONNECTION_START(wsAllOrdersApi));
+    dispatch(wsConnectionStart(wsAllOrdersApi));
     return () => {
-      dispatch(CONNECTION_CLOSED());
+      dispatch(wsConnectionClosed());
     }
   }, [dispatch]);
 

@@ -3,7 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation, useRouteMatch } from 'react-router-dom';
 
 import { openModalAction } from '../../services/actions/modal';
-import { CONNECTION_START, CONNECTION_CLOSED } from '../../services/slices/websocket';
+import {
+  wsConnectionStart,
+  wsConnectionClosed
+} from '../../services/actions/websocket';
 import { wsUserOrdersApi } from '../../services/api';
 import { getCookie } from '../../utils/cookie';
 
@@ -30,9 +33,9 @@ const UserOrders = () => {
 
   useEffect(() => {
     const wsUrl = `${wsUserOrdersApi}${getCookie('accessToken')}`;
-    dispatch(CONNECTION_START(wsUrl));
+    dispatch(wsConnectionStart(wsUrl));
     return () => {
-      dispatch(CONNECTION_CLOSED());
+      dispatch(wsConnectionClosed());
     }
   }, [dispatch]);
 

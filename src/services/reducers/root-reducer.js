@@ -10,7 +10,7 @@ import ingredients from './ingredients';
 import modal from './modal';
 import order from './order';
 import user from './user';
-import websocket from '../slices/websocket';
+import websocket from './websocket';
 
 
 const rootReducer = combineReducers({

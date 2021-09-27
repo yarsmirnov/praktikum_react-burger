@@ -1,10 +1,9 @@
 import {
-  CONNECTION_SUCCESS,
-  CONNECTION_ERROR,
-  CONNECTION_CLOSED,
-  GET_MESSAGE,
-} from '../slices/websocket';
-
+  wsConnectionSuccess,
+  wsConnectionError,
+  wsConnectionClosed,
+  wsGetMessage
+} from '../actions/websocket';
 
 export const socketMiddleware = store => {
   let socket = null;
@@ -13,31 +12,31 @@ export const socketMiddleware = store => {
     const { dispatch } = store;
     const { type, payload } = action;
 
-    if (type === 'WS/CONNECTION_START') {
+    if (type === 'WS_CONNECTION_START') {
       const wsUrl = action.payload;
       socket = new WebSocket(wsUrl);
     }
 
     if (socket) {
       socket.onopen = event => {
-        dispatch(CONNECTION_SUCCESS(event));
+        dispatch(wsConnectionSuccess(event));
       };
 
       socket.onerror = event => {
-        dispatch(CONNECTION_ERROR(event));
+        dispatch(wsConnectionError(event));
       };
 
       socket.onmessage = event => {
         const { data } = event;
         const parsedData = JSON.parse(data);
-        dispatch(GET_MESSAGE(parsedData));
+        dispatch(wsGetMessage(parsedData));
       };
 
       socket.onclose = event => {
-        dispatch(CONNECTION_CLOSED(event));
+        dispatch(wsConnectionClosed(event));
       };
 
-      if (type === 'WS/SEND_MESSAGE') {
+      if (type === 'WS_SEND_MESSAGE') {
         const message = payload;
         socket.send(JSON.stringify(message));
       }

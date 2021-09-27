@@ -54,7 +54,6 @@ export type TOrderSentResponse = {
 
 
 export type TOrderRecieved = {
-  ingredients: Array<TRawIngredient>
   _id: string;
   owner: {
     name: string;
@@ -68,10 +67,22 @@ export type TOrderRecieved = {
   updatedAt: string;
   number: number;
   price: number;
+  ingredients: Array<TRawIngredient>
+}
+
+export type TWsOrderRecieved = {
+  _id: string;
+  status: 'created'| 'pending' | 'done' | 'canceled';
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  number: number;
+  ingredients: Array<string>
 }
 
 export type TOrdersTapeResponse = {
   success: boolean;
-  name: string;
-  order: TOrderRecieved;
+  total: number;
+  totalToday: number;
+  orders: Array<TWsOrderRecieved>;
 }
