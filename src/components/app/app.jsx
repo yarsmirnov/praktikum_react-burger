@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { loadUserData } from '../../services/slices/user';
+import { loadUserData } from '../../services/actions/user';
 import { getIngredientsAction } from '../../services/actions/ingredients';
 import { closeModalAction } from '../../services/actions/modal';
 

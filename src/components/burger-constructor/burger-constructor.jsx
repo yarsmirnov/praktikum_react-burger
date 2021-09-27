@@ -15,9 +15,9 @@ import {
   resetIngredientsCounterAction
 } from '../../services/actions/ingredients';
 import {
-  resetRequestStatus,
-  sendOrderRequest
-} from '../../services/slices/order';
+  resetRequestStatusAction,
+  sendOrderRequestAction
+} from '../../services/actions/order';
 import { openModalAction } from '../../services/actions/modal';
 
 import {
@@ -50,7 +50,7 @@ const BurgerConstructor = () => {
     if (ORDER_SUCCESS) {
       history.push(`/order`, { background: location });
       dispatch(openModalAction(OrderDetails));
-      dispatch(resetRequestStatus());
+      dispatch(resetRequestStatusAction());
       dispatch(clearConstructorAction());
       dispatch(resetIngredientsCounterAction());
     }
@@ -111,7 +111,7 @@ const BurgerConstructor = () => {
       const requestData = {
         ingredients: orderList.map((item) => item.id),
       };
-      dispatch(sendOrderRequest(requestData));
+      dispatch(sendOrderRequestAction(requestData));
     }
   }, [user, history, dispatch, orderList]);
 

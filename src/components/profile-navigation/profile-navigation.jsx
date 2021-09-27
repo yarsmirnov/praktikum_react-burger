@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { logoutUser } from '../../services/slices/user';
+import { logoutUser } from '../../services/actions/user';
 
 import styles from './profile-navigation.module.css';
 

@@ -32,6 +32,8 @@ export const orderSlice = createSlice({
 
     failure: () => ({
       ...initialState,
+      ORDER_REQUEST: false,
+      ORDER_SUCCESS: false,
       ORDER_FAILURE: true,
     }),
 

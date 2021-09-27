@@ -6,7 +6,7 @@ import {
   resetFormAction,
   clearFormAction,
 } from '../../services/actions/form-profile';
-import { patchUserData } from '../../services/slices/user';
+import { patchUserData } from '../../services/actions/user';
 
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Loader from "../loader/loader";

@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   setValueAction
 } from '../services/actions/form-register';
-import { registerUser } from '../services/slices/user';
+import { registerUser } from '../services/actions/user';
 
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import Loader from '../components/loader/loader';

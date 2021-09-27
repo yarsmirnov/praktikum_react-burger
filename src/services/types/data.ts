@@ -41,3 +41,37 @@ export type TConstructorIngredient = {
   calories: number;
   uuid: string;
 }
+
+export type TOrderSent = {
+  ingredients: Array<string>;
+}
+
+export type TOrderSentResponse = {
+  success: boolean;
+  name: string;
+  order: TOrderRecieved;
+}
+
+
+export type TOrderRecieved = {
+  ingredients: Array<TRawIngredient>
+  _id: string;
+  owner: {
+    name: string;
+    email: string;
+    createdAt: string;
+    updatedAt: string;
+  },
+  status: 'created'| 'pending' | 'done' | 'canceled';
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  number: number;
+  price: number;
+}
+
+export type TOrdersTapeResponse = {
+  success: boolean;
+  name: string;
+  order: TOrderRecieved;
+}
