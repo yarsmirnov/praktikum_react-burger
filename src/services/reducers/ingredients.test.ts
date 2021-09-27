@@ -393,7 +393,7 @@ describe('Test ingredients thunk', () => {
           data: [ bun1Raw, ingredient1Raw ],
         }),
       })
-    });
+    }) as any;
 
 
     const store = mockStore({

@@ -253,7 +253,7 @@ describe('Test form-reset-password thunk', () => {
           success: true,
         }),
       })
-    });
+    }) as any;
 
     const formMock = {
       password: '123456',

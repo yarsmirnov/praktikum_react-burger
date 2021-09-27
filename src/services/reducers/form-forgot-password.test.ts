@@ -325,7 +325,7 @@ describe('Test form-forgot-password thunk', () => {
           success: true,
         }),
       })
-    });
+    }) as any;
 
     const verifiedEmail = 'example@mail.com';
 
