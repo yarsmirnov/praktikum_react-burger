@@ -17,7 +17,7 @@ export const refreshTokenRequest = async () => {
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
     body: JSON.stringify({token: localStorage.getItem('refreshToken')})
-  });
+  }) as any;
 };
 
 export const getIngredientsRequest = async () => {
