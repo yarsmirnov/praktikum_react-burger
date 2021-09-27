@@ -1,11 +1,4 @@
 import reducer from './burger-constructor';
-// import {
-//   addItemAction,
-//   removeItemAction,
-//   moveItem,
-//   setBunAction,
-//   clearConstructorAction
-// } from './burger-constructor';
 import {
   addItemAction,
   removeItemAction,
