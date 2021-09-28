@@ -1,14 +1,22 @@
-export const countUniqueItems = (itemsArr) => {
-  return itemsArr.reduce(
-    (acc, id) => {
-      acc[id] = acc[id] ? acc[id] + 1 : 1;
-      return acc;
-    }, {})
-};
+import { TIngredient, TCardIngredient } from '../services/types/data';
 
 
-export const getIngredientsData = (idList, ingredientsDatabase) => {
-  let ingredientsToShow = [];
+export const countUniqueItems =
+  ( itemsArr: Array<string> ): { [key: string]: number } => {
+    return itemsArr.reduce(
+      (acc, id) => {
+        const key = id.toString();
+        acc[key] = acc[key] ? acc[key] + 1 : 1;
+        return acc;
+      }, {})
+  };
+
+
+export const getIngredientsData = (
+  idList: Array<string>,
+  ingredientsDatabase: Array<TIngredient>
+): Array<TCardIngredient> => {
+  let ingredientsToShow: Array<TCardIngredient> = [];
 
   if (!idList
     || !ingredientsDatabase
@@ -28,14 +36,19 @@ export const getIngredientsData = (idList, ingredientsDatabase) => {
       (ingredient) => ingredient.id === id
     );
 
-    const data = {
-      count,
-      price: ingredientData.price,
-      img: ingredientData.imageMobile,
-      name: ingredientData.name,
+    if (!ingredientData) {
+      console.error(`Cant't find ingredient with id "${id}" on local database`);
+      continue;
     }
 
-    if (ingredientData.type === 'bun') {
+    const data = {
+      count,
+      price: ingredientData?.price,
+      img: ingredientData?.imageMobile,
+      name: ingredientData?.name,
+    }
+
+    if (ingredientData?.type === 'bun') {
       ingredientsToShow.unshift(data);
     } else {
       ingredientsToShow.push(data);

@@ -29,6 +29,13 @@ export type TIngredient = {
   __v: number;
 }
 
+export type TCardIngredient = {
+  count: number,
+  price: number,
+  img: string,
+  name: string,
+}
+
 export type TConstructorIngredient = {
   id: string;
   type: string;
@@ -42,16 +49,11 @@ export type TConstructorIngredient = {
   uuid: string;
 }
 
-export type TOrderSent = {
-  ingredients: Array<string>;
-}
-
 export type TOrderSentResponse = {
   success: boolean;
   name: string;
   order: TOrderRecieved;
 }
-
 
 export type TOrderRecieved = {
   _id: string;

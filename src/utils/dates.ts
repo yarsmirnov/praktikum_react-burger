@@ -1,7 +1,7 @@
 import moment from 'moment';
 import 'moment/locale/ru';
 
-export const formatDate = (dateString) => {
+export const formatDate = (dateString: string): string => {
   moment.locale('ru');
   const timezone = 'i-GMT+3'
 

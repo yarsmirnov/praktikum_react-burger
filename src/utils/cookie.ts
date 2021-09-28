@@ -6,7 +6,11 @@ export function getCookie(name) {
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-export function setCookie(name, value, props) {
+export function setCookie(
+  name: string,
+  value: string | null,
+  props?
+) {
   props = props || {};
   let exp = props.expires;
   if (typeof exp == 'number' && exp) {
@@ -17,7 +21,7 @@ export function setCookie(name, value, props) {
   if (exp && exp.toUTCString) {
     props.expires = exp.toUTCString();
   }
-  value = encodeURIComponent(value);
+  value = (typeof value === "string") ? encodeURIComponent(value) : '';
   let updatedCookie = name + '=' + value;
   for (const propName in props) {
     updatedCookie += '; ' + propName;
@@ -29,6 +33,6 @@ export function setCookie(name, value, props) {
   document.cookie = updatedCookie;
 }
 
-export function deleteCookie(name) {
+export function deleteCookie(name: string) {
   setCookie(name, null, { expires: -1 });
 }
