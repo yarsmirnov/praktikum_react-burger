@@ -32,7 +32,7 @@ const modalReducer = (state = initialState, action: ModalActions): TState => {
     }
 
     default: {
-      return initialState
+      return state
     }
   }
 };
