@@ -7,6 +7,7 @@ import {
   FORM_FORGOT_PASSWORD_FAILURE,
 } from '../constants/action-types';
 import { forgotPasswordRequest } from '../api';
+import { AppThunk, AppDispatch } from '../types';
 
 
 type TFormSetData = { name: string; value: string; }
@@ -79,7 +80,7 @@ export const successAction =
 
 
 // Async actions
-export const verifyEmailAction = () => async (dispatch, getState) => {
+export const verifyEmailAction: AppThunk = () => async (dispatch: AppDispatch, getState) => {
   const formData = getState().formForgotPassword.form;
 
   dispatch(requestAction());

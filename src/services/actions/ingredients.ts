@@ -9,6 +9,7 @@ import {
 import { TIngredient } from '../types/data';
 import { getIngredientsRequest } from '../api';
 import { adaptIngredients } from '../../utils/adapter';
+import { AppThunk, AppDispatch } from '../types';
 
 
 type TIncreaseCountData = { id: string; type: string; };
@@ -84,7 +85,7 @@ export const resetIngredientsCounterAction =
 
 
 // Async actions
-export const getIngredientsAction = () => async (dispatch) => {
+export const getIngredientsAction: AppThunk = () => async (dispatch: AppDispatch) => {
   await getIngredientsRequest()
     .then(response => {
       if (response.ok) {
