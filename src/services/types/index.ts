@@ -12,13 +12,13 @@ import { TIngredientActions } from '../actions/ingredients';
 import { ModalActions } from '../actions/modal';
 import { TOrderActions } from '../actions/order';
 import { TUserActions } from '../actions/user';
-import { wsActions } from '../actions/websocket';
+import { TWsActions } from '../actions/websocket';
 
 
 export type RootState = ReturnType<typeof store.getState>;
 
 // Typinп application actions
-type TApplicationActions =
+export type TApplicationActions =
   | TBurgerConstructorActions
   | TFormForgotPasswordActions
   | TFormLoginActions
@@ -29,7 +29,7 @@ type TApplicationActions =
   | ModalActions
   | TOrderActions
   | TUserActions
-  | wsActions;
+  | TWsActions;
 
 
 // Typing application thunk's

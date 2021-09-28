@@ -5,7 +5,7 @@ import {
   WS_CONNECTION_CLOSED,
   WS_GET_MESSAGE
 } from '../constants/action-types';
-import { wsActions } from '../actions/websocket';
+import { TWsActions } from '../actions/websocket';
 import { TWsOrderRecieved } from '../types/data';
 
 
@@ -26,7 +26,7 @@ export const initialState: TState = {
 };
 
 
-const websocketReducer = (state = initialState, action: wsActions): TState => {
+const websocketReducer = (state = initialState, action: TWsActions): TState => {
   switch (action.type) {
 
     case (WS_CONNECTION_START): {

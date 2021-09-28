@@ -3,7 +3,8 @@ import {
   WS_CONNECTION_SUCCESS,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_CLOSED,
-  WS_GET_MESSAGE
+  WS_GET_MESSAGE,
+  WS_SEND_MESSAGE
 } from '../constants/action-types';
 import { TWsOrderRecieved } from '../types/data';
 
@@ -24,7 +25,7 @@ export type TWsConnectionSuccess = {
 }
 export type TWsConnectionError = {
   readonly type: typeof WS_CONNECTION_ERROR;
-  readonly payload: any;
+  readonly payload: Event | string;
 }
 export type TWsConnectionClosed = {
   readonly type: typeof WS_CONNECTION_CLOSED;
@@ -33,15 +34,20 @@ export type TWsGetMessage = {
   readonly type: typeof WS_GET_MESSAGE;
   readonly payload: TWsGetMessagePayload;
 }
+export type TWsSendMessage = {
+  readonly type: typeof WS_SEND_MESSAGE;
+  readonly payload: string;
+}
 
 
 // All actions
-export type wsActions =
+export type TWsActions =
   | TWsConnectionStart
   | TWsConnectionSuccess
   | TWsConnectionError
   | TWsConnectionClosed
-  | TWsGetMessage;
+  | TWsGetMessage
+  | TWsSendMessage;
 
 
 // Action creators
@@ -57,7 +63,7 @@ export const wsConnectionSuccess =
   });
 
 export const wsConnectionError =
-  (error: any): TWsConnectionError => ({
+  (error: Event | string): TWsConnectionError => ({
     type: WS_CONNECTION_ERROR,
     payload: error,
   });

@@ -33,7 +33,7 @@ import {
   setCookie,
   deleteCookie
 } from '../../utils/cookie';
-import { AppThunk, AppDispatch } from '../types';
+import { AppThunk } from '../types';
 
 
 export type TUser = null | {
@@ -197,7 +197,7 @@ export const setPatchUserFailureAction =
 
 
 // Async actions
-export const refreshToken: AppThunk = (afterRefresh) => async (dispatch: AppDispatch | AppThunk) => {
+export const refreshToken: AppThunk = (afterRefresh) => async (dispatch: AppThunk) => {
   await refreshTokenRequest()
     .then((res) => {
       localStorage.setItem('refreshToken', res.refreshToken);
@@ -233,7 +233,7 @@ export const registerUser = (form) => async (dispatch) => {
   });
 }
 
-export const loadUserData: AppThunk = () => async (dispatch: AppDispatch | AppThunk) => {
+export const loadUserData: AppThunk = () => async (dispatch: AppThunk) => {
   dispatch(setGetUserRequestAction());
 
   await getUserRequest()
@@ -259,7 +259,7 @@ export const loadUserData: AppThunk = () => async (dispatch: AppDispatch | AppTh
     });
 };
 
-export const patchUserData: AppThunk = (form) => async (dispatch: AppDispatch | AppThunk) => {
+export const patchUserData: AppThunk = (form) => async (dispatch: AppThunk) => {
   dispatch(setPatchUserRequestAction());
 
   await patchUserRequest(form)
@@ -286,7 +286,7 @@ export const patchUserData: AppThunk = (form) => async (dispatch: AppDispatch | 
     });
 };
 
-export const loginUser: AppThunk = (form) => async (dispatch: AppDispatch | AppThunk) => {
+export const loginUser: AppThunk = (form) => async (dispatch: AppThunk) => {
   dispatch(setLoginRequestAction());
 
   await loginRequest(form)
@@ -314,7 +314,7 @@ export const loginUser: AppThunk = (form) => async (dispatch: AppDispatch | AppT
     });
 };
 
-export const logoutUser: AppThunk = () => async (dispatch: AppDispatch) => {
+export const logoutUser: AppThunk = () => async (dispatch) => {
   dispatch(setLogoutRequestAction());
 
   await logoutRequest()

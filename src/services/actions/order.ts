@@ -10,7 +10,7 @@ import {
   TOrderRecieved
 } from '../types/data';
 import { refreshToken } from './user';
-import { AppThunk, AppDispatch } from '../types';
+import { AppThunk } from '../types';
 
 
 // Action types
@@ -61,7 +61,7 @@ export const resetRequestStatusAction =
 
 
 // Async actions
-export const sendOrderRequestAction: AppThunk = (orderData: TOrderSent) => async (dispatch: AppDispatch | AppThunk) => {
+export const sendOrderRequestAction: AppThunk = (orderData: TOrderSent) => async (dispatch: AppThunk) => {
   dispatch(requestAction());
 
   await orderRequest(orderData)

@@ -6,7 +6,7 @@ import {
   FORM_RESET_PASSWORD_FAILURE,
 } from '../constants/action-types';
 import { resetPasswordRequest } from '../api';
-import { AppThunk, AppDispatch } from '../types';
+import { AppThunk } from '../types';
 
 
 type TFormSetData = { name: string; value: string; }
@@ -69,7 +69,7 @@ export const failureAction =
 
 // Async actions
 export const resetPasswordAction: AppThunk =
-  () => async (dispatch: AppDispatch, getState) => {
+  () => async (dispatch, getState) => {
     const formData = getState().formResetPassword.form;
 
     dispatch(requestAction());
