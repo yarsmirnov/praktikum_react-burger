@@ -7,19 +7,12 @@ import {
 import {
   TFormProfileActions
 } from '../actions/form-profile';
+import { TUserPatchForm } from '../types/api';
 
 
 type TState = {
-  initialForm: {
-    email: string;
-    password: string;
-    name: string;
-  },
-  form: {
-    email: string;
-    password: string;
-    name: string;
-  },
+  initialForm: TUserPatchForm;
+  form: TUserPatchForm;
 }
 
 export const initialState: TState = {

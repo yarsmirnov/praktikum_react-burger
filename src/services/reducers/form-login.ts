@@ -3,12 +3,11 @@ import {
   FORM_LOGIN_CLEAR_FORM
 } from '../constants/action-types';
 import { TFormLoginActions } from '../actions/form-login';
+import { TUserLoginForm } from '../types/api';
+
 
 type TState = {
-  form: {
-    email: string,
-    password: string,
-  }
+  form: TUserLoginForm;
 }
 
 export const initialState: TState = {

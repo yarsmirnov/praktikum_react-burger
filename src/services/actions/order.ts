@@ -5,10 +5,8 @@ import {
   ORDER_RESET_REQUEST_STATUS
 } from '../constants/action-types';
 import { orderRequest } from '../api';
-import {
-  TOrderSent,
-  TOrderRecieved
-} from '../types/data';
+import { TOrderRecieved } from '../types/data';
+import { TOrderSendData } from '../types/api';
 import { refreshToken } from './user';
 import { AppThunk } from '../types';
 
@@ -61,7 +59,9 @@ export const resetRequestStatusAction =
 
 
 // Async actions
-export const sendOrderRequestAction: AppThunk = (orderData: TOrderSent) => async (dispatch: AppThunk) => {
+export const sendOrderRequestAction: AppThunk = (
+  orderData: TOrderSendData
+) => async (dispatch: AppThunk) => {
   dispatch(requestAction());
 
   await orderRequest(orderData)

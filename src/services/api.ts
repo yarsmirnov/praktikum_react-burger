@@ -1,9 +1,22 @@
 import { getCookie } from '../utils/cookie';
-
+import {
+  TUserRegisterForm,
+  TUserLoginForm,
+  TUserPatchForm,
+  TUserForgotPasswordForm,
+  TUserResetPasswordForm,
+  TOrderSendData
+} from './types/api';
 
 export const baseApi = 'https://norma.nomoreparties.space/api';
 export const wsAllOrdersApi = 'wss://norma.nomoreparties.space/orders/all';
 export const wsUserOrdersApi = 'wss://norma.nomoreparties.space/orders?token=';
+
+
+type TResponseWithToken = Response & {
+  refreshToken: string;
+  accessToken: string;
+}
 
 export const refreshTokenRequest = async () => {
   return await fetch(`${baseApi}/auth/token`, {
@@ -17,7 +30,7 @@ export const refreshTokenRequest = async () => {
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
     body: JSON.stringify({token: localStorage.getItem('refreshToken')})
-  }) as any;
+  }) as TResponseWithToken;
 };
 
 export const getIngredientsRequest = async () => {
@@ -50,7 +63,9 @@ export const getUserRequest = async () => {
   })
 };
 
-export const getOrderRequest = async (orderNumber) => {
+export const getOrderRequest = async (
+  orderNumber: string | number
+) => {
   return await fetch(`https://norma.nomoreparties.space/api/orders/${orderNumber}`, {
     method: 'GET',
     mode: 'cors',
@@ -64,7 +79,9 @@ export const getOrderRequest = async (orderNumber) => {
   });
 };
 
-export const registerUserRequest = async (form) => {
+export const registerUserRequest = async (
+  form: TUserRegisterForm
+) => {
   return await fetch(`${baseApi}/auth/register`, {
     method: 'POST',
     mode: 'cors',
@@ -79,7 +96,9 @@ export const registerUserRequest = async (form) => {
   });
 };
 
-export const loginRequest = async (form) => {
+export const loginRequest = async (
+  form: TUserLoginForm
+) => {
   return await fetch(`${baseApi}/auth/login`, {
     method: 'POST',
     mode: 'cors',
@@ -94,7 +113,9 @@ export const loginRequest = async (form) => {
   });
 };
 
-export const patchUserRequest = async (form) => {
+export const patchUserRequest = async (
+  form: TUserPatchForm
+) => {
   return await fetch(`${baseApi}/auth/user`, {
     method: 'PATCH',
     mode: 'cors',
@@ -125,7 +146,9 @@ export const logoutRequest = async () => {
   });
 };
 
-export const orderRequest = async (orderData) => {
+export const orderRequest = async (
+  orderData: TOrderSendData
+) => {
   return await fetch(`${baseApi}/orders`, {
     method: 'POST',
     mode: 'cors',
@@ -141,7 +164,9 @@ export const orderRequest = async (orderData) => {
   })
 };
 
-export const forgotPasswordRequest = async (formData) => {
+export const forgotPasswordRequest = async (
+  form: TUserForgotPasswordForm
+) => {
   return await fetch(`${baseApi}/password-reset`, {
     method: 'POST',
     mode: 'cors',
@@ -150,11 +175,13 @@ export const forgotPasswordRequest = async (formData) => {
     headers: { 'Content-Type': 'application/json' },
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
-    body: JSON.stringify(formData),
+    body: JSON.stringify(form),
   });
 };
 
-export const resetPasswordRequest = async (formData) => {
+export const resetPasswordRequest = async (
+  form: TUserResetPasswordForm
+) => {
   return await fetch(`${baseApi}/password-reset/reset`, {
     method: 'POST',
     mode: 'cors',
@@ -163,6 +190,6 @@ export const resetPasswordRequest = async (formData) => {
     headers: { 'Content-Type': 'application/json' },
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
-    body: JSON.stringify(formData),
+    body: JSON.stringify(form),
   });
 };

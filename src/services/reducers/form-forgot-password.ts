@@ -7,7 +7,7 @@ import {
   FORM_FORGOT_PASSWORD_FAILURE,
 } from '../constants/action-types';
 import { TFormForgotPasswordActions } from '../actions/form-forgot-password';
-
+import { TUserForgotPasswordForm } from '../types/api';
 
 export type TState = {
   VERIFY_EMAIL_REQUEST: boolean;
@@ -16,9 +16,7 @@ export type TState = {
 
   verifiedEmail: string | null;
 
-  form: {
-    email: string;
-  }
+  form: TUserForgotPasswordForm;
 }
 
 export const initialState: TState = {

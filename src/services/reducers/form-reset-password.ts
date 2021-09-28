@@ -8,16 +8,15 @@ import {
 import {
   TFormResetPasswordActions
 } from '../actions/form-reset-password';
+import { TUserResetPasswordForm } from '../types/api';
+
 
 type TState = {
   RESET_PASSWORD_REQUEST: boolean;
   RESET_PASSWORD_SUCCESS: boolean;
   RESET_PASSWORD_FAILURE: boolean;
 
-  form: {
-    password: string;
-    token: string;
-  }
+  form: TUserResetPasswordForm
 }
 
 export const initialState: TState = {

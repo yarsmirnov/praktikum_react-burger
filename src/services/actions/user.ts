@@ -197,11 +197,11 @@ export const setPatchUserFailureAction =
 
 
 // Async actions
-export const refreshToken: AppThunk = (afterRefresh) => async (dispatch: AppThunk) => {
+export const refreshToken: AppThunk = (afterRefresh: Function) => async (dispatch: AppThunk) => {
   await refreshTokenRequest()
     .then((res) => {
       localStorage.setItem('refreshToken', res.refreshToken);
-      setCookie('accessToken', res.accessToken);
+      setCookie('accessToken', res.accessToken, null);
       dispatch(afterRefresh);
     })
     .catch(err => { throw err });

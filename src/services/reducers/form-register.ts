@@ -5,14 +5,11 @@ import {
 import {
   TFormRegisterActions
 } from '../actions/form-register';
+import { TUserRegisterForm } from '../types/api';
 
 
 type TState = {
-  form: {
-    email: string;
-    password: string;
-    name: string;
-  }
+  form: TUserRegisterForm;
 }
 
 const initialState: TState = {
