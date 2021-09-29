@@ -1,10 +1,9 @@
-import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import React, { FC } from 'react';
+import { Route, Redirect, RouteProps } from 'react-router-dom';
+import { useSelector } from '../../services/hooks';
 
 
-const ProtectedRoute = ({ children, ...rest }) => {
+const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }) => {
   const { user } = useSelector((store) => store.user);
 
   return (
@@ -24,14 +23,6 @@ const ProtectedRoute = ({ children, ...rest }) => {
       }
     />
   );
-};
-
-
-ProtectedRoute.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ]).isRequired
 };
 
 
