@@ -78,7 +78,7 @@ export type TWsOrderRecieved = {
   name: string;
   createdAt: string;
   updatedAt: string;
-  number: number;
+  number: number | string;
   ingredients: Array<string>
 }
 

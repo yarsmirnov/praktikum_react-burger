@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useMemo, FC } from 'react';
+import { useSelector } from '../../services/hooks';
 import { useParams } from 'react-router-dom';
 
 import { formatDate } from '../../utils/dates';
@@ -9,16 +9,31 @@ import Loader from '../loader/loader';
 import OrderStatus from '../order-status/order-status';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
+import {
+  TWsOrderRecieved
+} from '../../services/types/data';
+
 import styles from './order-info.module.css';
 
 
-const getOrderDataFromOrders = (orderNumber, ordersList) => {
+const getOrderDataFromOrders = (orderNumber: string, ordersList: Array<TWsOrderRecieved>) => {
   return ordersList.find(
-    (order) => parseInt(order.number, 10) === parseInt(orderNumber, 10)
+    (order) => {
+      const number: string = order.number === 'string'
+        ? order.number
+        : `${order.number}`;
+
+        return parseInt(number, 10) === parseInt(orderNumber, 10)
+    }
   );
 };
 
-const generateIngredientElement = ({ img, name, count, price }) => {
+const generateIngredientElement = ({
+  img,
+  name,
+  count,
+  price
+}) => {
   return (
     <li className={`${styles.ingredient} text text_type_main-default`} key={name}>
       <div className={`${styles.ingredientPreview} mr-4`}>
@@ -38,10 +53,10 @@ const generateIngredientElement = ({ img, name, count, price }) => {
 };
 
 
-const OrderInfo = () => {
+const OrderInfo: FC<{}> = () => {
   const { items: ingredientsDatabase } = useSelector((store) => store.ingredients);
   const { orders } = useSelector((store) => store.websocket);
-  const { orderNumber } = useParams();
+  const { orderNumber } = useParams() as { [key: string]: string };
 
   const order = useMemo(
     () => getOrderDataFromOrders(orderNumber, orders),
@@ -49,7 +64,10 @@ const OrderInfo = () => {
   );
 
   const ingredientsData = useMemo(
-    () => getIngredientsData(order?.ingredients, ingredientsDatabase),
+    () => {
+      if (!order) return [];
+      return getIngredientsData(order.ingredients, ingredientsDatabase)
+    },
     [order, ingredientsDatabase]
   );
 
@@ -67,7 +85,7 @@ const OrderInfo = () => {
   }
 
   const { name, number, status, createdAt } = order;
-  const orderNumberToShow = `#${String(number).padStart(6,0)}`;
+  const orderNumberToShow = `#${String(number).padStart(6, '0')}`;
   const dateToShow = formatDate(createdAt);
 
   return (
