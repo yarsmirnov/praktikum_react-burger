@@ -1,5 +1,5 @@
-import React, { useEffect, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useCallback, FC } from "react";
+import { useDispatch, useSelector } from "../../services/hooks";
 import {
   setInitialValueAction,
   setValueAction,
@@ -14,7 +14,7 @@ import Loader from "../loader/loader";
 import styles from './form-profile-update-user.module.css';
 
 
-const FormProfileUpdateUser = () => {
+const FormProfileUpdateUser: FC<{}> = () => {
   const dispatch = useDispatch();
   const { form } = useSelector((store) => store.formProfile);
   const {
@@ -23,7 +23,9 @@ const FormProfileUpdateUser = () => {
   } = useSelector((store) => store.user);
 
   useEffect(() => {
-    dispatch(setInitialValueAction(user));
+    if (user) {
+      dispatch(setInitialValueAction(user));
+    }
     return () => {
       dispatch(clearFormAction());
     }
@@ -36,12 +38,12 @@ const FormProfileUpdateUser = () => {
     }));
   }, [dispatch]);
 
-  const handleSubmit = useCallback((evt) => {
+  const handleSubmit = useCallback((evt: React.FormEvent) => {
     evt.preventDefault();
     dispatch(patchUserData(form));
   }, [dispatch, form]);
 
-  const onResetButtonClick = useCallback((evt) => {
+  const onResetButtonClick = useCallback((evt: React.MouseEvent) => {
     evt.preventDefault();
     dispatch(resetFormAction());
   }, [dispatch]);
@@ -57,7 +59,7 @@ const FormProfileUpdateUser = () => {
           placeholder={'Имя'}
           onChange={onInputChange}
           icon={'EditIcon'}
-          value={form.name}
+          value={form.name? form.name : '' }
           name={'name'}
           error={false}
           errorText={'Недопустимое имя'}
@@ -71,7 +73,7 @@ const FormProfileUpdateUser = () => {
           placeholder={'Логин'}
           onChange={onInputChange}
           icon={'EditIcon'}
-          value={form.email}
+          value={form.email ? form.email : ''}
           name={'email'}
           error={false}
           errorText={'Некоррекнтый email'}
@@ -85,7 +87,7 @@ const FormProfileUpdateUser = () => {
           placeholder={'Пароль'}
           onChange={onInputChange}
           icon={'EditIcon'}
-          value={form.password}
+          value={form.password ? form.password : ''}
           name={'password'}
           error={false}
           errorText={'Недопустимые символы'}
@@ -97,7 +99,7 @@ const FormProfileUpdateUser = () => {
         <Button
           type="secondary"
           size="medium"
-          onClick={onResetButtonClick}
+          onClick={onResetButtonClick as () => void}
         >
           Отменить
         </Button>
