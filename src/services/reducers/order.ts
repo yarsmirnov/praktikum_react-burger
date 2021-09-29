@@ -5,13 +5,13 @@ import {
   ORDER_RESET_REQUEST_STATUS
 } from '../constants/action-types';
 import { TOrderActions } from '../actions/order';
-
+import { TOrderRecieved } from '../types/data';
 
 type TState = {
   ORDER_REQUEST: boolean;
   ORDER_SUCCESS: boolean;
   ORDER_FAILURE: boolean;
-  orderData: {};
+  orderData: TOrderRecieved | {};
 }
 
 export const initialState = {

@@ -1,6 +1,6 @@
-import React, { useMemo } from "react";
+import React, { useMemo, FC } from "react";
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../../services/hooks';
 import { useParams } from 'react-router-dom';
 import { getIngredientsAction } from '../../services/actions/ingredients';
 
@@ -9,11 +9,11 @@ import Loader from '../loader/loader';
 import styles from './ingredient-details.module.css';
 
 
-const IngredientDetails = () => {
+const IngredientDetails: FC<{}> = () => {
   const dispatch = useDispatch();
   const { items: ingredients } = useSelector((store) => store.ingredients);
 
-  const { id } = useParams();
+  const { id } = useParams() as any;
 
   const ingredient = useMemo(
     () => ingredients.find(item => item.id === id),

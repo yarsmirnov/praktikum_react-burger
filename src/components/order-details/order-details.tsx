@@ -1,12 +1,12 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { FC } from 'react';
+import { useSelector } from '../../services/hooks';
 
 import successGif from '../../images/done.gif';
 
 import styles from './order-details.module.css';
 
 
-const OrderDetails = () => {
+const OrderDetails: FC<{}> = () => {
   const { orderData } = useSelector((store) => store.order);
 
   return (
@@ -16,7 +16,7 @@ const OrderDetails = () => {
       <dl className={`${styles.order} mt-30`}>
         <dt className={`${styles.orderText} text_type_main-medium`}>идентификатор заказа</dt>
         <dd className={`${styles.orderId} text_type_digits-large mb-8`}>
-          { orderData.number }
+          { orderData['number'] ? orderData['number'] : null }
         </dd>
       </dl>
 
