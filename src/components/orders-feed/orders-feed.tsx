@@ -1,18 +1,25 @@
-import React from "react";
+import React, { FC } from "react";
 import { Link, useRouteMatch, useLocation } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../services/hooks';
 import { openModalAction } from '../../services/actions/modal';
-
-import { ingredientType, orderType } from '../../utils/types';
 
 import FeedCard from "./feed-card";
 import OrderInfo from "../order-info/order-info";
 
+import {
+  TWsOrderRecieved,
+  TIngredient
+} from '../../services/types/data';
+
 import styles from './orders-feed.module.css';
 
 
-const OrdersFeed = ({ orders, ingredientsList }) => {
+type TOrdersFeedProps = {
+  orders: Array<TWsOrderRecieved>;
+  ingredientsList: Array<TIngredient>;
+}
+
+const OrdersFeed: FC<TOrdersFeedProps> = ({ orders, ingredientsList }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { url } = useRouteMatch();
@@ -53,11 +60,6 @@ const OrdersFeed = ({ orders, ingredientsList }) => {
 
 };
 
-
-OrdersFeed.propTypes = {
-  orders: PropTypes.arrayOf(PropTypes.shape(orderType)).isRequired,
-  ingredientsList: PropTypes.arrayOf(PropTypes.shape(ingredientType)).isRequired,
-}
 
 export default OrdersFeed;
 

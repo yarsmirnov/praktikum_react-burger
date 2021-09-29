@@ -1,14 +1,22 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { FC } from 'react';
 
 import styles from './preview-item.module.css';
 
 
-const PreviewItem = ({
+type TPreviewItemProps = {
+  key?: string;
+  img?: string;
+  name?: string;
+  count?: number;
+  leftItems?: number;
+}
+
+
+const PreviewItem: FC<TPreviewItemProps> = ({
   img,
   name,
   count,
-  leftItems
+  leftItems = null
 }) => {
   if (leftItems) {
     return (
@@ -28,7 +36,7 @@ const PreviewItem = ({
         alt={name}
       />
 
-      { count > 1
+      { count && count > 1
         ? (
           <span
             className={`${styles.count} text text_type_main-default`}
@@ -41,14 +49,6 @@ const PreviewItem = ({
     </li>
   );
 };
-
-
-PreviewItem.propTypes = {
-  img: PropTypes.string,
-  name: PropTypes.string,
-  count: PropTypes.number,
-  more: PropTypes.number,
-}
 
 
 export default PreviewItem;

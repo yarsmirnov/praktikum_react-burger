@@ -1,20 +1,28 @@
-import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
+import React, { useMemo, FC } from 'react';
 
-import { ingredientType, orderType } from '../../utils/types';
 import { getIngredientsData } from '../../utils/utils';
 import { formatDate } from '../../utils/dates';
 
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-
-import styles from './orders-feed.module.css';
 import PreviewItem from '../preview-item/preview-item';
 
+import {
+  TWsOrderRecieved,
+  TIngredient
+} from '../../services/types/data';
 
-const MAX_INGREDIENTS_PREVIEW = 6;
+import styles from './orders-feed.module.css';
 
 
-const FeedCard = ({
+type TFeedCardProps = {
+  orderInfo: TWsOrderRecieved;
+  ingredientsList: Array<TIngredient>;
+}
+
+const MAX_INGREDIENTS_PREVIEW: number = 6;
+
+
+const FeedCard: FC<TFeedCardProps> = ({
   orderInfo,
   ingredientsList
 }) => {
@@ -52,7 +60,7 @@ const FeedCard = ({
     <div className={`${styles.card} p-6`}>
       <div className={`${styles.card_header} mb-6`}>
         <p className={`text text_type_digits-default`}>
-          {`#${String(number).padStart(6, 0)}`}
+          {`#${String(number).padStart(6, '0')}`}
         </p>
         <p className={`text text_type_main-default text_color_inactive`}>
           { orderDate }
@@ -92,12 +100,6 @@ const FeedCard = ({
     </div>
   )
 };
-
-
-FeedCard.propTypes = {
-  orderInfo: PropTypes.shape(orderType).isRequired,
-  ingredientsList: PropTypes.arrayOf(PropTypes.shape(ingredientType)).isRequired,
-}
 
 
 export default FeedCard;
