@@ -1,5 +1,5 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { FC } from 'react';
+import { useSelector } from '../../services/hooks';
 import { Link, NavLink } from 'react-router-dom';
 
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -15,7 +15,7 @@ const LinksUrl = {
 };
 
 
-const AppHeader = () => {
+const AppHeader: FC<{}> = () => {
   const { user } = useSelector((store) => store.user);
 
   return (
