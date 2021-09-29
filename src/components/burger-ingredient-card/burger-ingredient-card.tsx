@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../services/hooks';
 import { openModalAction } from '../../services/actions/modal';
 import { Link, useLocation } from 'react-router-dom';
 import { useDrag } from 'react-dnd';
@@ -8,12 +8,12 @@ import { useDrag } from 'react-dnd';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
-import { ingredientType } from '../../utils/types';
+import { TIngredient } from '../../services/types/data';
 
 import styles from './burger-ingredient-card.module.css';
 
 
-const BurgerIngredientCard = ({
+const BurgerIngredientCard: FC<TIngredient> = ({
   id,
   type,
   name,
@@ -83,11 +83,6 @@ const BurgerIngredientCard = ({
     </>
   );
 }
-
-
-BurgerIngredientCard.propTypes = {
-  ...ingredientType,
-};
 
 
 export default BurgerIngredientCard;
