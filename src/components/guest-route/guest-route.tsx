@@ -1,10 +1,9 @@
-import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import React, { FC } from 'react';
+import { Route, Redirect, RouterProps } from 'react-router-dom';
+import { useSelector } from '../../services/hooks';
 
 
-const GuestRoute = ({ children, ...rest }) => {
+const GuestRoute: FC<RouterProps> = ({ children, ...rest }) => {
   const { user } = useSelector((store) => store.user);
 
   return (
@@ -21,14 +20,6 @@ const GuestRoute = ({ children, ...rest }) => {
       }
     />
   );
-};
-
-
-GuestRoute.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ]).isRequired
 };
 
 
