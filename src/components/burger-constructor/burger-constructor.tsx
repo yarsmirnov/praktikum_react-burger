@@ -1,8 +1,23 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+// Libraries
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  FC,
+  ReactNode
+} from 'react';
+import {
+  useSelector,
+  useDispatch
+} from '../../services/hooks';
+import {
+  useHistory,
+  useLocation
+} from 'react-router-dom';
 import { useDrop } from 'react-dnd';
 
+// Redux
 import {
   addItemAction,
   removeItemAction,
@@ -20,6 +35,7 @@ import {
 } from '../../services/actions/order';
 import { openModalAction } from '../../services/actions/modal';
 
+// Components
 import {
   ConstructorElement,
   Button,
@@ -29,12 +45,17 @@ import DraggableItem from './draggable-item';
 import OrderDetails from '../order-details/order-details';
 import Loader from '../loader/loader';
 
+// Utils
 import { v4 as uuidv4 } from 'uuid';
+
+// Types
+import { TIngredientDragItem } from '../burger-ingredient-card/burger-ingredient-card';
+import { TConstructorIngredient } from '../../services/types/data';
 
 import styles from './burger-constructor.module.css';
 
 
-const BurgerConstructor = () => {
+const BurgerConstructor: FC<{}> = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
@@ -58,7 +79,7 @@ const BurgerConstructor = () => {
 
   const [{canAccept}, dropTarget] = useDrop({
     accept: 'ingredient',
-    drop(item) {
+    drop(item: TIngredientDragItem) {
       item.type === 'bun' ?
         dispatch(setBunAction({ ...item, uuid: uuidv4() })) :
         dispatch(addItemAction({ ...item, uuid: uuidv4() }));
@@ -73,9 +94,9 @@ const BurgerConstructor = () => {
     }),
   });
 
-  const [hasBun, setHasBun] = useState(false);
+  const [hasBun, setHasBun] = useState<boolean>(false);
 
-  const bun = useMemo(
+  const bun = useMemo<TConstructorIngredient | null | undefined>(
     () => {
       const target = ingredients.find((item) => item.type === 'bun');
 
@@ -87,17 +108,17 @@ const BurgerConstructor = () => {
     }, [ingredients, setHasBun]
   );
 
-  const fillings = useMemo(
+  const fillings = useMemo<Array<TConstructorIngredient>>(
     () => ingredients.filter((item) => item.type !== 'bun'),
     [ingredients]
   );
 
-  const orderList = useMemo(
+  const orderList = useMemo<Array<TConstructorIngredient>>(
     () => bun ? [bun, ...fillings, bun] : [...fillings],
     [bun, fillings]
   );
 
-  const totalPrice = useMemo(
+  const totalPrice = useMemo<number>(
     () => orderList.reduce((acc, item) => acc + item?.price, 0), [orderList]
   );
 
@@ -120,7 +141,7 @@ const BurgerConstructor = () => {
     dispatch(decreaseIngredientCountAction(id));
   }, [dispatch]);
 
-  const orderButton = useMemo(() => {
+  const orderButton = useMemo<ReactNode>(() => {
     if (!hasBun) {
       return (
         <Button

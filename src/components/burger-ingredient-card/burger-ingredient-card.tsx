@@ -12,6 +12,17 @@ import { TIngredient } from '../../services/types/data';
 
 import styles from './burger-ingredient-card.module.css';
 
+export type TIngredientDragItem = {
+  id: string;
+  type: string;
+  name: string;
+  price: number;
+  image: string;
+  proteins: number;
+  fat: number;
+  carbohydrates: number;
+  calories: number;
+}
 
 const BurgerIngredientCard: FC<TIngredient> = ({
   id,

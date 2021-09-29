@@ -1,7 +1,6 @@
-import React, { useRef } from 'react';
-import PropTypes from 'prop-types';
+import React, { useRef, FC } from 'react';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../services/hooks';
 import { moveItemAction } from '../../services/actions/burger-constructor';
 
 import { useDrag, useDrop } from 'react-dnd';
@@ -11,7 +10,18 @@ import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burg
 import styles from './burger-constructor.module.css';
 
 
-const DraggableItem = ({
+type TDraggableItemProps = {
+  key: string;
+  id: string;
+  uuid: string;
+  index: number;
+  name: string;
+  price: number;
+  image: string;
+  handleClose: () => void;
+}
+
+const DraggableItem: FC<TDraggableItemProps> = ({
   id,
   uuid,
   index,
@@ -21,7 +31,7 @@ const DraggableItem = ({
   handleClose
 }) => {
   const dispatch = useDispatch();
-  const dragabbleRef = useRef(null);
+  const dragabbleRef = useRef<HTMLLIElement|null>(null);
 
   const [{isDrag}, dragItem] = useDrag({
     type: 'constructorItem',
@@ -33,7 +43,7 @@ const DraggableItem = ({
 
   const [, dropTarget] = useDrop({
     accept: 'constructorItem',
-    hover: (item, monitor) => {
+    hover: (item: { id: string; uuid: string; index: number; }, monitor) => {
       if (!dragabbleRef.current) {
         return;
       }
@@ -48,14 +58,18 @@ const DraggableItem = ({
       const hoverBoundingRect = dragabbleRef.current?.getBoundingClientRect();
       const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
-      if (dragged < hovered && hoverClientY < hoverMiddleY) {
-        return;
+      if (clientOffset) {
+        const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+
+        if (dragged < hovered && hoverClientY < hoverMiddleY) {
+          return;
+        }
+        if (dragged > hovered && hoverClientY > hoverMiddleY) {
+          return;
+        }
       }
-      if (dragged > hovered && hoverClientY > hoverMiddleY) {
-        return;
-      }
+
 
       dispatch(moveItemAction({dragged, hovered}));
       item.index = hovered;
@@ -87,16 +101,6 @@ const DraggableItem = ({
       />
     </li>
   );
-};
-
-
-DraggableItem.propTypes = {
-  id: PropTypes.string.isRequired,
-  uuid: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired,
-  handleClose: PropTypes.func.isRequired,
 };
 
 
