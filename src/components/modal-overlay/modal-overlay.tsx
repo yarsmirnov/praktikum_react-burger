@@ -1,20 +1,24 @@
-import React, { useEffect, useRef, useCallback } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useCallback, FC } from 'react';
 
 import styles from './modal-overlay.module.css';
 
 
-const ModalOverlay = ({ closeModal, children }) => {
-  const overlayRef = useRef(null);
+type TModalOverlayProps = {
+  closeModal: Function;
+  children: JSX.Element;
+}
 
-  const handleClick = useCallback((evt) => {
+const ModalOverlay: FC<TModalOverlayProps> = ({ closeModal, children }) => {
+  const overlayRef = useRef<HTMLDivElement>(null);
+
+  const handleClick = useCallback ((evt: React.MouseEvent<HTMLElement>) => {
     if (evt.target === overlayRef.current) {
       closeModal();
     }
   }, [closeModal]);
 
   const handleEscPress = useCallback(
-    (evt) => {
+    (evt: KeyboardEvent) => {
       if (evt.key === 'Escape') {
         evt.preventDefault();
         closeModal();
@@ -39,12 +43,6 @@ const ModalOverlay = ({ closeModal, children }) => {
       { children }
     </div>
   );
-};
-
-
-ModalOverlay.propTypes = {
-  closeModal: PropTypes.func.isRequired,
-  children: PropTypes.element.isRequired,
 };
 
 

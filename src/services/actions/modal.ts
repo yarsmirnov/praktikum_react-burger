@@ -1,16 +1,16 @@
-import { ReactNode } from 'react';
+import { ElementType } from 'react';
 import {
   MODAL_OPEN_MODAL,
   MODAL_CLOSE_MODAL
 } from '../constants/action-types';
 
 
-type TModalChild = ReactNode | JSX.Element | null;
+type TModalChild = ElementType | null;
 
 // Action types
 export type TOpenModalAction = {
   readonly type: typeof MODAL_OPEN_MODAL;
-  readonly payload: TModalChild
+  readonly payload: TModalChild;
 }
 export type TCloseModalAction = {
   readonly type: typeof MODAL_CLOSE_MODAL;

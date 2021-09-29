@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ElementType } from 'react';
 import {
   MODAL_OPEN_MODAL,
   MODAL_CLOSE_MODAL
@@ -8,7 +8,7 @@ import { ModalActions } from '../actions/modal';
 
 type TState = {
   isOpen: boolean,
-  ComponentToView: ReactNode | JSX.Element | null;
+  ComponentToView: ElementType | null;
 }
 
 export const initialState: TState = {

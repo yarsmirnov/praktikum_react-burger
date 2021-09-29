@@ -1,19 +1,22 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { createPortal } from 'react-dom';
-import PropTypes from 'prop-types';
 
-import { useSelector } from 'react-redux';
-
+import { useSelector } from '../../services/hooks';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 
 import styles from './modal.module.css';
 
 
+type TModalProps = {
+  closeModal: React.MouseEventHandler;
+}
+
+
 const modalRoot = document.getElementById('react-modals');
 
 
-const Modal = ({ closeModal }) => {
+const Modal: FC<TModalProps> = ({ closeModal }) => {
   const { isOpen, ComponentToView } = useSelector((store) => store.modal);
 
   if (!isOpen) return null;
@@ -30,15 +33,10 @@ const Modal = ({ closeModal }) => {
             <CloseIcon type="primary" />
           </i>
         </button>
-        <ComponentToView />
+        { ComponentToView && <ComponentToView /> }
       </section>
     </ModalOverlay>
   ), modalRoot) : null;
-};
-
-
-Modal.propTypes = {
-  closeModal: PropTypes.func.isRequired,
 };
 
 
