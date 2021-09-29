@@ -1,10 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
+import React, { FC } from 'react';
 import styles from './order-status.module.css';
 
 
-const getStatusText = (status) => {
+type TStatus = 'created' | 'canceled' | 'pending' | 'done';
+
+type TOrderStatusProps = {
+  status: TStatus;
+}
+
+
+const getStatusText = (status: TStatus): string => {
   switch (status) {
     case 'done':
       return 'Выполнен';
@@ -15,7 +20,7 @@ const getStatusText = (status) => {
     case 'pending':
       return 'Готовится';
 
-    case 'canseled':
+    case 'canceled':
       return 'Отменён'
 
     default:
@@ -24,18 +29,13 @@ const getStatusText = (status) => {
 };
 
 
-const OrderStatus = ({ status }) => {
+const OrderStatus: FC<TOrderStatusProps> = ({ status }) => {
   return (
     <span className={`${styles.default} ${styles[status]}`}>
       { getStatusText(status) }
     </span>
   );
 };
-
-
-OrderStatus.propTypes = {
-  status: PropTypes.oneOf(['created', 'pending', 'done', 'canseled']),
-}
 
 
 export default OrderStatus;
