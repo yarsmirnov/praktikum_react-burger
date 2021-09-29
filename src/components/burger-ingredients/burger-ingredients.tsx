@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useMemo, FC } from 'react';
 
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/hooks';
 import { useInView } from 'react-intersection-observer';
 
 import styles from './burger-ingredients.module.css';
@@ -8,18 +8,29 @@ import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientSection from '../ingredient-section/ingredient-section';
 
+import { TIngredient } from '../../services/types/data';
 
-const navTabs = [
+
+type TNavTabs = Array<{
+  id: string;
+  navTitle: string;
+  sectionTitle: string;
+}>
+
+const navTabs: TNavTabs = [
   {id: 'bun', navTitle: 'Булки', sectionTitle: 'Булки'},
   {id: 'sauce', navTitle: 'Соусы', sectionTitle: 'Соусы'},
   {id: 'main', navTitle: 'Начинки', sectionTitle: 'Начинка'},
 ];
 
-const filterByType = (items, type) => {
+const filterByType = (
+  items: Array<TIngredient>,
+  type: string
+) => {
   return items.filter((item) => item.type === type);
 };
 
-const BurgerIngredients = () => {
+const BurgerIngredients: FC<{}> = () => {
   const { items: ingredients } = useSelector((store) => store.ingredients);
 
   const [current, setCurrent] = useState('bun');
@@ -40,9 +51,9 @@ const BurgerIngredients = () => {
     mainSectionRef,
   };
 
-  const bunTitleRef = useRef(null);
-  const sauceTitleRef = useRef(null);
-  const mainTitleRef = useRef(null);
+  const bunTitleRef = useRef<HTMLLIElement|null>(null);
+  const sauceTitleRef = useRef<HTMLLIElement|null>(null);
+  const mainTitleRef = useRef<HTMLLIElement|null>(null);
 
   const titleRefs = useMemo(() => ({
     bunTitleRef,
@@ -66,8 +77,8 @@ const BurgerIngredients = () => {
     }
   }, [bunInView, sauceInView, mainInView]);
 
-  const scrollToSection = useCallback((id) => {
-    const scrollSettings = {
+  const scrollToSection = useCallback((id: string) => {
+    const scrollSettings: ScrollIntoViewOptions = {
       behavior: 'smooth',
       block: 'start',
     };
