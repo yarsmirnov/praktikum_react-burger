@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styles from './loader.module.css';
 
 
-const Loader = () => {
+const Loader: FC<{}> = () => {
   return (
     <div className={`${styles.ldsEllipsis}`}>
       <div></div>
