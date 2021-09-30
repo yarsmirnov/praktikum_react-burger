@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, FC } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../services/hooks';
 import {
   setValueAction,
   resetPasswordAction,
@@ -13,7 +13,7 @@ import Loader from '../components/loader/loader';
 import styles from './page-layout.module.css';
 
 
-export const ResetPasswordPage = () => {
+export const ResetPasswordPage: FC<{}> = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const {
@@ -23,8 +23,8 @@ export const ResetPasswordPage = () => {
     RESET_PASSWORD_FAILURE
   } = useSelector((store) => store.formResetPassword);
   const { verifiedEmail } = useSelector((store) => store.formForgotPassword);
-  const [isPasswordValid, setIsPasswordValid] = useState(true);
-  const [isPasswordVisable, setPasswordVisability] = useState(false);
+  const [isPasswordValid, setIsPasswordValid] = useState<boolean>(true);
+  const [isPasswordVisable, setPasswordVisability] = useState<boolean>(false);
 
   useEffect(() => {
     if (!verifiedEmail) {
@@ -43,7 +43,9 @@ export const ResetPasswordPage = () => {
     };
   }, [dispatch, history, verifiedEmail, RESET_PASSWORD_SUCCESS]);
 
-  const onInputChange = useCallback((evt) => {
+  const onInputChange = useCallback((
+    evt: React.ChangeEvent<HTMLInputElement>
+  ) => {
     if (evt.target.name === 'password') {
       setIsPasswordValid(evt.target.value !== '');
     }
@@ -54,7 +56,7 @@ export const ResetPasswordPage = () => {
     }));
   }, [dispatch]);
 
-  const handleSubmit = (evt) => {
+  const handleSubmit = (evt: React.FormEvent) => {
     evt.preventDefault();
     if ( form.password !== ''
       && form.token !== '') {
