@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useMemo, FC } from 'react';
+import { useDispatch, useSelector } from '../services/hooks';
 import { Link, useParams } from 'react-router-dom';
 
 import { getIngredientsAction } from '../services/actions/ingredients';
@@ -10,11 +10,11 @@ import layoutStyles from './page-layout.module.css';
 import styles from './ingredient.module.css';
 
 
-export const IngredientPage = () => {
+export const IngredientPage: FC<{}> = () => {
   const dispatch = useDispatch();
   const { items: ingredients } = useSelector((store) => store.ingredients);
 
-  const { id } = useParams();
+  const { id } = useParams() as any;
 
   const ingredient = useMemo(
     () => ingredients.find((item) => item.id === id),
