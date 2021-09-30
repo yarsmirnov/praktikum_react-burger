@@ -1,25 +1,38 @@
-import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
+import React, { useMemo, FC } from 'react';
 
-import { orderType } from '../../utils/types';
+import {
+  TWsOrderRecieved,
+  TOrderStatus
+} from '../../services/types/data';
 
 import styles from './orders-summary.module.css';
 
 
-const MAX_ORDERS_TO_SHOW = 5;
-const getLastordersByStatus = (orders, status, count) => {
+type TOrdersSummaryProps = {
+  orders: Array<TWsOrderRecieved>;
+  total: number;
+  totalToday: number;
+}
+
+
+const MAX_ORDERS_TO_SHOW: number = 5;
+const getLastordersByStatus = (
+  orders: Array<TWsOrderRecieved>,
+  status: TOrderStatus,
+  count: number
+) => {
   const filteredOrders = orders.filter((order) => order.status === status);
   return filteredOrders.slice(0, count);
 };
 
 
-const OrdersSummary = ({orders, total, totalToday}) => {
+const OrdersSummary: FC<TOrdersSummaryProps> = ({orders, total, totalToday}) => {
   const doneOrders = useMemo(
     () => getLastordersByStatus(orders, 'done', MAX_ORDERS_TO_SHOW),
     [orders]
   );
   const inProgressOrders = useMemo(
-    () => getLastordersByStatus(orders, 'cooking', MAX_ORDERS_TO_SHOW),
+    () => getLastordersByStatus(orders, 'pending', MAX_ORDERS_TO_SHOW),
     [orders]
   );
 
@@ -34,7 +47,7 @@ const OrdersSummary = ({orders, total, totalToday}) => {
           </h3>
           <ul className={`${styles.ordersList}`}>
             { doneOrders.map((order) => {
-              const orderIdToShow = String(order.number).padStart(6, 0);
+              const orderIdToShow = String(order.number).padStart(6, '0');
 
               return (
                 <li className={`mb-2`} key={order.number}>
@@ -55,7 +68,7 @@ const OrdersSummary = ({orders, total, totalToday}) => {
           </h3>
           <ul className={`${styles.ordersList}`}>
             { inProgressOrders.map((order) => {
-              const orderIdToShow = String(order.number).padStart(6, 0);
+              const orderIdToShow = String(order.number).padStart(6, '0');
 
               return (
                 <li className={`mb-2`} key={order.number}>
@@ -77,20 +90,13 @@ const OrdersSummary = ({orders, total, totalToday}) => {
       </p>
 
       <h3 className={`text text_type_main-medium`}>
-      Выполнено за сегодня:
+        Выполнено за сегодня:
       </h3>
       <p className={`text text_type_digits-large text-with-glow`}>
         { totalToday }
       </p>
     </>
   );
-};
-
-
-OrdersSummary.propTypes = {
-  orders: PropTypes.arrayOf(PropTypes.shape(orderType)).isRequired,
-  total: PropTypes.number.isRequired,
-  totalToday: PropTypes.number.isRequired,
 };
 
 
