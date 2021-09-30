@@ -1,5 +1,9 @@
 import { Middleware } from 'redux';
 import {
+  WS_CONNECTION_START,
+  WS_SEND_MESSAGE
+} from '../constants/action-types';
+import {
   wsConnectionSuccess,
   wsConnectionError,
   wsConnectionClosed,
@@ -14,7 +18,7 @@ export const socketMiddleware: Middleware = (store) => {
     const { dispatch } = store;
     const { type, payload } = action;
 
-    if (type === 'WS_CONNECTION_START') {
+    if (type === WS_CONNECTION_START) {
       const wsUrl = action.payload;
       socket = new WebSocket(wsUrl);
     }
@@ -38,7 +42,7 @@ export const socketMiddleware: Middleware = (store) => {
         dispatch(wsConnectionClosed());
       };
 
-      if (type === 'WS_SEND_MESSAGE') {
+      if (type === WS_SEND_MESSAGE) {
         const message = payload;
         socket.send(JSON.stringify(message));
       }
