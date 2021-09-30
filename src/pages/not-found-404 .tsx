@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 import layoutStyles from './page-layout.module.css';
 
 
-export const NotFound404 = () => {
+export const NotFound404: FC<{}> = () => {
   return (
     <div className={`${layoutStyles.pageContainer} text-center pt-30`}>
       <h1 className={`text text_type_main-large mb-20`}>
