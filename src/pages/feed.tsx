@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect, FC } from 'react';
+import { useSelector, useDispatch } from '../services/hooks';
 
 import {
   wsConnectionStart,
@@ -14,7 +14,7 @@ import Loader from '../components/loader/loader';
 import layoutStyles from './page-layout.module.css';
 
 
-export const FeedPage = () => {
+export const FeedPage: FC<{}> = () => {
   const dispatch = useDispatch();
   const { items: ingredients } = useSelector((store) => store.ingredients);
   const { orders, total, totalToday } = useSelector((store) => store.websocket);
