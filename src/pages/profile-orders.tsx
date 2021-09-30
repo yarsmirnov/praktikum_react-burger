@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import ProfileNavigation from '../components/profile-navigation/profile-navigation';
 import UserOrders from '../components/user-orders/user-orders';
@@ -6,7 +6,7 @@ import UserOrders from '../components/user-orders/user-orders';
 import styles from './profile.module.css';
 
 
-export const ProfileOrdersPage = () => {
+export const ProfileOrdersPage: FC<{}> = () => {
   return (
     <section className={`${styles.pageContainer} pt-10`}>
       <h1 className={`visualliHidden`}>
