@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import ProfileNavigation from '../components/profile-navigation/profile-navigation';
 import FormProfileUpdateUser from '../components/form-profile-update-user/form-profile-update-user';
@@ -6,7 +6,7 @@ import FormProfileUpdateUser from '../components/form-profile-update-user/form-p
 import styles from './profile.module.css';
 
 
-export const ProfilePage = () => {
+export const ProfilePage: FC<{}> = () => {
   return (
     <section className={`${styles.pageContainer} pt-10`}>
       <h1 className={`visualliHidden`}>
