@@ -1,3 +1,4 @@
+import { Middleware } from 'redux';
 import {
   wsConnectionSuccess,
   wsConnectionError,
@@ -5,8 +6,9 @@ import {
   wsGetMessage
 } from '../actions/websocket';
 
-export const socketMiddleware = store => {
-  let socket = null;
+
+export const socketMiddleware: Middleware = (store) => {
+  let socket: WebSocket | null = null;
 
   return next => action => {
     const { dispatch } = store;
@@ -18,8 +20,8 @@ export const socketMiddleware = store => {
     }
 
     if (socket) {
-      socket.onopen = event => {
-        dispatch(wsConnectionSuccess(event));
+      socket.onopen = () => {
+        dispatch(wsConnectionSuccess());
       };
 
       socket.onerror = event => {
@@ -32,8 +34,8 @@ export const socketMiddleware = store => {
         dispatch(wsGetMessage(parsedData));
       };
 
-      socket.onclose = event => {
-        dispatch(wsConnectionClosed(event));
+      socket.onclose = () => {
+        dispatch(wsConnectionClosed());
       };
 
       if (type === 'WS_SEND_MESSAGE') {
