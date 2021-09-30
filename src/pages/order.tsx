@@ -1,5 +1,5 @@
-import React, { useMemo, useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useMemo, useState, useEffect, FC } from 'react';
+import { useSelector } from '../services/hooks';
 import { useParams } from 'react-router-dom';
 
 import { getIngredientsData } from '../utils/utils';
@@ -10,11 +10,22 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import Loader from '../components/loader/loader';
 import OrderStatus from '../components/order-status/order-status';
 
+import {
+  TCardIngredient,
+  TWsOrderRecieved,
+  TOrdersTapeResponse
+} from '../services/types/data';
+
 import layoutStyles from './page-layout.module.css';
 import styles from './order.module.css';
 
 
-const generateIngredientElement = ({ img, name, count, price }) => {
+const generateIngredientElement = ({
+  img,
+  name,
+  count,
+  price
+}: TCardIngredient): JSX.Element => {
   return (
     <li className={`${styles.ingredient} text text_type_main-default`} key={name}>
       <div className={`${styles.ingredientPreview} mr-4`}>
@@ -34,10 +45,10 @@ const generateIngredientElement = ({ img, name, count, price }) => {
 };
 
 
-export const OrderPage = () => {
+export const OrderPage: FC<{}> = () => {
   const { items: ingredientsDatabase } = useSelector((store) => store.ingredients);
-  const { orderNumber } = useParams();
-  const [ order, setOrder ] = useState(null);
+  const { orderNumber } = useParams() as { [key: string]: string };
+  const [ order, setOrder ] = useState<TWsOrderRecieved|null>(null);
   const [ requestStatus, setRequesStatus ] = useState({
     PENDING: false,
     SUCCESS: false,
@@ -54,8 +65,7 @@ export const OrderPage = () => {
         }
         return res.json();
       })
-      .then((data) => {
-        console.log(data);
+      .then((data: TOrdersTapeResponse) => {
         setOrder(data.orders[0]);
         setRequesStatus({PENDING: false, SUCCESS: true, ERROR: false})
       })
@@ -66,7 +76,12 @@ export const OrderPage = () => {
   }, [orderNumber]);
 
   const ingredientsData = useMemo(
-    () => getIngredientsData(order?.ingredients, ingredientsDatabase),
+    () => {
+      if (order && ingredientsDatabase.length) {
+        return getIngredientsData(order?.ingredients, ingredientsDatabase);
+      }
+      return [];
+    },
     [order, ingredientsDatabase]
   );
   const totalPrice = useMemo(
@@ -107,8 +122,9 @@ export const OrderPage = () => {
     </div>
   }
 
+  if (order) {
   const { name, number, status, createdAt } = order;
-  const orderNumberToShow = `#${String(number).padStart(6,0)}`;
+  const orderNumberToShow = `#${String(number).padStart(6,'0')}`;
   const dateToShow = formatDate(createdAt);
 
   return (
@@ -152,5 +168,8 @@ export const OrderPage = () => {
         </p>
       </div>
     </section>
-  );
+  )
+  } else {
+    return null;
+  }
 };
