@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import { Route, Redirect, RouterProps } from 'react-router-dom';
+import { Route, Redirect, RouteProps } from 'react-router-dom';
 import { useSelector } from '../../services/hooks';
 
 
-const GuestRoute: FC<RouterProps> = ({ children, ...rest }) => {
+const GuestRoute: FC<RouteProps> = ({ children, ...rest }) => {
   const { user } = useSelector((store) => store.user);
 
   return (
