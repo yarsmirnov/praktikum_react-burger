@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState, useEffect, useCallback, FC } from 'react';
+import { useSelector, useDispatch } from '../services/hooks';
 import {
   setValueAction,
   clearFormAction,
@@ -15,7 +15,7 @@ import { regExpEmail } from '../utils/regexp';
 import styles from './page-layout.module.css';
 
 
-export const ForgotPasswordPage = () => {
+export const ForgotPasswordPage: FC<{}> = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const {
