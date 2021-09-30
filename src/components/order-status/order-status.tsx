@@ -1,15 +1,15 @@
 import React, { FC } from 'react';
 import styles from './order-status.module.css';
 
+import { TOrderStatus } from '../../services/types/data';
 
-type TStatus = 'created' | 'canceled' | 'pending' | 'done';
 
 type TOrderStatusProps = {
-  status: TStatus;
+  status: TOrderStatus;
 }
 
 
-const getStatusText = (status: TStatus): string => {
+const getStatusText = (status: TOrderStatus): string => {
   switch (status) {
     case 'done':
       return 'Выполнен';

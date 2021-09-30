@@ -36,6 +36,8 @@ export type TCardIngredient = {
   name: string,
 }
 
+export type TOrderStatus = 'created' | 'canceled' | 'pending' | 'done';
+
 export type TConstructorIngredient = {
   id: string;
   type: string;
