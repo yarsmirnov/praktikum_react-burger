@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, FC } from 'react';
 import { useHistory, Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../services/hooks';
 import {
   setValueAction
 } from '../services/actions/form-register';
@@ -13,7 +13,8 @@ import styles from './page-layout.module.css';
 
 import { regExpEmail } from '../utils/regexp';
 
-export const RegisterPage = () => {
+
+export const RegisterPage: FC<{}> = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const {
@@ -24,9 +25,9 @@ export const RegisterPage = () => {
     REGISTER_SUCCESS
   } = useSelector((store) => store.user);
 
-  const [isEmailValid, setIsEmailValid] = useState(true);
-  const [isPasswordValid, setIsPasswordValid] = useState(true);
-  const [isPasswordVisable, setPasswordVisability] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState<boolean>(true);
+  const [isPasswordValid, setIsPasswordValid] = useState<boolean>(true);
+  const [isPasswordVisable, setPasswordVisability] = useState<boolean>(false);
 
   useEffect(() => {
     if (REGISTER_SUCCESS) {
@@ -34,7 +35,9 @@ export const RegisterPage = () => {
     }
   }, [history, REGISTER_SUCCESS]);
 
-  const onInputChange = useCallback((evt) => {
+  const onInputChange = useCallback((
+    evt: React.ChangeEvent<HTMLInputElement>
+  ) => {
     if (evt.target.name === 'email') {
       setIsEmailValid(regExpEmail.test(evt.target.value));
     }
@@ -53,7 +56,7 @@ export const RegisterPage = () => {
     setPasswordVisability(!isPasswordVisable);
   };
 
-  const handleSubmit = (evt) => {
+  const handleSubmit = (evt: React.FormEvent) => {
     evt.preventDefault();
     if ( form.email !== ''
       && isEmailValid
