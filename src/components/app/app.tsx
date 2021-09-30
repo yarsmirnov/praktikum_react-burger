@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, FC } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/hooks';
 import { loadUserData } from '../../services/actions/user';
 import { getIngredientsAction } from '../../services/actions/ingredients';
 import { closeModalAction } from '../../services/actions/modal';
@@ -36,7 +36,7 @@ import Modal from '../modal/modal';
 const ModalSwitch = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const location = useLocation();
+  const location = useLocation<any>();
   const background = (history.action === 'PUSH' || history.action === 'REPLACE')
     && location.state
     && location.state.background;
@@ -147,7 +147,7 @@ const ModalSwitch = () => {
 };
 
 
-const App = () => {
+const App: FC<{}> = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
