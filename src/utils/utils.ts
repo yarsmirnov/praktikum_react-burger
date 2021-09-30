@@ -5,6 +5,10 @@ export const countUniqueItems =
   ( itemsArr: Array<string> ): { [key: string]: number } => {
     return itemsArr.reduce(
       (acc, id) => {
+        if (!id || id === '' || id === 'null') {
+          return acc;
+        }
+
         const key = id.toString();
         acc[key] = acc[key] ? acc[key] + 1 : 1;
         return acc;
