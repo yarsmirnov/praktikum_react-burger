@@ -1,6 +1,6 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, FC } from 'react';
 import { Redirect, Link, useHistory, useLocation } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../services/hooks';
 import { loginUser } from '../services/actions/user';
 
 import {
@@ -16,21 +16,23 @@ import { regExpEmail } from '../utils/regexp';
 import styles from './page-layout.module.css';
 
 
-export const LoginPage = () => {
-  const dispatch = useDispatch((store) => store.user);
+export const LoginPage: FC<{}> = () => {
+  const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
   const { form } = useSelector((store) => store.formLogin);
   const { user, LOGIN_REQUEST, LOGIN_SUCCESS } = useSelector((store) => store.user);
-  const [isPasswordVisable, setPasswordVisability] = useState(false);
-  const [isEmailValid, setIsEmailValid] = useState(true);
-  const [isPasswordValid, setIsPasswordValid] = useState(true);
+  const [isPasswordVisable, setPasswordVisability] = useState<boolean>(false);
+  const [isEmailValid, setIsEmailValid] = useState<boolean>(true);
+  const [isPasswordValid, setIsPasswordValid] = useState<boolean>(true);
 
-  const { from } = useMemo(() => {
+  const { from } = useMemo((): any => {
     return location.state || { from: { pathname: '/' } }
   }, [location]);
 
-  const onInputChange = useCallback((evt) => {
+  const onInputChange = useCallback((
+    evt: React.ChangeEvent<HTMLInputElement>
+  ) => {
     if (evt.target.name === 'email') {
       setIsEmailValid(regExpEmail.test(evt.target.value));
     }
@@ -48,7 +50,7 @@ export const LoginPage = () => {
     setPasswordVisability(!isPasswordVisable);
   };
 
-  const handleSubmit = (evt) => {
+  const handleSubmit = (evt: React.FormEvent) => {
     evt.preventDefault();
     if (form.email !== ''
       && isEmailValid
