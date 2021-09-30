@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect, useMemo, FC } from 'react';
+import { useSelector, useDispatch } from '../../services/hooks';
 import { Link, useLocation, useRouteMatch } from 'react-router-dom';
 
 import { openModalAction } from '../../services/actions/modal';
@@ -17,7 +17,7 @@ import OrderInfo from '../order-info/order-info';
 import styles from './user-orders.module.css';
 
 
-const UserOrders = () => {
+const UserOrders: FC<{}> = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { url } = useRouteMatch();

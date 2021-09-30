@@ -1,6 +1,4 @@
-import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { ingredientType, orderType } from '../../utils/types';
+import React, { useMemo, FC } from 'react';
 
 import { getIngredientsData } from '../../utils/utils';
 import { formatDate } from '../../utils/dates';
@@ -9,13 +7,24 @@ import PreviewItem from '../preview-item/preview-item';
 import OrderStatus from '../order-status/order-status';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
+import {
+  TWsOrderRecieved,
+  TIngredient
+} from '../../services/types/data';
+
 import styles from './order-card.module.css';
 
 
-const MAX_INGREDIENTS_PREVIEW = 10;
+type TOrderCardProps = {
+  orderInfo: TWsOrderRecieved;
+  ingredientsList: Array<TIngredient>;
+}
 
 
-const OrderCard = ({
+const MAX_INGREDIENTS_PREVIEW: number = 10;
+
+
+const OrderCard: FC<TOrderCardProps> = ({
   orderInfo,
   ingredientsList
 }) => {
@@ -56,7 +65,7 @@ const OrderCard = ({
     >
       <div className={`${styles.card_header} mb-6`}>
         <p className={`text text_type_digits-default`}>
-          {`#${String(number).padStart(6, 0)}`}
+          {`#${String(number).padStart(6, '0')}`}
         </p>
         <p className={`text text_type_main-default text_color_inactive`}>
           { dateToShow }
@@ -100,12 +109,6 @@ const OrderCard = ({
     </div>
   );
 
-};
-
-
-OrderCard.propTypes = {
-  orderInfo: PropTypes.shape(orderType).isRequired,
-  ingredientsList: PropTypes.arrayOf(PropTypes.shape(ingredientType)).isRequired,
 };
 
 
