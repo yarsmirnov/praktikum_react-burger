@@ -1,12 +1,15 @@
-import React, { useCallback } from "react";
+import React, { useCallback, FC } from "react";
 import { Link, NavLink } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useDispatch } from '../../services/hooks';
 
 import { logoutUser } from '../../services/actions/user';
 
 import styles from './profile-navigation.module.css';
 
+
+type TProfileNavigationProps = {
+  extraClasses: string;
+}
 
 const LinkClasses = {
   default: `${styles.navLink} text_color_inactive`,
@@ -14,10 +17,10 @@ const LinkClasses = {
 }
 
 
-const ProfileNavigation = ({ extraClasses }) => {
+const ProfileNavigation: FC<TProfileNavigationProps> = ({ extraClasses }) => {
   const dispatch = useDispatch();
 
-  const onExitClick = useCallback((evt) => {
+  const onExitClick = useCallback((evt: React.MouseEvent) => {
     evt.preventDefault();
     dispatch(logoutUser());
   }, [dispatch]);
@@ -47,7 +50,6 @@ const ProfileNavigation = ({ extraClasses }) => {
         <Link
           to={`/`}
           className={LinkClasses.default}
-          activeClassName={LinkClasses.active}
           onClick={onExitClick}
         >
           Выход
@@ -56,11 +58,6 @@ const ProfileNavigation = ({ extraClasses }) => {
     </ul>
   );
 };
-
-
-ProfileNavigation.propTypes = {
-  extraClasses: PropTypes.string,
-}
 
 
 export default ProfileNavigation;
