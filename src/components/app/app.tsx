@@ -6,7 +6,7 @@ import { getIngredientsAction } from '../../services/actions/ingredients';
 import { closeModalAction } from '../../services/actions/modal';
 
 import {
-  BrowserRouter as Router,
+  BrowserRouter,
   Switch,
   Route,
   useLocation,
@@ -156,9 +156,9 @@ const App: FC<{}> = () => {
   }, [dispatch]);
 
   return (
-    <Router>
+    <BrowserRouter basename="/praktikum_react-burger">
       <ModalSwitch />
-    </Router>
+    </BrowserRouter>
   );
 };
 
